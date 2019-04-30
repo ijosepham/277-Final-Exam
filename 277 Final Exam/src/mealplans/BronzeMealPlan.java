@@ -1,5 +1,11 @@
 package mealplans;
 
-public class BronzeMealPlan {
+public class BronzeMealPlan extends MealPlan {
+
+	@Override
+	double getCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
