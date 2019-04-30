@@ -1,8 +1,6 @@
 package pizzas;
 
 public class Mushroom extends ToppingDecorator {
-	Pizza pizza;
-	
 	public Mushroom ( Pizza pizza ) {
 		
 	}

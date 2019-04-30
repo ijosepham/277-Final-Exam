@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import reservation.*;
 
 public abstract class Room {
-	private String amenities;
-	private int capacity;
-	private boolean isAvailable;
-	private ArrayList < Reservation > waitlist;
+	protected String amenities;
+	protected int capacity;
+	protected boolean isAvailable;
+	protected ArrayList < Reservation > waitlist;
 	
 	public Room ( String amenities, int capacity, boolean isAvailable ) {
 		

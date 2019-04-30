@@ -1,6 +1,9 @@
 package mealplans;
 
+import java.util.ArrayList;
+
 public abstract class MealPlan {
+	protected ArrayList < Food > foods;
 	
-	abstract double getCost ( );
+	public abstract double getCost ( );
 }

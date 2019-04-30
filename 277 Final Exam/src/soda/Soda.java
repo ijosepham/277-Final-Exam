@@ -1,14 +1,7 @@
 package soda;
 
-public class Soda {
-	private String name;
-	private int quantity;
+import mealplans.*;
+
+public class Soda extends Food {
 	
-	public String getName ( ) {
-		return name;
-	}
-	
-	public int getQuantity ( ) {
-		return quantity;
-	}
 }

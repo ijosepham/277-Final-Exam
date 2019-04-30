@@ -1,8 +1,6 @@
 package pizzas;
 
 public class Ham extends ToppingDecorator {
-	Pizza pizza;
-	
 	public Ham ( Pizza pizza ) {
 		
 	}

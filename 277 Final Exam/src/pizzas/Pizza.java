@@ -1,15 +1,11 @@
 package pizzas;
 
-public abstract class Pizza {
-	private String name;
-	private String description;
-	private int quantity;
+import mealplans.*;
+
+public abstract class Pizza extends Food {
+	protected String description;
 	
 	public String getDescription ( ) {
 		return description;
-	}
-	
-	public int getQuantity ( ) {
-		return quantity;
 	}
 }

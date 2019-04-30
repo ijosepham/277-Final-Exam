@@ -1,8 +1,6 @@
 package pizzas;
 
 public class Pineapple extends ToppingDecorator {
-	Pizza pizza;
-	
 	public Pineapple ( Pizza pizza ) {
 		
 	}

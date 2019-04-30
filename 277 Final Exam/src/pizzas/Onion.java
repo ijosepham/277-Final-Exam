@@ -1,8 +1,6 @@
 package pizzas;
 
 public class Onion extends ToppingDecorator {
-	Pizza pizza;
-	
 	public Onion ( Pizza pizza ) {
 		
 	}
