@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import reservation.*;
 
 public abstract class Room {
-	protected String amenities;
+	protected ArrayList < String > amenities;
 	protected int capacity;
 	protected boolean isAvailable;
 	protected ArrayList < Reservation > waitlist;
@@ -14,7 +14,7 @@ public abstract class Room {
 		
 	}
 	
-	public String getAmenities ( ) {
+	public ArrayList < String > getAmenities ( ) {
 		return amenities;
 	}
 	
@@ -23,7 +23,7 @@ public abstract class Room {
 	}
 	
 	public void setCapacity ( int capacity ) {
-		
+		this.capacity = capacity;
 	}
 	
 	public int getCapacity ( ) {

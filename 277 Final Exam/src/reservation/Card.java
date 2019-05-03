@@ -6,6 +6,8 @@ public class Card {
 	private String securityCode;
 	private String expDate;
 	
+	
+	
 	public String getCardCompany ( ) {
 		return cardCompany;
 	}
@@ -23,18 +25,18 @@ public class Card {
 	}
 	
 	public void setCardCompany ( String cardComapny ) {
-		
+		this.cardCompany = cardCompany;
 	}
 	
 	public void setCCNumber ( String ccNumber ) {
-		
+		this.ccNumber = ccNumber;
 	}
 	
 	public void setSecurityCode ( String securityCode ) {
-		
+		this.securityCode = securityCode;
 	}
 	
 	public void setExpDate ( String expDate ) {
-		
+		this.expDate = expDate;
 	}
 }

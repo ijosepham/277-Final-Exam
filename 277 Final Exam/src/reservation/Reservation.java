@@ -28,15 +28,15 @@ public class Reservation {
 	}
 	
 	public void setDate ( Date date ) {
-		
+		this.date = date;
 	}
 	
 	public void setRoom ( Room room ) {
-		
+		this.room = room;
 	}
 	
 	public void setMealPlan ( MealPlan mealPlan ) {
-		
+		this.mealPlan = mealPlan;
 	}
 	
 	public void finalizeReservation ( ) {

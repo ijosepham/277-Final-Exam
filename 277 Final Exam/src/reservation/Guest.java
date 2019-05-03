@@ -27,23 +27,23 @@ public class Guest {
 		return paymentMethod;
 	}
 	
-	public void setName ( String setName ) {
-		
+	public void setName ( String name ) {
+		this.name = name;
 	}
 	
 	public void setAddress ( String address ) {
-		
+		this.address = address;
 	}
 	
 	public void setPhone ( String phone ) {
-		
+		this.phone = phone;
 	}
 	
 	public void setEmail ( String email ) {
-		
+		this.email = email;
 	}
 	
 	public void setPaymentMethod ( Card paymentMethod ) {
-		
+		this.paymentMethod = paymentMethod;
 	}
 }
