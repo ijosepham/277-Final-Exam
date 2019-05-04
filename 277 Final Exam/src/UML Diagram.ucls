@@ -147,7 +147,7 @@
   </class>  
   <class id="17" language="java" name="food.Wings" project="277 Final Exam" file="/277 Final Exam/src/food/Wings.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="217" y="779"/>    
+    <position height="-1" width="-1" x="265" y="807"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -156,7 +156,7 @@
   </class>  
   <class id="18" language="java" name="food.Soda" project="277 Final Exam" file="/277 Final Exam/src/food/Soda.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="820" y="1012"/>    
+    <position height="-1" width="-1" x="776" y="1031"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -174,7 +174,7 @@
   </class>  
   <class id="20" language="java" name="pizzas.Jalapeno" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Jalapeno.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1195" y="1341"/>    
+    <position height="-1" width="-1" x="1126" y="1335"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -183,7 +183,7 @@
   </class>  
   <class id="21" language="java" name="pizzas.Mushroom" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Mushroom.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1030" y="1329"/>    
+    <position height="-1" width="-1" x="961" y="1323"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -192,7 +192,7 @@
   </class>  
   <class id="22" language="java" name="pizzas.Pineapple" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Pineapple.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1426" y="1315"/>    
+    <position height="-1" width="-1" x="1357" y="1309"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -201,7 +201,7 @@
   </class>  
   <class id="23" language="java" name="pizzas.Ham" project="277 Final Exam" file="/277 Final Exam/src/pizzas/Ham.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1368" y="1436"/>    
+    <position height="-1" width="-1" x="1299" y="1430"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -210,7 +210,7 @@
   </class>  
   <class id="24" language="java" name="pizzas.BellPepper" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/BellPepper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1360" y="1066"/>    
+    <position height="-1" width="-1" x="1291" y="1060"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -219,7 +219,7 @@
   </class>  
   <class id="25" language="java" name="food.IceCream" project="277 Final Exam" 
     file="/277 Final Exam/src/food/IceCream.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="680" y="1035"/>    
+    <position height="-1" width="-1" x="611" y="1031"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -228,7 +228,7 @@
   </class>  
   <class id="26" language="java" name="pizzas.Pizza" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Pizza.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1040" y="1059"/>    
+    <position height="-1" width="-1" x="971" y="1053"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -237,7 +237,7 @@
   </class>  
   <class id="27" language="java" name="pizzas.Onion" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Onion.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1108" y="1448"/>    
+    <position height="-1" width="-1" x="1039" y="1442"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -264,7 +264,7 @@
   </class>  
   <class id="30" language="java" name="pizzas.ToppingDecorator" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/ToppingDecorator.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1195" y="1196"/>    
+    <position height="-1" width="-1" x="1126" y="1190"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -282,7 +282,7 @@
   </class>  
   <class id="32" language="java" name="pizzas.GarlicChicken" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/GarlicChicken.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1409" y="1196"/>    
+    <position height="-1" width="-1" x="1340" y="1190"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -291,7 +291,7 @@
   </class>  
   <class id="33" language="java" name="pizzas.Pepperoni" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Pepperoni.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1030" y="1208"/>    
+    <position height="-1" width="-1" x="961" y="1202"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -309,7 +309,7 @@
   </class>  
   <class id="35" language="java" name="pizzas.Cheese" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Cheese.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1206" y="1048"/>    
+    <position height="-1" width="-1" x="1137" y="1042"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -327,41 +327,23 @@
   </class>  
   <class id="37" language="java" name="pizzas.Sausage" project="277 Final Exam" 
     file="/277 Final Exam/src/pizzas/Sausage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="880" y="1267"/>    
+    <position height="-1" width="-1" x="811" y="1261"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="38" language="java" name="sides.BreadSticks" project="277 Final Exam" 
-    file="/277 Final Exam/src/sides/BreadSticks.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="405" y="951"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="39" language="java" name="food.Side" project="277 Final Exam" file="/277 Final Exam/src/food/Side.java" 
+  <class id="38" language="java" name="food.Side" project="277 Final Exam" file="/277 Final Exam/src/food/Side.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="529" y="946"/>    
+    <position height="-1" width="-1" x="454" y="922"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="40" language="java" name="sides.Salad" project="277 Final Exam" file="/277 Final Exam/src/sides/Salad.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="534" y="1056"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="41" language="java" name="mealplans.Food" project="277 Final Exam" 
+  <class id="39" language="java" name="mealplans.Food" project="277 Final Exam" 
     file="/277 Final Exam/src/mealplans/Food.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="743" y="789"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -370,280 +352,272 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="42">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="41"/>  
-  </generalization>  
-  <generalization id="43">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="41"/>  
-  </generalization>  
-  <association id="44">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="45" name="guest">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="46" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="47">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="34"/>  
-  </generalization>  
-  <generalization id="48">    
-    <end type="SOURCE" refId="32"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <generalization id="49">    
+  <generalization id="40">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="7"/>  
   </generalization>  
-  <generalization id="50">    
-    <end type="SOURCE" refId="30"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="51">    
-    <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="39"/>  
-  </generalization>  
-  <association id="52">    
+  <association id="41">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="53" name="room">        
+      <attribute id="42" name="room">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="54" minimum="0" maximum="1">        
+      <multiplicity id="43" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="55">    
-    <end type="SOURCE" refId="30" navigable="false">      
-      <attribute id="56" name="pizza">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="57" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="26" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="58">    
-    <end type="SOURCE" refId="33"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <generalization id="59">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="34"/>  
-  </generalization>  
-  <generalization id="60">    
-    <end type="SOURCE" refId="35"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <association id="61">    
-    <bendpoint x="932" y="728"/>    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="62" name="mealPlan">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="63" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="34" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="64">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="12"/>  
-  </generalization>  
-  <generalization id="65">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="41"/>  
-  </generalization>  
-  <association id="66">    
-    <end type="SOURCE" refId="34" navigable="false">      
-      <attribute id="67" name="foods">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="68" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="41" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="69">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="70" name="paymentMethod">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="71" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="72">    
-    <bendpoint x="728" y="541"/>    
-    <bendpoint x="747" y="487"/>    
-    <bendpoint x="772" y="402"/>    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <generalization id="73">    
-    <end type="SOURCE" refId="36"/>    
-    <end type="TARGET" refId="34"/>  
-  </generalization>  
-  <generalization id="74">    
-    <end type="SOURCE" refId="28"/>    
-    <end type="TARGET" refId="34"/>  
-  </generalization>  
-  <generalization id="75">    
-    <bendpoint x="1297" y="1163"/>    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <generalization id="76">    
-    <end type="SOURCE" refId="40"/>    
-    <end type="TARGET" refId="39"/>  
-  </generalization>  
-  <generalization id="77">    
-    <bendpoint x="1088" y="1269"/>    
-    <end type="SOURCE" refId="37"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <generalization id="78">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <dependency id="79">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <generalization id="80">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <generalization id="81">    
-    <end type="SOURCE" refId="26"/>    
-    <end type="TARGET" refId="41"/>  
-  </generalization>  
-  <generalization id="82">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <association id="83">    
+  <association id="44">    
     <bendpoint x="964" y="367"/>    
     <bendpoint x="994" y="344"/>    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="84" name="date">        
+      <attribute id="45" name="date">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="85" minimum="0" maximum="1">        
+      <multiplicity id="46" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="86">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="87" name="waitlist">        
+  <association id="47">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="48" name="foods">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="88" minimum="0" maximum="2147483647">        
+      <multiplicity id="49" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="39" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="89">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="14"/>  
-  </dependency>  
-  <dependency id="90">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="10"/>  
-  </dependency>  
-  <generalization id="91">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="34"/>  
+  <generalization id="50">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="39"/>  
   </generalization>  
-  <generalization id="92">    
-    <end type="SOURCE" refId="39"/>    
-    <end type="TARGET" refId="41"/>  
-  </generalization>  
-  <association id="93">    
+  <association id="51">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="94" name="aquaWorld">        
+      <attribute id="52" name="aquaWorld">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="95" minimum="0" maximum="1">        
+      <multiplicity id="53" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="96">    
-    <bendpoint x="255" y="530"/>    
-    <bendpoint x="202" y="460"/>    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="12"/>  
+  <generalization id="54">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="39"/>  
   </generalization>  
-  <generalization id="97">    
-    <bendpoint x="1280" y="1296"/>    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="30"/>  
+  <association id="55">    
+    <bendpoint x="932" y="728"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="56" name="mealPlan">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="57" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="58">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="39"/>  
   </generalization>  
-  <generalization id="98">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="12"/>  
-  </generalization>  
-  <generalization id="99">    
+  <dependency id="59">    
     <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="12"/>  
-  </generalization>  
-  <dependency id="100">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="4"/>  
+    <end type="TARGET" refId="10"/>  
   </dependency>  
-  <generalization id="101">    
-    <bendpoint x="1115" y="1296"/>    
-    <end type="SOURCE" refId="27"/>    
+  <generalization id="60">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="61">    
+    <end type="SOURCE" refId="35"/>    
     <end type="TARGET" refId="30"/>  
   </generalization>  
-  <dependency id="102">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="16"/>  
-  </dependency>  
-  <generalization id="103">    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <generalization id="104">    
+  <generalization id="62">    
     <bendpoint x="716" y="398"/>    
     <bendpoint x="740" y="354"/>    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="7"/>  
   </generalization>  
-  <generalization id="105">    
+  <generalization id="63">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <association id="64">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="65" name="paymentMethod">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="66" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="67">    
+    <bendpoint x="728" y="541"/>    
+    <bendpoint x="747" y="487"/>    
+    <bendpoint x="772" y="402"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="68">    
+    <bendpoint x="1211" y="1290"/>    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="69">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="39"/>  
+  </generalization>  
+  <dependency id="70">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="71">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="14"/>  
+  </dependency>  
+  <generalization id="72">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="73">    
+    <bendpoint x="1228" y="1157"/>    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="74">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="75">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="76">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="77">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <generalization id="78">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="79">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="80">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="39"/>  
+  </generalization>  
+  <generalization id="81">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="83">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="84">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="85" name="waitlist">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="86" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="87">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="88">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="26"/>  
+  </generalization>  
+  <dependency id="89">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <association id="90">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="91" name="guest">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="92" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="93">    
     <bendpoint x="229" y="156"/>    
     <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="12"/>  
   </generalization>  
-  <generalization id="106">    
-    <bendpoint x="1273" y="1277"/>    
+  <generalization id="94">    
+    <bendpoint x="255" y="530"/>    
+    <bendpoint x="202" y="460"/>    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <generalization id="95">    
+    <bendpoint x="1204" y="1271"/>    
     <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="96">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <generalization id="97">    
+    <bendpoint x="1019" y="1263"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <association id="98">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="99" name="pizza">        
+        <position height="0" width="0" x="-69" y="-6"/>      
+      </attribute>      
+      <multiplicity id="100" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-69" y="-6"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="101">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="16"/>  
+  </dependency>  
+  <generalization id="102">    
+    <bendpoint x="1046" y="1290"/>    
+    <end type="SOURCE" refId="27"/>    
     <end type="TARGET" refId="30"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

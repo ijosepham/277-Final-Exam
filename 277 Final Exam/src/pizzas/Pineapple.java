@@ -2,12 +2,11 @@ package pizzas;
 
 public class Pineapple extends ToppingDecorator {
 	public Pineapple ( Pizza pizza ) {
-		
+		this.pizza = pizza;
 	}
 
 	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getDescription ( ) {
+		return pizza.getDescription ( ) + ", Pineapple";
 	}
 }
