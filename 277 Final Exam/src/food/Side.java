@@ -15,8 +15,6 @@ public class Side extends Food {
 	}
 	
 	public String toString ( ) {
-		String str = "";
-		
-		return str;
+		return name;
 	}
 }
