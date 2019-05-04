@@ -343,7 +343,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="39" language="java" name="sides.Side" project="277 Final Exam" file="/277 Final Exam/src/sides/Side.java" 
+  <class id="39" language="java" name="food.Side" project="277 Final Exam" file="/277 Final Exam/src/food/Side.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="529" y="946"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
