@@ -11,8 +11,10 @@ public class Reservation {
 	private boolean isFinalized;
 	private String confNum;
 	
-	public Reservation ( Date date, Room room ) {
-		
+	public Reservation ( Date date, Room room, MealPlan mealPlan ) {
+		this.date = date;
+		this.room = room;
+		this.mealPlan = mealPlan;
 	}
 	
 	public Date getDate ( ) {
