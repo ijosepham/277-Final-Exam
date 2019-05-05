@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="roomfactories.AdultBilliardsLoungeFactory" project="277 Final Exam" 
-    file="/277 Final Exam/src/roomfactories/AdultBilliardsLoungeFactory.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="2" language="java" name="roomfactories.BilliardsLoungeFactory" project="277 Final Exam" 
+    file="/277 Final Exam/src/roomfactories/BilliardsLoungeFactory.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="382" y="470"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="rooms.AdultBilliardsLounge" project="277 Final Exam" 
-    file="/277 Final Exam/src/rooms/AdultBilliardsLounge.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="rooms.BilliardsLounge" project="277 Final Exam" 
+    file="/277 Final Exam/src/rooms/BilliardsLounge.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="612" y="470"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

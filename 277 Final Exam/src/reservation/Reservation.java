@@ -11,6 +11,18 @@ public class Reservation {
 	private boolean isFinalized;
 	private String confNum;
 	
+	public void setDate ( Date date ) {
+		this.date = date;
+	}
+	
+	public void setRoom ( Room room ) {
+		this.room = room;
+	}
+	
+	public void setMealPlan ( MealPlan mealPlan ) {
+		this.mealPlan = mealPlan;
+	}
+	
 	public Reservation ( Date date, Room room, MealPlan mealPlan ) {
 		this.date = date;
 		this.room = room;
@@ -27,18 +39,6 @@ public class Reservation {
 	
 	public MealPlan getMealPlan ( ) {
 		return mealPlan;
-	}
-	
-	public void setDate ( Date date ) {
-		this.date = date;
-	}
-	
-	public void setRoom ( Room room ) {
-		this.room = room;
-	}
-	
-	public void setMealPlan ( MealPlan mealPlan ) {
-		this.mealPlan = mealPlan;
 	}
 	
 	public void finalizeReservation ( ) {

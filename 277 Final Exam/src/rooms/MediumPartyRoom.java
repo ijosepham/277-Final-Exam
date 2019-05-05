@@ -1,8 +1,11 @@
 package rooms;
 
 public class MediumPartyRoom extends Room {
-	public MediumPartyRoom ( String amenities, int capacity, boolean isAvailable ) {
-		super ( amenities, capacity, isAvailable );
+	public MediumPartyRoom ( ) {
+		basicAmenities.add ( "Room with Tables & Chairs" );
+		basicAmenities.add ( "Quick Access to Arcade" );
+		basicAmenities.add ( "DJ" );
+		basicAmenities.add ( "Basic Meal Plan" );
 	}
 
 	public double getCost ( ) {

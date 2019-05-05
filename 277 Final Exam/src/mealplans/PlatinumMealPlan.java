@@ -9,7 +9,6 @@ public class PlatinumMealPlan extends MealPlan {
 		foods.add ( new Side ( "Salad" ) );
 	}
 	
-	@Override
 	public double getCost ( ) {
 		return 150.0;
 	}

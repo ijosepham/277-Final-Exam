@@ -9,7 +9,6 @@ public class GoldMealPlan extends MealPlan {
 		foods.add ( new Side ( "Salad" ) );
 	}
 	
-	@Override
 	public double getCost ( ) {
 		return 120.0;
 	}

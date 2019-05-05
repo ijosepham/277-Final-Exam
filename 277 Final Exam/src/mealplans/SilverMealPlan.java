@@ -9,7 +9,6 @@ public class SilverMealPlan extends MealPlan {
 		foods.add ( new Side ( "Salad" ) );
 	}
 	
-	@Override
 	public double getCost ( ) {
 		return 90.0;
 	}

@@ -3,13 +3,20 @@ package rooms;
 public class AquaWorld extends Room {
 	private static AquaWorld aquaWorld;
 	
-	public AquaWorld ( String amenities, int capacity, boolean isAvailable ) {
-		super ( amenities, capacity, isAvailable );
+	private AquaWorld ( ) {
+		basicAmenities.add ( "Olympic-Sized Pool with Water Slide" );
+		basicAmenities.add ( "Kiddie Pool" );
+		basicAmenities.add ( "Large Jacuzzi" );
+		basicAmenities.add ( "Showers & Lockers" );
+		basicAmenities.add ( "Life Guards" );
+		basicAmenities.add ( "DJ" );
+		basicAmenities.add ( "Tables & Chairs" );
+		basicAmenities.add ( "Basic Meal Plan" );
 	}
 	
-	public AquaWorld getInstance ( ) {
+	public static AquaWorld getInstance ( ) {
 		if ( aquaWorld == null ) {
-			aquaWorld = new AquaWorld ( null, 0, false );
+			aquaWorld = new AquaWorld ( );
 		}
 		return aquaWorld;
 	}

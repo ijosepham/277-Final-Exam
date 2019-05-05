@@ -1,8 +1,9 @@
 package rooms;
 
 public class KaraokeLounge extends Room {
-	public KaraokeLounge ( String amenities, int capacity, boolean isAvailable ) {
-		super ( amenities, capacity, isAvailable );
+	public KaraokeLounge ( ) {
+		basicAmenities.add ( "Lounge with Karaoke Machine" );
+		basicAmenities.add ( "Access to Karaoke Machine" );
 	}
 
 	public double getCost ( ) {
