@@ -7,9 +7,15 @@ public class AquaWorld extends Room {
 	private static AquaWorld aquaWorld;
 	
 	/**
+	 * restrictions of aquaworld
+	 */
+	private String restrictions;
+	
+	/**
 	 * private default consturctor only allowed by the class
 	 */
 	private AquaWorld ( ) {
+		restrictions = "Bathing Suits Must be Worn at All Times in Water Facilities";
 		basicAmenities.add ( "Olympic-Sized Pool with Water Slide" );
 		basicAmenities.add ( "Kiddie Pool" );
 		basicAmenities.add ( "Large Jacuzzi" );
@@ -30,6 +36,14 @@ public class AquaWorld extends Room {
 			aquaWorld = new AquaWorld ( );
 		}
 		return aquaWorld;
+	}
+	
+	/**
+	 * returns the restrictions 
+	 * @return restriction
+	 */
+	public String getRestrictions ( ) {
+		return restrictions;
 	}
 
 	/**

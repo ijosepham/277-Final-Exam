@@ -3,11 +3,12 @@ package mealplans;
 import food.Side;
 
 public class GoldMealPlan extends MealPlan {
+	
 	/**
-	 * returns the cost of the Gold meal plan
-	 * @return cost of the meal plan
+	 * default constructor
 	 */
 	public GoldMealPlan ( ) {
+		tier = "Gold";
 		foods.add ( new Side ( "Bread-Sticks" ) );
 		foods.add ( new Side ( "Salad" ) );
 	}

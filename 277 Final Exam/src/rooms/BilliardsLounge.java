@@ -2,11 +2,25 @@ package rooms;
 
 public class BilliardsLounge extends Room {
 	/**
+	 * represents restrictions of the billiards lounge1
+	 */
+	private String restrictions;
+	
+	/**
 	 * default consturctor
 	 */
 	public BilliardsLounge ( ) {
+		restrictions = "21 and Older Only";
 		basicAmenities.add ( "Lounge with Pool Table" );
 		basicAmenities.add ( "Access to Pool Table & Cues" );
+	}
+	
+	/**
+	 * returns the restrictions 
+	 * @return restrictions
+	 */
+	public String getRestrictions ( ) {
+		return restrictions;
 	}
 	
 	/**

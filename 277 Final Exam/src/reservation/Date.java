@@ -16,15 +16,6 @@ public class Date {
 	 */
 	private int year;
 	
-	/**
-	 * hour of the date
-	 */
-	private int hour;
-	
-	/**
-	 * minute of the date
-	 */
-	private int minute;
 	
 	/**
 	 * default constructor
@@ -33,8 +24,6 @@ public class Date {
 		month = 1;
 		day = 1;
 		year = 2019;
-		hour = 0;
-		minute = 0;
 	}
 	
 	/**
@@ -47,24 +36,6 @@ public class Date {
 		this.month = month;
 		this.day = day;
 		this.year = year;
-		hour = 0;
-		minute = 0;
-	}
-	
-	/**
-	 * overloaded constructor
-	 * @param month - month of the date
-	 * @param day - day of the date
-	 * @param year - year of the date
-	 * @param hour - hour of the date
-	 * @param minute - minute of the date
-	 */
-	public Date ( int month, int day, int year, int hour, int minute ) {
-		this.month = month;
-		this.day = day;
-		this.year = year;
-		this.hour = hour;
-		this.minute = minute;
 	}
 
 	/**
@@ -92,22 +63,6 @@ public class Date {
 	}
 	
 	/**
-	 * sets the hour of the date
-	 * @param hour - hour of the date
-	 */
-	public void setHour ( int hour ) {
-		this.hour = hour;
-	}
-	
-	/**
-	 * sets the minute of the date
-	 * @param minute - minute of the date
-	 */
-	public void setMinute ( int minute ) {
-		this.minute = minute;
-	}
-	
-	/**
 	 * returns the month of the date
 	 * @return month of the date
 	 */
@@ -131,22 +86,6 @@ public class Date {
 		return year;
 	}
 
-	/**
-	 * returns the hour of the date
-	 * @return hour of the date
-	 */
-	public int getHour ( ) {
-		return hour;
-	}
-
-	/**
-	 * returns the minute of the date
-	 * @return minute of the date
-	 */
-	public int getMinute ( ) {
-		return minute;
-	}
-
 	/** 
 	 * string representation of the date
 	 * @return date
@@ -168,11 +107,7 @@ public class Date {
 			if ( this.month == d.month ) {
 				if ( this.day == d.day ) {
 					if ( this.year == d.year ) {
-						if ( this.hour == d.hour ) {
-							if ( this.minute == d.minute ) {
-								return true;
-							}
-						}
+						return true;
 					}
 				}
 			}

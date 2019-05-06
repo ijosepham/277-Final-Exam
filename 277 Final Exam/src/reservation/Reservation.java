@@ -10,6 +10,16 @@ public class Reservation {
 	private Date date;
 	
 	/**
+	 * start time of the reservation
+	 */
+	private Time startTime;
+	
+	/**
+	 * end time of the reservation
+	 */
+	private Time endTime;
+	
+	/**
 	 * room the reservation is requesting
 	 */
 	private Room room;
@@ -40,8 +50,10 @@ public class Reservation {
 	 * @param room - room of the reservation
 	 * @param mealPlan - mealplan of the reservation
 	 */
-	public Reservation ( Date date, Room room, MealPlan mealPlan ) {
+	public Reservation ( Date date, Time startTime, Time endTime, Room room, MealPlan mealPlan ) {
 		this.date = date;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.room = room;
 		this.mealPlan = mealPlan;
 	}
@@ -52,6 +64,22 @@ public class Reservation {
 	 */
 	public void setDate ( Date date ) {
 		this.date = date;
+	}
+	
+	/**
+	 * sets the start time of the reservation
+	 * @param startTime - start time of the reservation
+	 */
+	public void setStartTime ( Time startTime ) {
+		this.startTime = startTime;
+	}
+	
+	/**
+	 * sets the end time of the reservation
+	 * @param endTime - end time of the reservation
+	 */
+	public void setEndTime ( Time endTime ) {
+		this.endTime = endTime;
 	}
 	
 	/**
@@ -76,6 +104,22 @@ public class Reservation {
 	 */
 	public Date getDate ( ) {
 		return date;
+	}
+	
+	/**
+	 * gets the start time of the reservation
+	 * @return start time of the reservation
+	 */
+	public Time getStartTime ( ) {
+		return startTime;
+	}
+	
+	/**
+	 * gets the end time of the reservation
+	 * @return end time of the reservation
+	 */
+	public Time getEndTime ( ) {
+		return endTime;
 	}
 	
 	/**
