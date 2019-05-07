@@ -8,6 +8,12 @@ public class AquaWorldFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public Room createRoom ( ) {
-		return AquaWorld.getInstance ( );
+		if ( aqua_count < MAX_AQUA ) {
+			aqua_count++;
+			return AquaWorld.getInstance ( );
+		} else {
+			System.out.println ( "Maximum number of Aqua Worlds have been created." );
+			return null;
+		}
 	}
 }

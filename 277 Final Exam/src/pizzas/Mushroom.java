@@ -7,7 +7,8 @@ public class Mushroom extends ToppingDecorator {
 	 */
 	public Mushroom ( Pizza pizza ) {
 		this.pizza = pizza;
-		toppings.add ( "Mushroom");
+		this.toppings = pizza.toppings;
+		this.toppings.add ( "Mushroom" );
 	}
 
 	/**

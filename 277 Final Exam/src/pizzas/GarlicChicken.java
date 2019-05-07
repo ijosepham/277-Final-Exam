@@ -7,7 +7,8 @@ public class GarlicChicken extends ToppingDecorator {
 	 */
 	public GarlicChicken ( Pizza pizza ) {
 		this.pizza = pizza;
-		toppings.add ( "Garlic Chicken");
+		this.toppings = pizza.toppings;
+		this.toppings.add ( "Garlic Chicken" );
 	}
 
 	/**

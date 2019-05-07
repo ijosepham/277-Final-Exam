@@ -7,7 +7,8 @@ public class Pepperoni extends ToppingDecorator {
 	 */
 	public Pepperoni ( Pizza pizza ) {
 		this.pizza = pizza;
-		toppings.add ( "Pepperoni");
+		this.toppings = pizza.toppings;
+		this.toppings.add ( "Pepperoni" );
 	}
 
 	/**

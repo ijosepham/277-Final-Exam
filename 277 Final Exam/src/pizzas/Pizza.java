@@ -11,8 +11,8 @@ public class Pizza extends Food {
 	public Pizza ( ) {
 		name = "Pizza";
 		toppings = new ArrayList < String > ( );
-		description = "";
-		quantity = 0;
+		description = "Pizza";
+		quantity = 1;
 	}
 	
 	public Pizza ( String description, int quantity, ArrayList < String > toppings ) {

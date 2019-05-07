@@ -29,7 +29,7 @@ public class Guest {
 	/**
 	 * default constructor
 	 */
-	public Guest() {
+	public Guest ( ) {
 		name = "";
 		address = "";
 		phone = "";

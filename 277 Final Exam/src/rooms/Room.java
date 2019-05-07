@@ -220,40 +220,47 @@ public abstract class Room {
 	 * @param endTime - end time of wanted reservation
 	 * @return whether the date is available for reservation
 	 */
-	public boolean isAvailable ( Date date, Time startTime, Time endTime ) {
-		Reservation res;
-		
-		// go through each reservation in the waitlist
-		for ( int i = 0; i < waitlist.size ( ); i++ ) {
-			// get the reservation
-			res = waitlist.get ( i );
+	public boolean isAvailable ( Reservation r ) {
+		if ( isAvailable ) {
+			System.out.println ( "Your room is available at the given date and time." );
+			isAvailable = false;
+			status = "Reserved for Party.";
+			return true;
+		} else {
+			Reservation r1;
 			
-			// if the dates are the same, then check the times
-			if ( res.getDate ( ) == date ) {
+			// go through each reservation in the waitlist
+			for ( int i = 0; i < waitlist.size ( ); i++ ) {
+				// get the reservation
+				r1 = waitlist.get ( i );
 				
-				// 1/2 hour cleanup, 1/2 hour setip. 1hour gap total
-				
-				// if the given start time is in between any reservation, then its not available
-				if ( ( res.getStartTime ( ).compareTo ( startTime ) - prepTime ) < 0 ) {
-					// check to make sure there's at least a 1 hour gap in between this.end and that.start
-					if ( ( res.getEndTime ( ).compareTo ( startTime ) +  ( prepTime * 2 ) ) > 0 ) {
-						System.out.println ( "Your room is not available at the given date and time." );
-						return false;
+				// if the dates are the same, then check the times
+				if ( r1.getDate ( ) == r.getDate ( ) ) {
+					
+					// 1/2 hour cleanup, 1/2 hour setip. 1hour gap total
+					
+					// if the given start time is in between any reservation, then its not available
+					if ( ( r1.getStartTime ( ).compareTo ( r.getStartTime ( ) ) - prepTime ) < 0 ) {
+						// check to make sure there's at least a 1 hour gap in between this.end and that.start
+						if ( ( r1.getEndTime ( ).compareTo ( r.getStartTime ( ) ) +  ( prepTime * 2 ) ) > 0 ) {
+							System.out.println ( "Your room is not available at the given date and time." );
+							return false;
+						}
 					}
-				}
-				
-				
-				// if the given end time is in between any reservation, then its not available
-				if ( ( res.getStartTime ( ).compareTo ( endTime ) - ( prepTime * 2 ) ) < 0 ) {
-					if ( ( res.getEndTime ( ).compareTo ( endTime ) + prepTime ) > 0 ) {
-						System.out.println ( "Your room is not available at the given date and time." );
-						return false;
+					
+					
+					// if the given end time is in between any reservation, then its not available
+					if ( ( r1.getStartTime ( ).compareTo ( r.getEndTime ( ) ) - ( prepTime * 2 ) ) < 0 ) {
+						if ( ( r1.getEndTime ( ).compareTo ( r.getEndTime ( ) ) + prepTime ) > 0 ) {
+							System.out.println ( "Your room is not available at the given date and time." );
+							return false;
+						}
 					}
 				}
 			}
+			System.out.println ( "Your room is available at the given date and time." );
+			return true;
 		}
-		System.out.println ( "Your room is available at the given date and time." );
-		return true;
 	}
 	
 	/**

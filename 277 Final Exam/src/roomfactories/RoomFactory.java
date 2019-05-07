@@ -32,27 +32,27 @@ public abstract class RoomFactory {
 	/** 
 	 * represents the current number of aqua worlds created
 	 */
-	private static int aqua_count = 0;
+	protected static int aqua_count = 0;
 	
 	/** 
 	 * represents the current number of small party rooms created
 	 */
-	private static int small_count = 0;
+	protected static int small_count = 0;
 	
 	/** 
 	 * represents the current number of medium party rooms created
 	 */
-	private static int medium_count = 0;
+	protected static int medium_count = 0;
 	
 	/** 
 	 * represents the current number of karaoke lounges created
 	 */
-	private static int karaoke_count = 0;
+	protected static int karaoke_count = 0;
 	
 	/** 
 	 * represents the current number of billiard lounges created
 	 */
-	private static int billiards_count = 0;
+	protected static int billiards_count = 0;
 	
 	/**
 	 * constructor

@@ -7,7 +7,8 @@ public class Onion extends ToppingDecorator {
 	 */
 	public Onion ( Pizza pizza ) {
 		this.pizza = pizza;
-		toppings.add ( "Onion");
+		this.toppings = pizza.toppings;
+		this.toppings.add ( "Onion" );
 	}
 
 	/**
@@ -16,6 +17,6 @@ public class Onion extends ToppingDecorator {
 	 */
 	@Override
 	public String getDescription ( ) {
-		return pizza.getDescription ( ) + ", Mushroom";
+		return pizza.getDescription ( ) + ", Onion";
 	}
 }

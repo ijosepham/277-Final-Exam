@@ -7,6 +7,12 @@ public class MediumPartyRoomFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public Room createRoom ( ) {
-		return new MediumPartyRoom ( );
+		if ( medium_count < MAX_MEDIUM ) {
+			medium_count++;
+			return new MediumPartyRoom ( );
+		} else { 
+			System.out.println ( "Maximum number of Medium Party Rooms created." );
+			return null;
+		}
 	}
 }

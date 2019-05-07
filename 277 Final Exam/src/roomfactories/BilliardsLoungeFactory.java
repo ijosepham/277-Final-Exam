@@ -7,6 +7,12 @@ public class BilliardsLoungeFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public Room createRoom ( ) {
-		return new BilliardsLounge ( );
+		if ( billiards_count < MAX_BILLIARDS ) {
+			billiards_count++;
+			return new BilliardsLounge ( );
+		} else { 
+			System.out.println ( "Maximum number of Billiards Lounges created." );
+			return null;
+		}
 	}
 }

@@ -108,4 +108,16 @@ public class Card {
 	public Date getExpDate( ) {
 		return expDate;
 	}
+	
+	public boolean isExpired ( Date date ) {
+		if ( expDate.getYear ( ) == date.getYear ( ) ) {
+			if ( expDate.getMonth ( ) < date.getMonth ( ) ) {
+				return true;
+			}
+		}
+		else if ( expDate.getYear ( ) < date.getYear ( ) ) {
+			return true;
+		}
+		return false;
+	}
 }

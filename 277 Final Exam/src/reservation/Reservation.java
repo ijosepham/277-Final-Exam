@@ -45,7 +45,7 @@ public class Reservation {
 	private double initialPayment;
 	
 	/**
-	 * confirmation number of the reserveation
+	 * confirmation number of the reservation
 	 */
 	private String confNum;
 	
@@ -205,12 +205,22 @@ public class Reservation {
 	 * also makes sure that down payment is paid beforehand
 	 */
 	public void finalizeReservation ( ) {
-		if ( room.isAvailable ( date, startTime, endTime ) ) {
-			System.out.println ( "Initial payment amount: " + ( initialPayment * .25 ) );
-			confNum = ( ( int ) ( Math.random ( ) * 100000000 ) ) + "";
-			System.out.println ( "Your confirmation number: " + confNum );
-			isFinalized = true;
+		while ( guest.getPaymentMethod ( ).isExpired ( date ) ) {
+			System.out.println ( "Your card has expired. Please enter a new card: " );
+			
+			
+			
+			// remember to change this later, solely for testing purposes
+			guest.getPaymentMethod ( ).setExpDate ( date );
+			
+			System.out.println ( "auto update, card valid" );
 		}
+		
+		System.out.println ( "Initial payment amount: $" + ( initialPayment * .25 ) );
+		confNum = ( ( int ) ( Math.random ( ) * 1000000000 ) ) + "";
+		System.out.println ( "Your confirmation number: " + confNum );
+		isFinalized = true;
+		System.out.println ( "Finalized." );
 	}
 	
 	/**

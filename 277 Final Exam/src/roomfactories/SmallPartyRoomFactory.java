@@ -7,6 +7,13 @@ public class SmallPartyRoomFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public Room createRoom ( ) {
-		return new SmallPartyRoom ( );
+		if ( small_count < MAX_SMALL ) {
+			small_count++;
+			return new SmallPartyRoom ( );
+		} else { 
+			System.out.println ( "Maximum number of Small Party Rooms created." );
+			return null;
+		}
+		
 	}
 }

@@ -7,7 +7,8 @@ public class Sausage extends ToppingDecorator {
 	 */
 	public Sausage ( Pizza pizza ) {
 		this.pizza = pizza;
-		toppings.add ( "Sausage");
+		this.toppings = pizza.toppings;
+		this.toppings.add ( "Sausage" );
 	}
 
 	/**

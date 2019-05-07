@@ -61,6 +61,18 @@ public abstract class MealPlan {
 		foods.add ( food );
 	}
 	
+	public String toString ( ) {
+		String str = "  ";
+		Food food;
+		
+		for ( int i = 0; i < foods.size ( ); i++ ) {
+			food = foods.get ( i );
+			str += food + "\n" + "  ";
+		}
+		
+		return str;
+	}
+	
 	/**
 	 * returns the cost of the meal plan
 	 * @return cost of the meal plan
