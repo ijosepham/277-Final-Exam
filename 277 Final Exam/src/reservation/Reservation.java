@@ -40,9 +40,25 @@ public class Reservation {
 	private boolean isFinalized;
 	
 	/**
+	 * down payment to initially pay for reservation
+	 */
+	private double initialPayment;
+	
+	/**
 	 * confirmation number of the reserveation
 	 */
 	private String confNum;
+	
+	public Reservation ( ) {
+		guest = new Guest ( );
+		date = new Date ( );
+		startTime = new Time ( );
+		endTime = new Time ( );
+		room = new SmallPartyRoom ( );
+		mealPlan = new BasicMealPlan ( );
+		initialPayment = 0;
+		isFinalized = false;
+	}
 	
 	/**
 	 * constructor
@@ -50,12 +66,15 @@ public class Reservation {
 	 * @param room - room of the reservation
 	 * @param mealPlan - mealplan of the reservation
 	 */
-	public Reservation ( Date date, Time startTime, Time endTime, Room room, MealPlan mealPlan ) {
+	public Reservation ( Guest guest, Date date, Time startTime, Time endTime, Room room, MealPlan mealPlan ) {
+		this.guest = guest;
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.room = room;
 		this.mealPlan = mealPlan;
+		isFinalized = false;
+		initialPayment += room.getCost ( ) + mealPlan.getCost ( );
 	}
 	
 	/**
@@ -99,6 +118,14 @@ public class Reservation {
 	}
 	
 	/**
+	 * sets the guest of the reservation
+	 * @param guest
+	 */
+	public void setGuest ( Guest guest ) {
+		this.guest = guest;
+	}
+	
+	/**
 	 * gets the date of the reservation
 	 * @return date of the reservation
 	 */
@@ -138,11 +165,68 @@ public class Reservation {
 		return mealPlan;
 	}
 	
+	/**
+	 * gets the guest of the reservation
+	 * @return guest of the reservation
+	 */
+	public Guest getGuest ( ) {
+		return guest;
+	}
+	
+	/**
+	 * returns whether or not the reservationw as finalized
+	 * @return if the reservation was finalized
+	 */
+	public boolean isFinalied ( ) {
+		return isFinalized;
+	}
+	
+	/**
+	 * upgrades the meal plan to the given one
+	 * @param mealPlan - desired meal paln
+	 */
+	public void upgradeMealPlan ( MealPlan mealPlan ) {
+		this.mealPlan = mealPlan;
+	}
+	
+	/**
+	 * upgrades the amenities with the given amenity
+	 * @param amenity - desired amenity
+	 */
+	public void upgradeAmenities ( String amenity ) {
+		room.upgradeAmenities ( amenity );
+	}
+	
 	/** 
 	 * finalizes reservation, makes sure date is open, and all information is collected
 	 * also makes sure that down payment is paid beforehand
 	 */
 	public void finalizeReservation ( ) {
+		if ( room.isAvailable ( date, startTime, endTime ) ) {
+			System.out.println ( "Initial payment amount: " + ( initialPayment * .25 ) );
+			confNum = ( ( int ) ( Math.random ( ) * 100000000 ) ) + "";
+			System.out.println ( "Your confirmation number: " + confNum );
+			isFinalized = true;
+		}
+	}
+	
+	/**
+	 * string representation of the reservation
+	 * @return the reservation
+	 */
+	public String toString ( ) {
+		String res = "Name: " + guest.getName ( );
+		res += "\n" + "Date: " + date;
+		res += "\n" + "Start Time: " + startTime;
+		res += "\n" + "End Time: " + endTime;
 		
+		if ( isFinalized ) {
+			res += "\n" + "Finalized: True";
+			res += "\n" + "Confirmation Number: " + confNum;
+		} else {
+			res += "\n" + "Finalized: False";
+		}
+		
+		return res;
 	}
 }

@@ -118,6 +118,7 @@ public class Time {
 	
 	/**
 	 * checks if both times are the same
+	 * @return if both times are the same
 	 */
 	public boolean equals ( Object o ) {
 		// make sure its of type time
@@ -132,5 +133,31 @@ public class Time {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * string representation of time
+	 * @return time
+	 */
+	public String toString ( ) {
+		String str = "";
+		
+		if ( hour == 0 ) {
+			str = "00:";
+		} else if ( hour < 10 ) {
+			str = "0" + hour + ":";
+		} else {
+			str = hour + ":";
+		}
+		
+		if ( minute == 0 ) {
+			str += "00";
+		} else if ( minute < 10 ) {
+			str += "0" + minute;
+		} else {
+			str += minute + "";
+		}
+		
+		return str;
 	}
 }

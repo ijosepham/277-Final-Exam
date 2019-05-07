@@ -7,6 +7,7 @@ public class KaraokeLounge extends Room {
 	 * default constructor
 	 */
 	public KaraokeLounge ( ) {
+		capacity = 10;
 		basicAmenities.add ( "Lounge with Karaoke Machine" );
 		basicAmenities.add ( "Access to Karaoke Machine" );
 	}

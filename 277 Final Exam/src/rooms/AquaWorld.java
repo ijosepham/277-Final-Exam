@@ -17,6 +17,7 @@ public class AquaWorld extends Room {
 	 * private default consturctor only allowed by the class
 	 */
 	private AquaWorld ( ) {
+		capacity = 75;
 		restrictions = "Bathing Suits Must be Worn at All Times in Water Facilities";
 		basicAmenities.add ( "Olympic-Sized Pool with Water Slide" );
 		basicAmenities.add ( "Kiddie Pool" );

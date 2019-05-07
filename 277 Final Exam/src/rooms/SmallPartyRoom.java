@@ -7,6 +7,7 @@ public class SmallPartyRoom extends Room {
 	 * default consturctor
 	 */
 	public SmallPartyRoom ( ) {
+		capacity = 30;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Adjacent to Arcade" );
 		basicAmenities.add ( "Basic Meal Plan" );

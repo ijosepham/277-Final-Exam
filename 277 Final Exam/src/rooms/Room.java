@@ -49,36 +49,20 @@ public abstract class Room {
 	
 	/**
 	 * overloaded constructor
-	 * @param basicAmenities - basic amenities of the room
 	 * @param specialAmenities - any upgraded amenities
 	 * @param capacity - capacity of the room
-	 * @param isAvailable - whether the room is available
+	 * @param status - status of the room
 	 */
-	public Room ( ArrayList < String > basicAmenities, ArrayList < String > specialAmenities, int capacity, boolean isAvailable, String status ) {
-		this.basicAmenities = basicAmenities;
+	public Room ( ArrayList < String > specialAmenities, boolean isAvailable, String status ) {
+		basicAmenities = new ArrayList < String > ( );
+		capacity = 0;
 		this.specialAmenities = specialAmenities;
-		this.capacity = capacity;
 		this.isAvailable = isAvailable;
 		this.status = status;
+		waitlist = new ArrayList < Reservation > ( );
 	}
 	
 	// setters
-	/**
-	 * sets the basic amenities of the room
-	 * @param basicAmenities - default amenities
-	 */
-	public void setBasicAmenities ( ArrayList < String > basicAmenities ) {
-		this.basicAmenities = basicAmenities;
-	}
-	
-	/**
-	 * adds a basic amenity
-	 * @param basicAmenity - basic amenity
-	 */
-	public void addBasicAmenity ( String basicAmenity ) {
-		basicAmenities.add ( basicAmenity );
-	}
-	
 	/**
 	 * sets the special amenities of the room
 	 * @param specialAmenities - special amenities
@@ -153,6 +137,14 @@ public abstract class Room {
 	}
 	
 	/**
+	 * returns the waitlist of reservations
+	 * @return waitlist
+	 */
+	public ArrayList < Reservation > getWaitlist ( ) {
+		return waitlist;
+	}
+	
+	/**
 	 * upgrades the special amenities to the room
 	 * @param upgrade - new special amenity
 	 */
@@ -196,7 +188,9 @@ public abstract class Room {
 	 * lets the guest know when the room is available
 	 */
 	public void contactGuest ( ) {
-		
+		Reservation nextReservation = waitlist.get ( 0 );
+		nextReservation.finalizeReservation ( );
+		removeFromWaitlist ( nextReservation );
 	}
 	
 	/**

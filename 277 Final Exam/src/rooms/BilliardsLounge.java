@@ -12,6 +12,7 @@ public class BilliardsLounge extends Room {
 	 * default consturctor
 	 */
 	public BilliardsLounge ( ) {
+		capacity = 10;
 		restrictions = "21 and Older Only";
 		basicAmenities.add ( "Lounge with Pool Table" );
 		basicAmenities.add ( "Access to Pool Table & Cues" );

@@ -25,7 +25,18 @@ public class Guest {
 	 * payment method of the guest
 	 */
 	private Card paymentMethod;
-
+	
+	/**
+	 * default constructor
+	 */
+	public Guest() {
+		name = "";
+		address = "";
+		phone = "";
+		email = "";
+		paymentMethod = new Card ( );
+	}
+	
 	/**
 	 * constructor
 	 * @param name - name of guest
@@ -120,5 +131,18 @@ public class Guest {
 	 */
 	public Card getPaymentMethod ( ) {
 		return paymentMethod;
+	}
+	
+	/**
+	 * returns a string representation of the guest's info
+	 * @return guest's info
+	 */
+	public String toString ( ) {
+		String str = "Name: " + name;
+		str += "\n" + "Address: " + address;
+		str += "\n" + "Phone: " + phone;
+		str += "\n" + "Email: " + email;
+		str += "\n" + "Payment Method: " + paymentMethod.getCardCompany ( );
+		return str;
 	}
 }

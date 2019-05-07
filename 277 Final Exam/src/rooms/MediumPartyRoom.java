@@ -7,6 +7,7 @@ public class MediumPartyRoom extends Room {
 	 * default constructor
 	 */
 	public MediumPartyRoom ( ) {
+		capacity = 45;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Quick Access to Arcade" );
 		basicAmenities.add ( "DJ" );

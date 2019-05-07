@@ -91,7 +91,23 @@ public class Date {
 	 * @return date
 	 */
 	public String toString ( ) {
-		return new String ( );
+		String str = "";
+		
+		if ( month < 10 ) {
+			str += "0" + month + "/";
+		} else {
+			str += month + "/";
+		}
+		
+		if ( day < 10 ) {
+			str += "0" + day + "/";
+		} else {
+			str += day + "/";
+		}
+		
+		str += year;
+		
+		return str;
 	}
 	
 	/**
