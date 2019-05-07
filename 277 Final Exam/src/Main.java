@@ -7,9 +7,9 @@ import pizzas.*;
 
 public class Main {
 	public static void main ( String [ ] args ) {
-		//aquaWorldTester ( );
+		Room aquaWorld = aquaWorldTester ( );
 		Pizza pizza = pizzaTester ( );
-		mealPlanTester ( pizza );
+		MealPlan mealPlan = mealPlanTester ( pizza );
 	}
 	
 	public static Room aquaWorldTester ( ) {
