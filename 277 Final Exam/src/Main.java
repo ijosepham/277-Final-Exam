@@ -14,8 +14,10 @@ public class Main {
 		// collect 25% of amount due
 		//    a. so you have to have all information confirmed by the end
 		// send confirmation details, basically a receipt
+		
+		/**
 		RoomFactory factory;
-		AquaWorld aquaWorld = factory.createRoom(roomFactory)
+		AquaWorld aquaWorld = ( AquaWorld ) factory.createRoom( new AquaWorldFactory ( ) );
 		
 		Date expDate = new Date ( 1, 1, 2019 );
 		Card card = new Card ( "Visa", "1234 5678 9012 3456", "123", expDate );
@@ -25,5 +27,10 @@ public class Main {
 		Time startTime = new Time ( 10, 00 );
 		Time endTime = new Time ( 22, 00 );
 		Reservation reservation = new Reservation ( date, startTime, endTime,  )
+		*/
+		
+		Time time1 = new Time ( 15, 34 );
+		Time time2 = new Time ( 12, 10 );
+		System.out.println ( time1.compareTo ( time2 ) );
 	}
 }

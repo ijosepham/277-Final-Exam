@@ -26,6 +26,11 @@ public abstract class Room {
 	protected boolean isAvailable;
 	
 	/**
+	 * status of the room
+	 */
+	protected String status;
+	
+	/**
 	 * waitlist of reservations to the room
 	 */
 	protected ArrayList < Reservation > waitlist;
@@ -38,6 +43,7 @@ public abstract class Room {
 		specialAmenities = new ArrayList < String > ( );
 		capacity = 0;
 		isAvailable = false;
+		status = "Reserved";
 		waitlist = new ArrayList < Reservation > ( );
 	}
 	
@@ -48,11 +54,12 @@ public abstract class Room {
 	 * @param capacity - capacity of the room
 	 * @param isAvailable - whether the room is available
 	 */
-	public Room ( ArrayList < String > basicAmenities, ArrayList < String > specialAmenities, int capacity, boolean isAvailable ) {
+	public Room ( ArrayList < String > basicAmenities, ArrayList < String > specialAmenities, int capacity, boolean isAvailable, String status ) {
 		this.basicAmenities = basicAmenities;
 		this.specialAmenities = specialAmenities;
 		this.capacity = capacity;
 		this.isAvailable = isAvailable;
+		this.status = status;
 	}
 	
 	// setters
@@ -62,6 +69,14 @@ public abstract class Room {
 	 */
 	public void setBasicAmenities ( ArrayList < String > basicAmenities ) {
 		this.basicAmenities = basicAmenities;
+	}
+	
+	/**
+	 * adds a basic amenity
+	 * @param basicAmenity - basic amenity
+	 */
+	public void addBasicAmenity ( String basicAmenity ) {
+		basicAmenities.add ( basicAmenity );
 	}
 	
 	/**
@@ -86,6 +101,14 @@ public abstract class Room {
 	 */
 	public void setIsAvailable ( boolean isAvailable ) {
 		this.isAvailable = isAvailable;
+	}
+	
+	/**
+	 * sets the status of the room
+	 * @param status - status of the room
+	 */
+	public void setStatus ( String status ) {
+		this.status = status;
 	}
 	
 	// getters
@@ -122,6 +145,14 @@ public abstract class Room {
 	}
 	
 	/**
+	 * gets the status of the room
+	 * @return status of the room
+	 */
+	public String getStatus ( ) {
+		return status;
+	}
+	
+	/**
 	 * upgrades the special amenities to the room
 	 * @param upgrade - new special amenity
 	 */
@@ -141,7 +172,7 @@ public abstract class Room {
 	 * makes the room available
 	 */
 	public void makeAvailable ( ) {
-		
+		isAvailable = true;
 	}
 	
 	// observer pattern methods
@@ -169,13 +200,14 @@ public abstract class Room {
 	}
 	
 	/**
-	 * returns whether the room is available is open at the given dat
+	 * returns whether the room is available is open at the given date
+	 * abstract because each room has a different cleanup/setup time
 	 * @param date - date to see if the room is available
+	 * @param startTime - start time of the reservation
+	 * @param endTime - end time of the reservation
 	 * @return whether or not the room is available at the given date
 	 */
-	public boolean isAvailable ( Date date ) {
-		return true;
-	}
+	public abstract boolean isAvailable ( Date date, Time startTime, Time endTime );
 	
 	/**
 	 * abstract method that returns the cost of the room
