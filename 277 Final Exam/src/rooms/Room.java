@@ -6,6 +6,11 @@ import reservation.*;
 
 public abstract class Room {
 	/**
+	 * room type
+	 */
+	protected String name;
+	
+	/**
 	 * basic amenities of the room
 	 */
 	protected ArrayList < String > basicAmenities;
@@ -36,6 +41,11 @@ public abstract class Room {
 	protected ArrayList < Reservation > waitlist;
 	
 	/**
+	 * represents the prep time the room needs to setup/cleanup
+	 */
+	protected int prepTime;
+	
+	/**
 	 * default constructor
 	 */
 	public Room ( ) {
@@ -45,6 +55,7 @@ public abstract class Room {
 		isAvailable = false;
 		status = "Reserved";
 		waitlist = new ArrayList < Reservation > ( );
+		prepTime = 0;
 	}
 	
 	/**
@@ -96,6 +107,14 @@ public abstract class Room {
 	}
 	
 	// getters
+	/**
+	 * returns the room type
+	 * @return room type
+	 */
+	public String getName ( ) {
+		return name;
+	}
+	
 	/**
 	 * gets the basic amenities of the room
 	 * @return basic amenities
@@ -189,19 +208,53 @@ public abstract class Room {
 	 */
 	public void contactGuest ( ) {
 		Reservation nextReservation = waitlist.get ( 0 );
+		System.out.println ( "Hello, " + nextReservation.getGuest ( ) + ". The room is now available." );
 		nextReservation.finalizeReservation ( );
 		removeFromWaitlist ( nextReservation );
 	}
 	
 	/**
-	 * returns whether the room is available is open at the given date
-	 * abstract because each room has a different cleanup/setup time
-	 * @param date - date to see if the room is available
-	 * @param startTime - start time of the reservation
-	 * @param endTime - end time of the reservation
-	 * @return whether or not the room is available at the given date
+	 * returns whether or not the given date and time is available for registration
+	 * @param date - date of wanted reservation
+	 * @param startTime - start time of wanted reservation
+	 * @param endTime - end time of wanted reservation
+	 * @return whether the date is available for reservation
 	 */
-	public abstract boolean isAvailable ( Date date, Time startTime, Time endTime );
+	public boolean isAvailable ( Date date, Time startTime, Time endTime ) {
+		Reservation res;
+		
+		// go through each reservation in the waitlist
+		for ( int i = 0; i < waitlist.size ( ); i++ ) {
+			// get the reservation
+			res = waitlist.get ( i );
+			
+			// if the dates are the same, then check the times
+			if ( res.getDate ( ) == date ) {
+				
+				// 1/2 hour cleanup, 1/2 hour setip. 1hour gap total
+				
+				// if the given start time is in between any reservation, then its not available
+				if ( ( res.getStartTime ( ).compareTo ( startTime ) - prepTime ) < 0 ) {
+					// check to make sure there's at least a 1 hour gap in between this.end and that.start
+					if ( ( res.getEndTime ( ).compareTo ( startTime ) +  ( prepTime * 2 ) ) > 0 ) {
+						System.out.println ( "Your room is not available at the given date and time." );
+						return false;
+					}
+				}
+				
+				
+				// if the given end time is in between any reservation, then its not available
+				if ( ( res.getStartTime ( ).compareTo ( endTime ) - ( prepTime * 2 ) ) < 0 ) {
+					if ( ( res.getEndTime ( ).compareTo ( endTime ) + prepTime ) > 0 ) {
+						System.out.println ( "Your room is not available at the given date and time." );
+						return false;
+					}
+				}
+			}
+		}
+		System.out.println ( "Your room is available at the given date and time." );
+		return true;
+	}
 	
 	/**
 	 * abstract method that returns the cost of the room

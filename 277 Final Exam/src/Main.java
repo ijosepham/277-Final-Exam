@@ -1,36 +1,36 @@
 import reservation.*;
 import roomfactories.*;
 import rooms.*;
+import mealplans.*;
+import pizzas.*;
 
 public class Main {
 	public static void main ( String [ ] args ) {
-		// first user should enter their information
-		// then choose what room and times they want
-		// then after choosing so, then available?
-		//    a. add the details, and ask for meal plan and upgrades
-		//    b. ask to waitlist or ask for another time
-		// reserve room from date/time to date/time
-		// apply time sltos to clean up/setup according to rubric
-		// collect 25% of amount due
-		//    a. so you have to have all information confirmed by the end
-		// send confirmation details, basically a receipt
+		aquaWorldTester ( );
+
 		
-		/**
-		RoomFactory factory;
-		AquaWorld aquaWorld = ( AquaWorld ) factory.createRoom( new AquaWorldFactory ( ) );
+		Date date1 = new Date ( 1, 1, 2019 );
+		Time startTime1 = new Time ( 8, 00 );
+		Time endTime1 = new Time ( 12, 00 );
 		
-		Date expDate = new Date ( 1, 1, 2019 );
-		Card card = new Card ( "Visa", "1234 5678 9012 3456", "123", expDate );
-		Guest joey = new Guest ( "Joey Pham", "12345 Cerritos Drive", "(562) 275-5206", "joeyspam@mail.com", card );
+		Date date2 = new Date ( 1, 1, 2019 );
+		Time startTime2 = new Time ( 10, 00 );
+		Time endTime2 = new Time ( 2, 00 );
+	}
+	
+	public static void aquaWorldTester ( ) {
+		System.out.println ( "AquaWorld Tester:" );
+		System.out.println ( "Create an Aqua World." );
+		Room aquaWorld = RoomFactory.createRoom ( new AquaWorldFactory ( ) );
 		
-		Date date = new Date ( 5, 5, 2019 );
-		Time startTime = new Time ( 10, 00 );
-		Time endTime = new Time ( 22, 00 );
-		Reservation reservation = new Reservation ( date, startTime, endTime,  )
-		*/
+		System.out.println ( "Create a second Aqua World." );
+		Room aquaWorld1 = RoomFactory.createRoom ( new AquaWorldFactory ( ) );
 		
-		Time time1 = new Time ( 15, 34 );
-		Time time2 = new Time ( 12, 10 );
-		System.out.println ( time1.compareTo ( time2 ) );
+		System.out.println ( "Change capacity of AquaWorld1 to 1234124312." );
+		aquaWorld.setCapacity ( 1234124312 );
+		
+		System.out.println ( "AquaWorld1's capacity: " + aquaWorld.getCapacity ( ) );
+	
+		System.out.println ( "AquaWorld2's capacity: " + aquaWorld1.getCapacity ( ) );
 	}
 }

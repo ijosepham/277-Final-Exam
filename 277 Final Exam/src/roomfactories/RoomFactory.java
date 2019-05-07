@@ -59,7 +59,8 @@ public abstract class RoomFactory {
 	 * @param roomFactory - specific roomfactory to create a room
 	 * @return room that was create with the given factory
 	 */
-	public Room createRoom ( RoomFactory roomFactory ) {
+	/**
+	public Room createRoom ( AbstractRoomFactory roomFactory ) {
 		Room room = null;
 		
 		// create a room of give roomfactory, and make sure that it's less than the max
@@ -96,4 +97,11 @@ public abstract class RoomFactory {
 		
 		return room;
 	}
+	*/
+	
+	public static Room createRoom ( RoomFactory roomFactory ) {
+		return roomFactory.createRoom ( );
+	}
+	
+	public abstract Room createRoom ( );
 }

@@ -49,6 +49,9 @@ public class Reservation {
 	 */
 	private String confNum;
 	
+	/**
+	 * default constructor
+	 */
 	public Reservation ( ) {
 		guest = new Guest ( );
 		date = new Date ( );
@@ -215,18 +218,19 @@ public class Reservation {
 	 * @return the reservation
 	 */
 	public String toString ( ) {
-		String res = "Name: " + guest.getName ( );
-		res += "\n" + "Date: " + date;
-		res += "\n" + "Start Time: " + startTime;
-		res += "\n" + "End Time: " + endTime;
+		String str = "Name: " + guest.getName ( );
+		str += "\n" + "Room: " + room.getName ( );
+		str += "\n" + "Date: " + date;
+		str += "\n" + "Start Time: " + startTime;
+		str += "\n" + "End Time: " + endTime;
 		
 		if ( isFinalized ) {
-			res += "\n" + "Finalized: True";
-			res += "\n" + "Confirmation Number: " + confNum;
+			str += "\n" + "Finalized: True";
+			str += "\n" + "Confirmation Number: " + confNum;
 		} else {
-			res += "\n" + "Finalized: False";
+			str += "\n" + "Finalized: False";
 		}
 		
-		return res;
+		return str;
 	}
 }
