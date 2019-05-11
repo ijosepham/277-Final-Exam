@@ -9,7 +9,6 @@ import javax.swing.border.Border;
 import reservation.*;
 
 // i need to make a roomtype listener that changes the available times for start/end
-// listener for months/years too
 
 public class NewReservationFrame extends JFrame {
 	JTextField guestNameField;
@@ -42,6 +41,7 @@ public class NewReservationFrame extends JFrame {
 	
 	String [ ] partyHours;
 	String [ ] loungeHours;
+	String [ ] minutes;
 	
 	JComboBox < String > startHourCombo;
 	JComboBox < String > startMinCombo;
@@ -154,7 +154,9 @@ public class NewReservationFrame extends JFrame {
 		
 		roomPanel.add ( new JLabel ( "Room Type: " ) );
 		String [ ] roomTypes = { "Aqua World", "Medium Party Room", "Small Party Room", "Billiards Lounge", "Karaoke Lounge" };
-		roomPanel.add ( roomTypeCombo = new JComboBox < String > ( roomTypes ) );
+		roomTypeCombo = new JComboBox < String > ( roomTypes );
+		roomTypeCombo.addActionListener ( new RoomListener ( ) );
+		roomPanel.add ( roomTypeCombo );
 		
 		roomPanel.add ( new JLabel ( "Date: " ) );
 		roomPanel.add ( roomMonthCombo = new JComboBox < Integer > ( months ) );
@@ -178,7 +180,7 @@ public class NewReservationFrame extends JFrame {
 		roomPanel.add ( new JLabel ( "Start Time: " ) );
 		roomPanel.add ( startHourCombo = new JComboBox < String > ( partyHours ) );
 		
-		String [ ] minutes = new String [ 60 ];
+		minutes = new String [ 60 ];
 		for ( int i = 0; i < 10; i++ ) {
 			minutes [ i ] = "0" + i;
 		}
@@ -188,7 +190,9 @@ public class NewReservationFrame extends JFrame {
 		roomPanel.add ( startMinCombo = new JComboBox < String > ( minutes ) );
 		
 		roomPanel.add ( new JLabel ( "End Time: " ) );
-		roomPanel.add ( endHourCombo = new JComboBox < String > ( partyHours ) );
+		endHourCombo = new JComboBox < String > ( partyHours );
+		endHourCombo.addActionListener ( new HourListener ( ) );
+		roomPanel.add ( endHourCombo );
 		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		
 		
@@ -257,6 +261,10 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 
+	
+	// so the reason why all my listeners have new DefaultboXmodel is beacuse if they used the same model,
+	// then they would all cahnge simultaneously, instead of individually
+	
 	/**
 	 * inner class listener for cancel button
 	 */
@@ -270,19 +278,49 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 	
+	class RoomListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			if ( ( ( String ) roomTypeCombo.getSelectedItem ( ) ).contains ( "Lounge" ) ) { // if it's a lounge
+				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) ); // change to dusplay lounge hours
+				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) );
+			} else { // else its a party room
+				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) ); // change to dusplay party hours
+				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) );
+			}
+		}
+	}
+	
+	class HourListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			int index = ( int ) endHourCombo.getSelectedIndex ( );
+			int size = ( int ) endHourCombo.getItemCount ( );
+			
+			if ( index == size - 1 ) { // if the hour chosen was the last one, make it so that they cant choose past 0 min
+				String [ ] zero = { "00" };
+				endMinCombo.setModel ( new DefaultComboBoxModel < String > ( zero ) );
+			} else { // else any other hour was chosen
+				if ( size == 1 ) { // if youre coming from the last hour available, reset the box
+					endMinCombo.setModel ( new DefaultComboBoxModel < String > ( minutes ) );
+				}
+			}
+		}
+	}
+	
 	class YearListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			if ( click.getSource ( ) == dobYearCombo ) {
-				if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if it's a leap year
-					if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) { // if its february of a leap year
-						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) ); // make it so it displays 1-29
-					}
-				} else { // else change it back to 28 
-					if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) {
-						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
-					}
+			if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if it's a leap year
+				if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) { // if its february of a leap year
+					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) ); // make it so it displays 1-29
+				}
+			} else { // else change it back to 28 
+				if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) {
+					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
 				}
 			}
 		}
@@ -292,30 +330,24 @@ public class NewReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			if ( click.getSource ( ) == dobMonthCombo ) {
-				System.out.println ("1");
-				if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) {
-					if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if its a leap year
-						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) );
-					} else {
-						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
-					}
+			if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) { // check if its feb first
+				if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if its a leap year
+					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) );
 				} else {
-					if ( ( int ) dobMonthCombo.getSelectedItem ( ) < 8 ) { // jan - july
-						System.out.println ("2");
-						if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) { // odd months have 31 days jan-july
-							System.out.println ("3");
-							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) ); // make it so it displays 1-31
-						} else {
-							System.out.println ("4");
-							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); // even months have 1-30
-						}
-					} else { // else august - dec, opposite day pattern
-						if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) {
-							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
-						} else {
-							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
-						}
+					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
+				}
+			} else {
+				if ( ( int ) dobMonthCombo.getSelectedItem ( ) < 8 ) { // jan - july
+					if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) { // odd months have 31 days jan-july
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) ); // make it so it displays 1-31
+					} else {
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); // even months have 1-30
+					}
+				} else { // else august - dec, opposite day pattern
+					if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) {
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
+					} else {
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
 					}
 				}
 			}
