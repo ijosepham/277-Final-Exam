@@ -8,7 +8,11 @@ import javax.swing.border.Border;
 
 import reservation.*;
 
-// i need to make a roomtype listener that changes the available times for start/end
+// needa finish save button listener
+// meal plan stuff like pizzas 
+// needa make a thing for guest/res i think to see if they're checked in ornot
+// main frame just make everything into the boxlayout
+//		probably needa change things that have to do with the description of the place
 
 public class NewReservationFrame extends JFrame {
 	JTextField guestNameField;
@@ -125,7 +129,7 @@ public class NewReservationFrame extends JFrame {
 		
 		Integer [ ] years = new Integer [ 101 ];
 		for ( int i = 0; i <= 100; i++ ) {
-			years [ i ] = i + 1919;
+			years [ i ] = 2019 - i;
 		}
 		dobYearCombo = new JComboBox < Integer > ( years );
 		dobYearCombo.addActionListener ( new YearListener ( ) );
