@@ -187,7 +187,7 @@ public class MainFrame extends JFrame {
 	 	
 	 	p.add ( picture );
 
-	 	JTextArea description = new JTextArea ( 5,10 );
+	 	JTextArea description = new JTextArea ( 5, 10 );
 	 	description.append ( roomDesc );
 	 	description.setEditable ( false );
 	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );

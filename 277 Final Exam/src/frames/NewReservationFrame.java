@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class NewReservationFrame extends JFrame {
 	JTextField guestNameField;
@@ -26,6 +27,9 @@ public class NewReservationFrame extends JFrame {
 	JButton saveReservationButton;
 	JButton cancelReservationButton;
 	
+	Border raisedbevel = BorderFactory.createRaisedBevelBorder ( ); 
+ 	Border loweredbevel = BorderFactory.createLoweredBevelBorder ( );
+	
 	public NewReservationFrame ( ) {
 		this.setTitle ( "New Reservation" );
 		
@@ -40,62 +44,77 @@ public class NewReservationFrame extends JFrame {
 	 * initializes the default center panel and adds it to this frame
 	 * */
 	private void createDefaultPanel ( ) {
-		JPanel panel1 = new JPanel ( );
+		JPanel panel = new JPanel ( );
+		panel.setLayout ( new BoxLayout ( panel, BoxLayout.Y_AXIS ) );
 		
-		JLabel panelTitle = new JLabel ( "New Reservation" );
-		panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
-		panel1.add ( panelTitle );
+		
+		JPanel titlePanel = new JPanel ( );
+		
+		JLabel titleLabel = new JLabel ( "New Reservation" );
+		titleLabel.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+		titlePanel.add ( titleLabel );
 
 		
-		JPanel panel = new JPanel ( );
+		JPanel guestPanel = new JPanel ( );
 		
-		panel.add ( new JLabel ( "Name: " ) );
-		panel.add ( guestNameField = new JTextField ( 20 ) );
+		guestPanel.add ( new JLabel ( "Name: " ) );
+		guestPanel.add ( guestNameField = new JTextField ( 20 ) );
 		
-		panel.add ( new JLabel ( "Address" ) );
-		panel.add ( guestAddressField = new JTextField ( 17 ) );
+		guestPanel.add ( new JLabel ( "Address: " ) );
+		guestPanel.add ( guestAddressField = new JTextField ( 17 ) );
 		
-		panel.add ( new JLabel ( "Phone Number: " ) );
-		panel.add ( guestPhoneField = new JTextField ( 10 ) );
+		guestPanel.add ( new JLabel ( "Phone Number: " ) );
+		guestPanel.add ( guestPhoneField = new JTextField ( 10 ) );
 		
-		panel.add ( new JLabel ( "Email Address: " ) );
-		panel.add ( guestEmailField = new JTextField ( 17 ) );
+		guestPanel.add ( new JLabel ( "Email Address: " ) );
+		guestPanel.add ( guestEmailField = new JTextField ( 17 ) );
 		
-		panel.add ( new JLabel ( "Card Companies: " ) );
-		String [ ] cardCompanies = { "Visa", "Masterard", "American Express" };
-		panel.add ( cardCompanyCombo = new JComboBox < String > ( cardCompanies ) );
 		
-		panel.add ( new JLabel ( "Credit Card Number: " ) );
-		panel.add ( ccNumberField = new JTextField ( 11 ) );
+		JPanel cardPanel = new JPanel ( );
 		
-		panel.add ( new JLabel ( "CVC: " ) );
-		panel.add ( cardSecurityField = new JTextField ( 2 ) );
+		cardPanel.add ( new JLabel ( "Card Company: " ) );
+		String [ ] cardCompanies = { "Visa", "Mastercard", "American Express" };
+		cardPanel.add ( cardCompanyCombo = new JComboBox < String > ( cardCompanies ) );
 		
-		panel.add ( new JLabel ( "Credit Card Expiration Date: " ) );
+		cardPanel.add ( new JLabel ( "Credit Card Number: " ) );
+		cardPanel.add ( ccNumberField = new JTextField ( 11 ) );
+		
+		cardPanel.add ( new JLabel ( "CVC: " ) );
+		cardPanel.add ( cardSecurityField = new JTextField ( 2 ) );
+		
+		cardPanel.add ( new JLabel ( "Credit Card Expiration Date: " ) );
 		Integer [ ] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-		panel.add ( expMonthCombo = new JComboBox < Integer > ( months ) );
+		cardPanel.add ( expMonthCombo = new JComboBox < Integer > ( months ) );
 		
 		Integer [ ] years = { 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 };
-		panel.add ( expYearCombo = new JComboBox < Integer > ( years ) );
+		cardPanel.add ( expYearCombo = new JComboBox < Integer > ( years ) );
 		
-		panel.add ( new JLabel ( "Contact By: " ) );
-		panel.add ( contactPhoneCheck = new JCheckBox ( "Phone" ) );
-		panel.add ( contactEmailCheck = new JCheckBox ( "Email" ) );
 		
-		panel.add ( new JLabel ( "Room Type: " ) );
+		JPanel planel = new JPanel ( ); // its a pun for plan panel hehe
+
+		planel.add ( new JLabel ( "Room Type: " ) );
 		String [ ] roomTypes = { "Aqua World", "Medium Party Room", "Small Party Room", "Billiards Lounge", "Karaoke Lounge" };
-		panel.add ( roomTypeCombo = new JComboBox < String > ( roomTypes ) );
+		planel.add ( roomTypeCombo = new JComboBox < String > ( roomTypes ) );
 		
-		panel.add ( new JLabel ( "Meal Plan: " ) );
+		planel.add ( new JLabel ( "Meal Plan: " ) );
 		String [ ] mealPlans = { "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
-		panel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
+		planel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
 		
-		panel.add ( saveReservationButton = new JButton ( "Save Reservation" ) );
-		panel.add ( cancelReservationButton = new JButton ( "Cancel Reservation" ) );
+		planel.add ( new JLabel ( "Contact By: " ) );
+		planel.add ( contactPhoneCheck = new JCheckBox ( "Phone" ) );
+		planel.add ( contactEmailCheck = new JCheckBox ( "Email" ) );
 		
 		
+		JPanel buttonPanel = new JPanel ( );
 		
+		buttonPanel.add ( saveReservationButton = new JButton ( "Save Reservation" ) );
+		buttonPanel.add ( cancelReservationButton = new JButton ( "Cancel Reservation" ) );
 		
+		panel.add ( titlePanel );
+		panel.add ( guestPanel );
+		panel.add ( cardPanel );
+		panel.add ( planel );
+		panel.add ( buttonPanel );
 		
 		this.add ( panel );
 	}
