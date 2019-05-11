@@ -341,12 +341,14 @@ public class NewReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if it's a leap year
-				if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) { // if its february of a leap year
+			Integer month = ( Integer ) dobMonthCombo.getSelectedItem ( );
+			Integer year = ( Integer ) dobYearCombo.getSelectedItem ( );
+			if ( year % 4 == 0 ) { // if it's a leap year
+				if ( month == 2 ) { // if its february of a leap year
 					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) ); // make it so it displays 1-29
 				}
 			} else { // else change it back to 28 
-				if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) {
+				if ( month == 2 ) {
 					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
 				}
 			}
@@ -357,21 +359,23 @@ public class NewReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) { // check if its feb first
-				if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if its a leap year
+			Integer month = ( Integer ) dobMonthCombo.getSelectedItem ( );
+			Integer year = ( Integer ) dobYearCombo.getSelectedItem ( );
+			if ( month == 2 ) { // check if its feb first
+				if ( year % 4 == 0 ) { // if its a leap year
 					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) );
 				} else {
 					dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
 				}
 			} else {
-				if ( ( int ) dobMonthCombo.getSelectedItem ( ) < 8 ) { // jan - july
-					if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) { // odd months have 31 days jan-july
+				if ( month < 8 ) { // jan - july
+					if ( month % 2 == 1 ) { // odd months have 31 days jan-july
 						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) ); // make it so it displays 1-31
 					} else {
 						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); // even months have 1-30
 					}
 				} else { // else august - dec, opposite day pattern
-					if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) {
+					if ( month % 2 == 1 ) {
 						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
 					} else {
 						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
@@ -385,22 +389,42 @@ public class NewReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			if ( ( int ) roomMonthCombo.getSelectedItem ( ) == 2 ) { // check if its feb first
+			Integer selected = ( Integer ) roomMonthCombo.getSelectedItem ( );
+			if ( selected == 2 ) { // check if its feb first
 				roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
 			} else {
-				if ( ( int ) roomMonthCombo.getSelectedItem ( ) < 8 ) { // jan - july
-					if ( ( int ) roomMonthCombo.getSelectedItem ( ) % 2 == 1 ) { // odd months have 31 days jan-july
+				if ( selected < 8 ) { // jan - july
+					if ( selected % 2 == 1 ) { // odd months have 31 days jan-july
 						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) ); // make it so it displays 1-31
 					} else {
 						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); // even months have 1-30
 					}
 				} else { // else august - dec, opposite day pattern
-					if ( ( int ) roomMonthCombo.getSelectedItem ( ) % 2 == 1 ) {
+					if ( selected % 2 == 1 ) {
 						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
 					} else {
 						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
 					}
 				}
+			}
+		}
+	}
+	
+	class MealPlanListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			String selected = ( String ) mealPlanCombo.getSelectedItem ( );
+			if ( selected.contains ( "Basic" ) ) {
+				
+			} else if ( selected.contains ( "Bronze" ) ) {
+				
+			} else if ( selected.contains ( "Silver" ) ) {
+				
+			} else if ( selected.contains ( "Gold" ) ) {
+				
+			} else if ( selected.contains ( "Platinum" ) ) {
+				
 			}
 		}
 	}
