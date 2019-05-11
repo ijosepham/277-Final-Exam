@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import reservation.*;
 
@@ -19,11 +18,6 @@ public class NewReservationFrame extends JFrame {
 	JTextField guestAddressField;
 	JTextField guestPhoneField;
 	JTextField guestEmailField;
-	
-	Integer [ ] days31;
-	Integer [ ] days30;
-	Integer [ ] days29;
-	Integer [ ] days28;
 	
 	JComboBox < Integer > dobMonthCombo;
 	JComboBox < Integer > dobDayCombo;
@@ -43,10 +37,6 @@ public class NewReservationFrame extends JFrame {
 	JComboBox < Integer > roomMonthCombo;
 	JComboBox < Integer > roomDayCombo;
 	
-	String [ ] partyHours;
-	String [ ] loungeHours;
-	String [ ] minutes;
-	
 	JComboBox < String > startHourCombo;
 	JComboBox < String > startMinCombo;
 	JComboBox < String > endHourCombo;
@@ -55,8 +45,14 @@ public class NewReservationFrame extends JFrame {
 	JButton saveReservationButton;
 	JButton cancelReservationButton;
 	
-	Border raisedbevel = BorderFactory.createRaisedBevelBorder ( ); 
- 	Border loweredbevel = BorderFactory.createLoweredBevelBorder ( );
+	Integer [ ] days31;
+	Integer [ ] days30;
+	Integer [ ] days29;
+	Integer [ ] days28;
+	
+	String [ ] partyHours;
+	String [ ] loungeHours;
+	String [ ] minutes;
 	
 	public NewReservationFrame ( ) {
 		this.setTitle ( "New Reservation" );
@@ -100,7 +96,7 @@ public class NewReservationFrame extends JFrame {
 		guestPanel.add ( new JLabel ( "Date of Birth: " ) );
 		Integer [ ] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		dobMonthCombo = new JComboBox < Integer > ( months );
-		dobMonthCombo.addActionListener ( new MonthListener ( ) );
+		dobMonthCombo.addActionListener ( new DOBMonthListener ( ) );
 		guestPanel.add ( dobMonthCombo );
 		
 		
@@ -150,7 +146,12 @@ public class NewReservationFrame extends JFrame {
 		
 		cardPanel.add ( new JLabel ( "Expiration Date: " ) );
 		cardPanel.add ( expMonthCombo = new JComboBox < Integer > ( months ) );
-		cardPanel.add ( expYearCombo = new JComboBox < Integer > ( years ) );
+		
+		Integer [ ] expYears = new Integer [ 11 ];
+		for ( int i = 0; i < 11; i++ ) {
+			expYears [ i ] = 2025 - i;
+		}
+		cardPanel.add ( expYearCombo = new JComboBox < Integer > ( expYears ) );
 		
 		
 		// JPanel planel = new JPanel ( ); // its a pun for plan panel hehe // man i didnt getta use this
@@ -163,7 +164,9 @@ public class NewReservationFrame extends JFrame {
 		roomPanel.add ( roomTypeCombo );
 		
 		roomPanel.add ( new JLabel ( "Date: " ) );
-		roomPanel.add ( roomMonthCombo = new JComboBox < Integer > ( months ) );
+		roomMonthCombo = new JComboBox < Integer > ( months );
+		roomMonthCombo.addActionListener ( new RoomMonthListener ( ) );
+		roomPanel.add ( roomMonthCombo );
 		roomPanel.add ( roomDayCombo = new JComboBox < Integer > ( days31 ) );
 		
 		
@@ -182,7 +185,9 @@ public class NewReservationFrame extends JFrame {
 		loungeHours [ 16 ] = "01";
 		
 		roomPanel.add ( new JLabel ( "Start Time: " ) );
-		roomPanel.add ( startHourCombo = new JComboBox < String > ( partyHours ) );
+		startHourCombo = new JComboBox < String > ( partyHours );
+		startHourCombo.addActionListener ( new StartHourListener ( ) );
+		roomPanel.add ( startHourCombo );
 		
 		minutes = new String [ 60 ];
 		for ( int i = 0; i < 10; i++ ) {
@@ -195,7 +200,7 @@ public class NewReservationFrame extends JFrame {
 		
 		roomPanel.add ( new JLabel ( "End Time: " ) );
 		endHourCombo = new JComboBox < String > ( partyHours );
-		endHourCombo.addActionListener ( new HourListener ( ) );
+		endHourCombo.addActionListener ( new EndHourListener ( ) );
 		roomPanel.add ( endHourCombo );
 		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		
@@ -296,7 +301,25 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 	
-	class HourListener implements ActionListener
+	class StartHourListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			int index = ( int ) startHourCombo.getSelectedIndex ( );
+			int size = ( int ) startHourCombo.getItemCount ( );
+			
+			if ( index == size - 1 ) { // if the hour chosen was the last one, make it so that they cant choose past 0 min
+				String [ ] zero = { "00" };
+				startMinCombo.setModel ( new DefaultComboBoxModel < String > ( zero ) );
+			} else { // else any other hour was chosen
+				if ( startMinCombo.getItemCount ( ) == 1 ) { // if youre coming from the last hour available, reset the box
+					startMinCombo.setModel ( new DefaultComboBoxModel < String > ( minutes ) );
+				}
+			}
+		}
+	}
+	
+	class EndHourListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
@@ -307,7 +330,7 @@ public class NewReservationFrame extends JFrame {
 				String [ ] zero = { "00" };
 				endMinCombo.setModel ( new DefaultComboBoxModel < String > ( zero ) );
 			} else { // else any other hour was chosen
-				if ( size == 1 ) { // if youre coming from the last hour available, reset the box
+				if ( endMinCombo.getItemCount ( ) == 1 ) { // if youre coming from the last hour available, reset the box
 					endMinCombo.setModel ( new DefaultComboBoxModel < String > ( minutes ) );
 				}
 			}
@@ -330,7 +353,7 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 	
-	class MonthListener implements ActionListener
+	class DOBMonthListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
@@ -352,6 +375,30 @@ public class NewReservationFrame extends JFrame {
 						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
 					} else {
 						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
+					}
+				}
+			}
+		}
+	}
+	
+	class RoomMonthListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			if ( ( int ) roomMonthCombo.getSelectedItem ( ) == 2 ) { // check if its feb first
+				roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
+			} else {
+				if ( ( int ) roomMonthCombo.getSelectedItem ( ) < 8 ) { // jan - july
+					if ( ( int ) roomMonthCombo.getSelectedItem ( ) % 2 == 1 ) { // odd months have 31 days jan-july
+						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) ); // make it so it displays 1-31
+					} else {
+						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); // even months have 1-30
+					}
+				} else { // else august - dec, opposite day pattern
+					if ( ( int ) roomMonthCombo.getSelectedItem ( ) % 2 == 1 ) {
+						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
+					} else {
+						roomDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
 					}
 				}
 			}
