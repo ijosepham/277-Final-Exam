@@ -216,12 +216,17 @@ public class NewReservationFrame extends JFrame {
 		mealPlanPanel = new JPanel ( );
 		
 		mealPlanPanel.add ( new JLabel ( "Meal Plan: " ) );
+		
 		String [ ] mealPlans = { "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
-		mealPlanPanel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
+		mealPlanCombo = new JComboBox < String > ( mealPlans );
+		
+		mealPlanCombo.addActionListener ( new MealPlanListener ( ) );
+		mealPlanPanel.add ( mealPlanCombo );
 		
 		pizzaPanel = new JPanel ( );
 		pizzaPanel.setLayout ( new BoxLayout ( pizzaPanel, BoxLayout.Y_AXIS ) );
-		createPizzaPanel ( 3 );
+		createPizzaPanel ( 5 );
+		createPizzaPanel ( 0 );
 		
 		wingsPanel = new JPanel ( );
 		createWingsPanel ( 2 );
@@ -234,6 +239,7 @@ public class NewReservationFrame extends JFrame {
 		
 		sidesPanel = new JPanel ( );
 		createSidesPanel ( 2 );
+		
 		
 		JPanel contactPanel = new JPanel ( );
 		
@@ -435,28 +441,38 @@ public class NewReservationFrame extends JFrame {
 	
 	public void createPizzaPanel ( int amount ) {
 		// reset the pizza panel
-		pizzaPanel.removeAll ( );
-		for ( int i = 0; i < amount; i++ ) {
-			JPanel pizza = new JPanel ( );
-			pizza.add ( new JLabel ( "Pizza " + ( i + 1 ) + ": " ) );
-			pizza.add ( new JCheckBox ( "Cheese" ) );
-			pizza.add ( new JCheckBox ( "Pepperoni" ) );
-			pizza.add ( new JCheckBox ( "Ham" ) );
-			pizza.add ( new JCheckBox ( "Jalapeno" ) );
-			pizza.add ( new JCheckBox ( "Sausage" ) );
-			pizza.add ( new JCheckBox ( "Mushroom" ) );
-			pizza.add ( new JCheckBox ( "Pineapple" ) );
-			pizza.add ( new JCheckBox ( "Bell Pepper" ) );
-			pizza.add ( new JCheckBox ( "Onion" ) );
-			pizza.add ( new JCheckBox ( "Garlic Chicken" ) );
-			pizzaPanel.add ( pizza );
+		int count = pizzaPanel.getComponentCount ( );
+		
+		if ( count < amount ) {
+			for ( int i = count; i < amount; i++ ) {
+				JPanel pizza = new JPanel ( );
+				pizza.add ( new JLabel ( "Pizza " + ( i + 1 ) + ": " ) );
+				pizza.add ( new JCheckBox ( "Cheese" ) );
+				pizza.add ( new JCheckBox ( "Pepperoni" ) );
+				pizza.add ( new JCheckBox ( "Ham" ) );
+				pizza.add ( new JCheckBox ( "Jalapeno" ) );
+				pizza.add ( new JCheckBox ( "Sausage" ) );
+				pizza.add ( new JCheckBox ( "Mushroom" ) );
+				pizza.add ( new JCheckBox ( "Pineapple" ) );
+				pizza.add ( new JCheckBox ( "Bell Pepper" ) );
+				pizza.add ( new JCheckBox ( "Onion" ) );
+				pizza.add ( new JCheckBox ( "Garlic Chicken" ) );
+				pizzaPanel.add ( pizza );
+			}
+		} else if ( count > amount ) {
+			for ( int i = count; i > amount; i-- ) {
+				pizzaPanel.remove ( i - 1 );
+			}
 		}
+		
+		
 		mealPlanPanel.add ( pizzaPanel );
 	}
 	
 	public void createSodaPanel ( int amount ) {
 		// reset the wings panel
 		sodaPanel.removeAll ( );
+		
 		for ( int i = 0; i < amount; i++ ) {
 			JPanel soda = new JPanel ( );
 			soda.add ( new JLabel ( "Soda " + ( i + 1 ) + ": " ) );
@@ -473,6 +489,7 @@ public class NewReservationFrame extends JFrame {
 	public void createWingsPanel ( int amount ) {
 		// reset the wings panel
 		wingsPanel.removeAll ( );
+		
 		for ( int i = 0; i < amount; i++ ) {
 			JPanel wings = new JPanel ( );
 			wings.add ( new JLabel ( "Wings " + ( i + 1 ) + ": " ) );
@@ -492,6 +509,7 @@ public class NewReservationFrame extends JFrame {
 	public void createIceCreamPanel ( int amount ) {
 		// reset the wings panel
 		iceCreamPanel.removeAll ( );
+		
 		for ( int i = 0; i < amount; i++ ) {
 			JPanel iceCreams = new JPanel ( );
 			iceCreams.add ( new JLabel ( "Ice Cream " + ( i + 1 ) + ": " ) );
@@ -533,14 +551,44 @@ public class NewReservationFrame extends JFrame {
 		public void actionPerformed ( ActionEvent click ) {
 			String selected = ( String ) mealPlanCombo.getSelectedItem ( );
 			if ( selected.contains ( "Basic" ) ) {
+				System.out.print ( "Basic" );
+				createPizzaPanel ( 3 );
+				createSodaPanel ( 3 );
+				createSidesPanel ( 0 );
+				createWingsPanel ( 0 );
+				createIceCreamPanel ( 0 );
 				
 			} else if ( selected.contains ( "Bronze" ) ) {
+				System.out.print ( "Bronze" );
+				createPizzaPanel ( 3 );
+				createSodaPanel ( 5 );
+				createSidesPanel ( 1 );
+				createWingsPanel ( 0 );
+				createIceCreamPanel ( 0 );
 				
 			} else if ( selected.contains ( "Silver" ) ) {
+				System.out.print ( "Silver" );
+				createPizzaPanel ( 3 );
+				createSodaPanel ( 5 );
+				createSidesPanel ( 2 );
+				createWingsPanel ( 0 );
+				createIceCreamPanel ( 0 );
 				
 			} else if ( selected.contains ( "Gold" ) ) {
+				System.out.print ( "Gold" );
+				createPizzaPanel ( 3 );
+				createSodaPanel ( 5 );
+				createSidesPanel ( 2 );
+				createWingsPanel ( 2 );
+				createIceCreamPanel ( 0 );
 				
 			} else if ( selected.contains ( "Platinum" ) ) {
+				System.out.print ( "Plat" );
+				createPizzaPanel ( 4 );
+				createSodaPanel ( 5 );
+				createSidesPanel ( 2 );
+				createWingsPanel ( 2 );
+				createIceCreamPanel ( 2 );
 				
 			}
 		}
