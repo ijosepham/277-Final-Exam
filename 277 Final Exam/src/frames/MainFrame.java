@@ -1,27 +1,9 @@
 package frames;
 
-
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.border.*;
 
 import rooms.*;
 
@@ -43,7 +25,6 @@ public class MainFrame extends JFrame {
 		this.createMenuBar ( );
 		this.createDefaultPanel ( );
 		this.setVisible ( true );
-		
 	}
 	
 
@@ -54,14 +35,15 @@ public class MainFrame extends JFrame {
 	private void createDefaultPanel ( ) {
 		centerPanel = new JPanel ( );
 		centerPanel.setLayout ( new BoxLayout ( centerPanel, BoxLayout.Y_AXIS ) );
+		
 		//Title of default view
 		JLabel panelTitle = new JLabel ( "Party World Rooms" );
 		panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 		
 		centerPanel.add ( panelTitle );
-		addARoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );
-		addARoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
-		addARoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg", "Aqua Room" , AquaWorld. DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg", "Aqua Room" , AquaWorld. DESCRIPTION );
 		
 		scrollPane = new JScrollPane ( centerPanel );
 		this.add ( scrollPane, BorderLayout.CENTER );
@@ -189,65 +171,97 @@ public class MainFrame extends JFrame {
 	 * @param roomDesc - the description of the room
 	 * 
 	 * */
-	 private void addARoomDescription ( Container container, String imgDir, String roomName, String roomDesc ) {
-		 	JPanel p = new JPanel ( );
-		 	
-		 	ImageIcon icon = new ImageIcon ( imgDir );
-		 	JLabel picture = new JLabel ( roomName, icon, JLabel.CENTER );
-		 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
-		 	
-		 	//Set the position of the text, relative to the icon:
-		 	picture.setVerticalTextPosition ( JLabel.TOP );
-		 	picture.setHorizontalTextPosition ( JLabel.CENTER );
-		 	//Set border around 
-		 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
-		 	
-		 	p.add ( picture );
-		 	
-	
-		 	JTextArea description = new JTextArea ( 5,10 );
-		 	description.append ( roomDesc );
-		 	description.setEditable ( false );
-		 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
-		 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
-			p.add ( description );
+	 private void addRoomDescription ( Container container, String imgDir, String roomName, String roomDesc ) {
+	 	JPanel p = new JPanel ( );
+	 	
+	 	ImageIcon icon = new ImageIcon ( imgDir );
+	 	JLabel picture = new JLabel ( roomName, icon, JLabel.CENTER );
+	 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
+	 	
+	 	//Set the position of the text, relative to the icon:
+	 	picture.setVerticalTextPosition ( JLabel.TOP );
+	 	picture.setHorizontalTextPosition ( JLabel.CENTER );
+	 	
+	 	//Set border around 
+	 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+	 	
+	 	p.add ( picture );
+
+	 	JTextArea description = new JTextArea ( 5,10 );
+	 	description.append ( roomDesc );
+	 	description.setEditable ( false );
+	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
+	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+		p.add ( description );
 			
 	    JButton bookButton = new JButton ( "Book Now" );
 	    p.add ( bookButton );
 	    container.add ( p );
 	  }
 
+	 private void addMealPlanDescription ( Container container, String imgDir, String mealPlanName, String mealPlanDesc ) {
+	 	JPanel p = new JPanel ( );
+		 	
+	 	ImageIcon icon = new ImageIcon ( imgDir );
+	 	JLabel picture = new JLabel ( mealPlanName, icon, JLabel.CENTER );
+	 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
+	 	
+	 	//Set the position of the text, relative to the icon:
+	 	picture.setVerticalTextPosition ( JLabel.TOP );
+	 	picture.setHorizontalTextPosition ( JLabel.CENTER );
+	 	
+	 	//Set border around 
+	 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+	 	
+	 	p.add ( picture );
+	 	
+	 	JTextArea description = new JTextArea ( 5,10 );
+	 	description.append ( mealPlanDesc );
+	 	description.setEditable ( false );
+	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
+	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+		p.add ( description );
+		
+	    JButton bookButton = new JButton ( "Book Now" );
+	    p.add ( bookButton );
+	    container.add ( p );
+	  }
 
-	
-	class MealItemListener implements ActionListener{
+	// press on the meal item inside the top menu, then do an action
+	class MealItemListener implements ActionListener {
 
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
 			JMenuItem menuItem = ( JMenuItem ) click.getSource ( );
 			String item = menuItem.getText ( );
 			System.out.println ( item );
+			
 			if ( item.equals ( "All" ) ) {
 				System.out.println ( "VIEW ALL" ); //replace 
+			} else if ( item.equals ( "Basic" ) ) {
+				System.out.println ( "VIEW BASIC" ); //replace 
+			} else if ( item.equals ( "Bronze" ) ) {
+				System.out.println ( "VIEW BRONZE" );
+			} else if ( item.equals ( "Silver" ) ) {
+				
+			} else if ( item.equals ( "Gold" ) ) {
+				
+			} else if ( item.equals ( "Platinum" ) ) {
+				
 			}
-			else if ( item.equals ( "Basic" ) ) System.out.println ( "VIEW BASIC" ); //replace 
-			else if ( item.equals ( "Bronze" ) ) System.out.println ( "VIEW BRONZE" );
-			
-			
 		}
-		
 	}
 	
-
-	
-	
+	// same but its for rooms
 	class RoomItemListener implements ActionListener {
 
 		@Override
 		public void actionPerformed ( ActionEvent select ) {
 			JMenuItem item = ( JMenuItem ) select.getSource ( );
 			
-			if ( item.getText ( ).equals ( "Medium Party Rooms" ) ) System.out.println ( "Display only Medium Party Room" );
-			
+			if ( item.getText ( ).equals ( "Medium Party Rooms" ) ) {
+				System.out.println ( "Display only Medium Party Room" );
+			}
 		}
 	}
 	
