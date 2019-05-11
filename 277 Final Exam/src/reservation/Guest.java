@@ -22,6 +22,11 @@ public class Guest {
 	private String email;
 	
 	/**
+	 * DOB of the guest
+	 */
+	private Date dateOfBirth;
+	
+	/**
 	 * payment method of the guest
 	 */
 	private Card paymentMethod;
@@ -34,6 +39,7 @@ public class Guest {
 		address = "";
 		phone = "";
 		email = "";
+		dateOfBirth = new Date ( );
 		paymentMethod = new Card ( );
 	}
 	
@@ -43,13 +49,15 @@ public class Guest {
 	 * @param address - address of guest
 	 * @param phone - phone number of guest
 	 * @param email - email of guest
+	 * @param dateOfBirth - date of birth oft he guest
 	 * @param paymentMethod - payment method of guest
 	 */
-	public Guest ( String name, String address, String phone, String email, Card paymentMethod ) {
+	public Guest ( String name, String address, String phone, String email, Date dateOfBirth, Card paymentMethod ) {
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
+		this.dateOfBirth = dateOfBirth;
 		this.paymentMethod = paymentMethod;
 	}
 	
@@ -83,6 +91,14 @@ public class Guest {
 	 */
 	public void setEmail ( String email ) {
 		this.email = email;
+	}
+	
+	/**
+	 * sets the date of birth of the guesty
+	 * @param dateOfBirth - date of birth of the guets
+	 */
+	public void setDateOfBirth ( Date dateOfBirth ) {
+		this.dateOfBirth = dateOfBirth;
 	}
 	
 	/**
@@ -126,6 +142,14 @@ public class Guest {
 	}
 	
 	/**
+	 * returns the dob of the guest
+	 * @return dob of the guest
+	 */
+	public Date getDateOfBirth ( ) {
+		return dateOfBirth;
+	}
+	
+	/**
 	 * returns the payment method of guest
 	 * @return payment method of guest
 	 */
@@ -142,6 +166,7 @@ public class Guest {
 		str += "\n" + "Address: " + address;
 		str += "\n" + "Phone: " + phone;
 		str += "\n" + "Email: " + email;
+		str += "\n" + "DOB: " + dateOfBirth;
 		str += "\n" + "Payment Method: " + paymentMethod.getCardCompany ( );
 		return str;
 	}

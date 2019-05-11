@@ -238,13 +238,18 @@ public class MainFrame extends JFrame {
 			
 			if ( item.equals ( "All" ) ) {
 				System.out.println ( "VIEW ALL" ); //replace 
+				
 			} else if ( item.equals ( "Basic" ) ) {
 				System.out.println ( "VIEW BASIC" ); //replace 
+				
 			} else if ( item.equals ( "Bronze" ) ) {
 				System.out.println ( "VIEW BRONZE" );
+				
 			} else if ( item.equals ( "Silver" ) ) {
 				
+				
 			} else if ( item.equals ( "Gold" ) ) {
+				
 				
 			} else if ( item.equals ( "Platinum" ) ) {
 				

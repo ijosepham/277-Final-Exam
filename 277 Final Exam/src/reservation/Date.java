@@ -27,7 +27,19 @@ public class Date {
 	}
 	
 	/**
-	 * overloaded constructor without time
+	 * overloaded constructor with only month and year
+	 * @param month - month of the date
+	 * @param day - day of the date
+	 * @param year - year of the date
+	 */
+	public Date ( int month, int year ) {
+		this.month = month;
+		day = 1;
+		this.year = year;
+	}
+	
+	/**
+	 * overloaded constructor
 	 * @param month - month of the date
 	 * @param day - day of the date
 	 * @param year - year of the date
