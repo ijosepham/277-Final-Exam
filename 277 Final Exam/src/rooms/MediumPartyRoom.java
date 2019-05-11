@@ -3,6 +3,7 @@ package rooms;
 import reservation.*;
 
 public class MediumPartyRoom extends Room {
+	
 	/**
 	 * default constructor
 	 */

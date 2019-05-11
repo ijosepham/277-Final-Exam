@@ -11,6 +11,11 @@ public abstract class Room {
 	protected String name;
 	
 	/**
+	 * description used for the frames
+	 */
+	public static String DESCRIPTION;
+	
+	/**
 	 * basic amenities of the room
 	 */
 	protected ArrayList < String > basicAmenities;
