@@ -33,7 +33,15 @@ public class NewReservationFrame extends JFrame {
 	JCheckBox contactEmailCheck;
 	
 	JComboBox < String > roomTypeCombo;
+	
+	JPanel mealPlanPanel;
 	JComboBox < String > mealPlanCombo;
+	JPanel pizzaPanel;
+	JPanel wingsPanel;
+	JPanel sodaPanel;
+	JPanel iceCreamPanel;
+	JPanel sidesPanel;
+	
 	JComboBox < Integer > roomMonthCombo;
 	JComboBox < Integer > roomDayCombo;
 	
@@ -205,11 +213,18 @@ public class NewReservationFrame extends JFrame {
 		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		
 		
-		JPanel mealPanel = new JPanel ( );
+		mealPlanPanel = new JPanel ( );
 		
-		mealPanel.add ( new JLabel ( "Meal Plan: " ) );
+		mealPlanPanel.add ( new JLabel ( "Meal Plan: " ) );
 		String [ ] mealPlans = { "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
-		mealPanel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
+		mealPlanPanel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
+		pizzaPanel = new JPanel ( );
+		pizzaPanel.setLayout ( new BoxLayout ( pizzaPanel, BoxLayout.Y_AXIS ) );
+		createPizzaPanel ( 3 );
+		wingsPanel = new JPanel ( );
+		sodaPanel = new JPanel ( );
+		iceCreamPanel = new JPanel ( );
+		sidesPanel = new JPanel ( );
 		
 		
 		JPanel contactPanel = new JPanel ( );
@@ -228,7 +243,7 @@ public class NewReservationFrame extends JFrame {
 		panel.add ( guestPanel );
 		panel.add ( cardPanel );
 		panel.add ( roomPanel );
-		panel.add ( mealPanel );
+		panel.add ( mealPlanPanel );
 		panel.add ( contactPanel );
 		panel.add ( buttonPanel );
 		
@@ -408,6 +423,46 @@ public class NewReservationFrame extends JFrame {
 				}
 			}
 		}
+	}
+	
+	public void createPizzaPanel ( int pizzas ) {
+		// reset the pizza panel
+		pizzaPanel.removeAll ( );
+		for ( int i = 0; i < pizzas; i++ ) {
+			JPanel pizza = new JPanel ( );
+			pizza.add ( new JLabel ( "Pizza " + ( i + 1 ) + ": " ) );
+			pizza.add ( new JCheckBox ( "Cheese" ) );
+			pizza.add ( new JCheckBox ( "Pepperoni" ) );
+			pizza.add ( new JCheckBox ( "Ham" ) );
+			pizza.add ( new JCheckBox ( "Jalapeno" ) );
+			pizza.add ( new JCheckBox ( "Sausage" ) );
+			pizza.add ( new JCheckBox ( "Mushroom" ) );
+			pizza.add ( new JCheckBox ( "Pineapple" ) );
+			pizza.add ( new JCheckBox ( "Bell Pepper" ) );
+			pizza.add ( new JCheckBox ( "Onion" ) );
+			pizza.add ( new JCheckBox ( "Garlic Chicken" ) );
+			pizzaPanel.add ( pizza );
+		}
+		mealPlanPanel.add ( pizzaPanel );
+	}
+	
+	public void createWingsPanel ( ) {
+		// reset the wings panel
+		wingsPanel.removeAll ( );
+		for ( int i = 0; i < 2; i++ ) {
+			JPanel wings = new JPanel ( );
+			wings.add ( new JLabel ( "Wings " + ( i + 1 ) + ": " ) );
+			
+			String [ ] flavors = { "Mild", "Diablo", "Lemon Pepper", "Barbeque", "Sesame" };
+			JComboBox < String > flavorsCombo = new JComboBox < String > ( flavors );
+			wings.add ( flavorsCombo );
+			
+			String [ ] bone = { "Bone-In", "Boneless" };
+			JComboBox < String > boneCombo = new JComboBox < String > ( bone );
+			wings.add ( boneCombo );
+			wingsPanel.add ( wings );
+		}
+		mealPlanPanel.add ( wingsPanel );
 	}
 	
 	class MealPlanListener implements ActionListener
