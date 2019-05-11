@@ -95,23 +95,41 @@ public class NewReservationFrame extends JFrame {
 		
 		guestPanel.add ( new JLabel ( "Date of Birth: " ) );
 		Integer [ ] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-		guestPanel.add ( dobMonthCombo = new JComboBox < Integer > ( months ) );
+		dobMonthCombo = new JComboBox < Integer > ( months );
+		dobMonthCombo.addActionListener ( new MonthListener ( ) );
+		guestPanel.add ( dobMonthCombo );
+		
 		
 		days31 = new Integer [ 31 ];
 		for ( int i = 0; i < 31; i++ ) {
 			days31 [ i ] = i + 1;
 		}
-		guestPanel.add ( dobDayCombo = new JComboBox < Integer > ( days31 ) );
 		
-		days30 = days31; // days30 willcrop days31 to only 30 elements instead of 31, so it cuts off the last one
-		days29 = days30; // same
-		days28 = days29;
+		days30 = new Integer [ 30 ];
+		for ( int i = 0; i < 30; i++ ) {
+			days30 [ i ] = i + 1;
+		}
+		
+		days29 = new Integer [ 29 ];
+		for ( int i = 0; i < 29; i++ ) {
+			days29 [ i ] = i + 1;
+		}
+		
+		days28 = new Integer [ 28 ];
+		for ( int i = 0; i < 28; i++ ) {
+			days28 [ i ] = i + 1;
+		}
+		
+		dobDayCombo = new JComboBox < Integer > ( days31 );
+		guestPanel.add ( dobDayCombo );
 		
 		Integer [ ] years = new Integer [ 101 ];
 		for ( int i = 0; i <= 100; i++ ) {
 			years [ i ] = i + 1919;
 		}
-		guestPanel.add ( dobYearCombo = new JComboBox < Integer > ( years ) );
+		dobYearCombo = new JComboBox < Integer > ( years );
+		dobYearCombo.addActionListener ( new YearListener ( ) );
+		guestPanel.add ( dobYearCombo );
 		
 		
 		JPanel cardPanel = new JPanel ( );
@@ -249,6 +267,58 @@ public class NewReservationFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
+		}
+	}
+	
+	class YearListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			if ( click.getSource ( ) == dobYearCombo ) {
+				if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if it's a leap year
+					if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) { // if its february of a leap year
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) ); // make it so it displays 1-29
+					}
+				} else { // else change it back to 28 
+					if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) {
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
+					}
+				}
+			}
+		}
+	}
+	
+	class MonthListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			if ( click.getSource ( ) == dobMonthCombo ) {
+				System.out.println ("1");
+				if ( ( int ) dobMonthCombo.getSelectedItem ( ) == 2 ) {
+					if ( ( int ) dobYearCombo.getSelectedItem ( ) % 4 == 0 ) { // if its a leap year
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days29 ) );
+					} else {
+						dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days28 ) );
+					}
+				} else {
+					if ( ( int ) dobMonthCombo.getSelectedItem ( ) < 8 ) { // jan - july
+						System.out.println ("2");
+						if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) { // odd months have 31 days jan-july
+							System.out.println ("3");
+							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) ); // make it so it displays 1-31
+						} else {
+							System.out.println ("4");
+							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); // even months have 1-30
+						}
+					} else { // else august - dec, opposite day pattern
+						if ( ( int ) dobMonthCombo.getSelectedItem ( ) % 2 == 1 ) {
+							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days30 ) ); 
+						} else {
+							dobDayCombo.setModel ( new DefaultComboBoxModel < Integer > ( days31 ) );
+						}
+					}
+				}
+			}
 		}
 	}
 	
