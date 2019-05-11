@@ -8,11 +8,19 @@ import javax.swing.border.Border;
 
 import reservation.*;
 
+// i need to make a roomtype listener that changes the available times for start/end
+// listener for months/years too
+
 public class NewReservationFrame extends JFrame {
 	JTextField guestNameField;
 	JTextField guestAddressField;
 	JTextField guestPhoneField;
 	JTextField guestEmailField;
+	
+	Integer [ ] days31;
+	Integer [ ] days30;
+	Integer [ ] days29;
+	Integer [ ] days28;
 	
 	JComboBox < Integer > dobMonthCombo;
 	JComboBox < Integer > dobDayCombo;
@@ -29,6 +37,16 @@ public class NewReservationFrame extends JFrame {
 	
 	JComboBox < String > roomTypeCombo;
 	JComboBox < String > mealPlanCombo;
+	JComboBox < Integer > roomMonthCombo;
+	JComboBox < Integer > roomDayCombo;
+	
+	String [ ] partyHours;
+	String [ ] loungeHours;
+	
+	JComboBox < String > startHourCombo;
+	JComboBox < String > startMinCombo;
+	JComboBox < String > endHourCombo;
+	JComboBox < String > endMinCombo;
 	
 	JButton saveReservationButton;
 	JButton cancelReservationButton;
@@ -79,17 +97,22 @@ public class NewReservationFrame extends JFrame {
 		Integer [ ] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		guestPanel.add ( dobMonthCombo = new JComboBox < Integer > ( months ) );
 		
-		Integer [ ] days = new Integer [ 31 ];
+		days31 = new Integer [ 31 ];
 		for ( int i = 0; i < 31; i++ ) {
-			days [ i ] = i + 1;
+			days31 [ i ] = i + 1;
 		}
-		guestPanel.add ( dobDayCombo = new JComboBox < Integer > ( days ) );
+		guestPanel.add ( dobDayCombo = new JComboBox < Integer > ( days31 ) );
+		
+		days30 = days31; // days30 willcrop days31 to only 30 elements instead of 31, so it cuts off the last one
+		days29 = days30; // same
+		days28 = days29;
 		
 		Integer [ ] years = new Integer [ 101 ];
 		for ( int i = 0; i <= 100; i++ ) {
 			years [ i ] = i + 1919;
 		}
 		guestPanel.add ( dobYearCombo = new JComboBox < Integer > ( years ) );
+		
 		
 		JPanel cardPanel = new JPanel ( );
 		
@@ -108,19 +131,61 @@ public class NewReservationFrame extends JFrame {
 		cardPanel.add ( expYearCombo = new JComboBox < Integer > ( years ) );
 		
 		
-		JPanel planel = new JPanel ( ); // its a pun for plan panel hehe
-
-		planel.add ( new JLabel ( "Room Type: " ) );
+		// JPanel planel = new JPanel ( ); // its a pun for plan panel hehe // man i didnt getta use this
+		JPanel roomPanel = new JPanel ( );
+		
+		roomPanel.add ( new JLabel ( "Room Type: " ) );
 		String [ ] roomTypes = { "Aqua World", "Medium Party Room", "Small Party Room", "Billiards Lounge", "Karaoke Lounge" };
-		planel.add ( roomTypeCombo = new JComboBox < String > ( roomTypes ) );
+		roomPanel.add ( roomTypeCombo = new JComboBox < String > ( roomTypes ) );
 		
-		planel.add ( new JLabel ( "Meal Plan: " ) );
+		roomPanel.add ( new JLabel ( "Date: " ) );
+		roomPanel.add ( roomMonthCombo = new JComboBox < Integer > ( months ) );
+		roomPanel.add ( roomDayCombo = new JComboBox < Integer > ( days31 ) );
+		
+		
+		partyHours = new String [ 16 ];
+		partyHours [ 0 ] = "09";
+		for ( int i = 1; i < 16; i++ ) {
+			partyHours [ i ] = i + 9 + "";
+		}
+		
+		loungeHours = new String [ 17 ];
+		loungeHours [ 0 ] = "09";
+		for ( int i = 1; i < 15; i++ ) {
+			loungeHours [ i ] = i + 9 + "";
+		}
+		loungeHours [ 15 ] = "00";
+		loungeHours [ 16 ] = "01";
+		
+		roomPanel.add ( new JLabel ( "Start Time: " ) );
+		roomPanel.add ( startHourCombo = new JComboBox < String > ( partyHours ) );
+		
+		String [ ] minutes = new String [ 60 ];
+		for ( int i = 0; i < 10; i++ ) {
+			minutes [ i ] = "0" + i;
+		}
+		for ( int i = 10; i < 60; i++ ) {
+			minutes [ i ] = i + "";
+		}
+		roomPanel.add ( startMinCombo = new JComboBox < String > ( minutes ) );
+		
+		roomPanel.add ( new JLabel ( "End Time: " ) );
+		roomPanel.add ( endHourCombo = new JComboBox < String > ( partyHours ) );
+		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
+		
+		
+		JPanel mealPanel = new JPanel ( );
+		
+		mealPanel.add ( new JLabel ( "Meal Plan: " ) );
 		String [ ] mealPlans = { "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
-		planel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
+		mealPanel.add ( mealPlanCombo = new JComboBox < String > ( mealPlans ) );
 		
-		planel.add ( new JLabel ( "Contact By: " ) );
-		planel.add ( contactPhoneCheck = new JCheckBox ( "Phone" ) );
-		planel.add ( contactEmailCheck = new JCheckBox ( "Email" ) );
+		
+		JPanel contactPanel = new JPanel ( );
+		
+		contactPanel.add ( new JLabel ( "Contact By: " ) );
+		contactPanel.add ( contactPhoneCheck = new JCheckBox ( "Phone" ) );
+		contactPanel.add ( contactEmailCheck = new JCheckBox ( "Email" ) );
 		
 		
 		JPanel buttonPanel = new JPanel ( );
@@ -131,7 +196,9 @@ public class NewReservationFrame extends JFrame {
 		panel.add ( titlePanel );
 		panel.add ( guestPanel );
 		panel.add ( cardPanel );
-		panel.add ( planel );
+		panel.add ( roomPanel );
+		panel.add ( mealPanel );
+		panel.add ( contactPanel );
 		panel.add ( buttonPanel );
 		
 		this.add ( panel );
@@ -166,7 +233,9 @@ public class NewReservationFrame extends JFrame {
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
 			
-			Reservation r = new Reservation ( "" );
+			//Roov 
+			
+			//Reservation r = new Reservation ( "" );
 		}
 	}
 
