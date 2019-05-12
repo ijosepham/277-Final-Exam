@@ -33,8 +33,13 @@ public class NewReservationFrame extends JFrame {
 	JCheckBox contactEmailCheck;
 	
 	JPanel roomPanel;
+	JPanel roomTypePanel;
 	JComboBox < String > roomTypeCombo;
+	JPanel roomDatePanel;
+	JPanel roomStartPanel;
+	JPanel roomEndPanel;
 	JPanel themesPanel;
+	JLabel restrictionsLabel;
 	
 	JPanel mealPlanPanel;
 	JComboBox < String > mealPlanCombo;
@@ -168,18 +173,24 @@ public class NewReservationFrame extends JFrame {
 		// JPanel planel = new JPanel ( ); // its a pun for plan panel hehe // man i didnt getta use this
 		roomPanel = new JPanel ( );
 		
-		roomPanel.add ( new JLabel ( "Room Type: " ) );
+		roomTypePanel = new JPanel ( );
+		roomTypePanel.add ( new JLabel ( "Room Type: " ) );
 		String [ ] roomTypes = { "Aqua World", "Medium Party Room", "Small Party Room", "Billiards Lounge", "Karaoke Lounge" };
 		roomTypeCombo = new JComboBox < String > ( roomTypes );
 		roomTypeCombo.addActionListener ( new RoomListener ( ) );
-		roomPanel.add ( roomTypeCombo );
+		roomTypePanel.add ( roomTypeCombo );
+		roomPanel.add ( roomTypePanel );
 		
-		roomPanel.add ( new JLabel ( "Date: " ) );
+		roomDatePanel = new JPanel ( );
+		roomDatePanel.add ( new JLabel ( "Date: " ) );
 		roomMonthCombo = new JComboBox < Integer > ( months );
+		roomMonthCombo.setSelectedItem ( 5 );
 		roomMonthCombo.addActionListener ( new RoomMonthListener ( ) );
-		roomPanel.add ( roomMonthCombo );
-		roomPanel.add ( roomDayCombo = new JComboBox < Integer > ( days31 ) );
-		
+		roomDatePanel.add ( roomMonthCombo );
+		roomDayCombo = new JComboBox < Integer > ( days30 );
+		roomDayCombo.setSelectedItem ( 16 );
+		roomDatePanel.add ( roomDayCombo );
+		roomPanel.add ( roomDatePanel );
 		
 		partyHours = new String [ 16 ]; // party room hours, starts at 9 nds at 12
 		partyHours [ 0 ] = "09";
@@ -195,10 +206,11 @@ public class NewReservationFrame extends JFrame {
 		loungeHours [ 15 ] = "00";
 		loungeHours [ 16 ] = "01";
 		
-		roomPanel.add ( new JLabel ( "Start Time: " ) );
+		roomStartPanel = new JPanel ( );
+		roomStartPanel.add ( new JLabel ( "Start Time: " ) );
 		startHourCombo = new JComboBox < String > ( partyHours );
 		startHourCombo.addActionListener ( new StartHourListener ( ) );
-		roomPanel.add ( startHourCombo );
+		roomStartPanel.add ( startHourCombo );
 		
 		minutes = new String [ 60 ]; // 00 - 59minutes
 		for ( int i = 0; i < 10; i++ ) {
@@ -207,20 +219,24 @@ public class NewReservationFrame extends JFrame {
 		for ( int i = 10; i < 60; i++ ) {
 			minutes [ i ] = i + "";
 		}
-		roomPanel.add ( startMinCombo = new JComboBox < String > ( minutes ) );
+		roomStartPanel.add ( startMinCombo = new JComboBox < String > ( minutes ) );
+		roomPanel.add ( roomStartPanel );
 		
-		roomPanel.add ( new JLabel ( "End Time: " ) );
+		roomEndPanel = new JPanel ( );
+		roomEndPanel.add ( new JLabel ( "End Time: " ) );
 		endHourCombo = new JComboBox < String > ( partyHours );
 		endHourCombo.addActionListener ( new EndHourListener ( ) );
-		roomPanel.add ( endHourCombo );
-		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
+		roomEndPanel.add ( endHourCombo );
+		roomEndPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
+		roomPanel.add ( roomEndPanel );
 		
 		themesPanel = new JPanel ( );
 		setThemesPanel ( "Aqua Party" );
+		restrictionsLabel = new JLabel ( "Restrictions: Bathing suits must be worn to access water facilities." );
+		roomPanel.add ( restrictionsLabel );
+		
 		
 		mealPlanPanel = new JPanel ( );
-		
-		
 		
 		mealPlanPanel.add ( new JLabel ( "Meal Plan: " ) );
 		
@@ -312,7 +328,17 @@ public class NewReservationFrame extends JFrame {
 			themesPanel.removeAll ( );
 		}
 		
-		roomPanel.add ( themesPanel );
+		roomPanel.add ( themesPanel, 4 );
+	}
+	
+	public void setRestrictionsPanel ( String roomType ) {
+		if ( roomType.contains ( "Aqua" ) ) {
+			restrictionsLabel.setText ( "Restrictions: Bathing suits must be worn to access water facilities." );
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			restrictionsLabel.setText ( "Restrictions: 21-year-olds and up only." );
+		} else {
+			restrictionsLabel.setText ( "" );
+		}
 	}
 	
 	public void setPizzaPanel ( int amount ) {
@@ -535,6 +561,19 @@ public class NewReservationFrame extends JFrame {
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
 			
 			
+			int roomMonth = ( int ) roomMonthCombo.getSelectedItem ( );
+			int roomDay = ( int ) roomDayCombo.getSelectedItem ( );
+			Date roomDate = new Date ( roomMonth, roomDay, 2019 );
+			
+			int startHour = ( int ) startHourCombo.getSelectedItem ( );
+			int startMin = ( int ) startMinCombo.getSelectedItem ( );
+			Time startTime = new Time ( startHour, startMin );
+			
+			int endHour = ( int ) endHourCombo.getSelectedItem ( );
+			int endMin = ( int ) endMinCombo.getSelectedItem ( );
+			Time endTime = new Time ( endHour, endMin );
+			
+			
 			// Roov 
 			
 			// Reservation r = new Reservation ( "" );
@@ -596,6 +635,7 @@ public class NewReservationFrame extends JFrame {
 			if ( mealUpgradeBox.isSelected ( ) ) { // if they chose to upgrade, then make it them available
 				String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
 				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+				mealPlanCombo.setSelectedIndex ( 1 );
 			} else { //
 				String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
 				if ( roomType.contains ( "Lounge" ) ) { // lounge room
@@ -611,6 +651,7 @@ public class NewReservationFrame extends JFrame {
 				} else { // party room
 					String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan" };
 					mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+					mealPlanCombo.setSelectedIndex ( 1 );
 					
 					setPizzaPanel ( 3 ); // 3 pizzass
 					validateToppings ( 1 ); // make sure only one topping is checked
@@ -651,6 +692,7 @@ public class NewReservationFrame extends JFrame {
 				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) ); // change to dusplay lounge hours
 				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) );
 				setThemesPanel ( "Lounge" );
+				setRestrictionsPanel ( roomType );
 			} else { // else its a party room
 				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) ); // change to dusplay party hours
 				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) );
@@ -660,6 +702,7 @@ public class NewReservationFrame extends JFrame {
 				} else {
 					setThemesPanel ( "Party" );
 				}
+				setRestrictionsPanel ( roomType );
 				
 				// if they're at the default no meal plan, set it to basic cause party rooms come with a basic meal plan
 				if ( ( ( String ) mealPlanCombo.getSelectedItem ( ) ).contains ( "No" ) ) {
