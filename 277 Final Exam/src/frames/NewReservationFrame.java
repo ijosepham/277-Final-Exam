@@ -312,6 +312,7 @@ public class NewReservationFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
+			System.exit ( 0 );
 		}
 	}
 	
@@ -578,7 +579,7 @@ public class NewReservationFrame extends JFrame {
 		// reset the wings panel
 		sidesPanel.removeAll ( );
 		
-		if ( amount == 1 ) {
+		if ( amount == 1 ) { // if only 1 side is allowed, force them to choose which one 
 			JPanel side = new JPanel ( );
 			side.add ( new JLabel ( "Side: " ) );
 			
@@ -587,7 +588,7 @@ public class NewReservationFrame extends JFrame {
 			side.add ( sidesCombo );
 			
 			sidesPanel.add ( side );
-		} else {
+		} else if ( amount == 2 ) {
 			sidesPanel.add ( new JLabel ( "Sides: Breadsticks and Salad" ) );
 		}
 		mealPlanPanel.add ( sidesPanel );
@@ -598,12 +599,13 @@ public class NewReservationFrame extends JFrame {
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
 			String selected = ( String ) mealPlanCombo.getSelectedItem ( );
+			// depending on what meal plan, allow up to a certain number of foods
 			if ( selected.contains ( "Basic" ) ) {
-				createPizzaPanel ( 3 );
-				createSodaPanel ( 3 );
-				createSidesPanel ( 0 );
-				createWingsPanel ( 0 );
-				createIceCreamPanel ( 0 );
+				createPizzaPanel ( 3 ); // 3 pizzass
+				createSodaPanel ( 3 ); // 3 sodas
+				createSidesPanel ( 0 ); // no sides
+				createWingsPanel ( 0 ); // no wings
+				createIceCreamPanel ( 0 ); // no ice cream
 				
 			} else if ( selected.contains ( "Bronze" ) ) {
 				createPizzaPanel ( 3 );
