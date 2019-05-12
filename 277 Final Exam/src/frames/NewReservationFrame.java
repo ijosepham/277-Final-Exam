@@ -223,16 +223,16 @@ public class NewReservationFrame extends JFrame {
 		
 		String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
 		mealPlanCombo = new JComboBox < String > ( mealPlans );
-		
+		mealPlanCombo.setSelectedIndex ( 1 );
 		mealPlanCombo.addActionListener ( new MealPlanListener ( ) );
 		mealPlanPanel.add ( mealPlanCombo );
 		
 		pizzaPanel = new JPanel ( );
 		pizzaPanel.setLayout ( new BoxLayout ( pizzaPanel, BoxLayout.Y_AXIS ) );
-		setPizzaPanel ( 0 );
+		setPizzaPanel ( 3 );
 		
 		sodaPanel = new JPanel ( );
-		setSodaPanel ( 0 );
+		setSodaPanel ( 3 );
 		
 		sidesPanel = new JPanel ( );
 		setSidesPanel ( 0 );
@@ -275,7 +275,6 @@ public class NewReservationFrame extends JFrame {
 	public void setUpgradesPanel ( String roomType ) {
 		if ( roomType.contains ( "Party" ) ) {
 			if ( upgradesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
-				System.out.println ( "yes" );
 				if ( roomType.contains ( "Aqua" ) ) {
 					upgradesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
 				}
@@ -590,6 +589,17 @@ public class NewReservationFrame extends JFrame {
 					setUpgradesPanel ( "Aqua Party" );
 				} else {
 					setUpgradesPanel ( "Party" );
+				}
+				
+				// if they're at the default no meal plan, set it to basic cause party rooms come with a basic meal plan
+				if ( ( ( String ) mealPlanCombo.getSelectedItem ( ) ).contains ( "No" ) ) {
+					mealPlanCombo.setSelectedIndex ( 1 );
+					setPizzaPanel ( 3 ); // 3 pizzass
+					validateToppings ( 1 ); // make sure only one topping is checked
+					setSodaPanel ( 3 ); // 3 sodas
+					setWingsPanel ( 0 ); // no wings
+					setIceCreamPanel ( 0 ); // no ice cream
+					setSidesPanel ( 0 ); // no sides
 				}
 			}
 			roomPanel.revalidate ( );
