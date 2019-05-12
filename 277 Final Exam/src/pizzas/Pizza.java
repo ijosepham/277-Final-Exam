@@ -12,14 +12,12 @@ public class Pizza extends Food {
 		name = "Pizza";
 		toppings = new ArrayList < String > ( );
 		description = "Pizza";
-		quantity = 1;
 	}
 	
 	public Pizza ( String description, int quantity, ArrayList < String > toppings ) {
 		name = "Pizza";
 		this.toppings = toppings;
 		this.description = description;
-		this.quantity = quantity;
 	}
 	
 	public void setDescription ( String description ) {
@@ -39,7 +37,7 @@ public class Pizza extends Food {
 	}
 	
 	public String toString ( ) {
-		String str = name + " x " + quantity;
+		String str = name;
 		for ( int i = 0; i < toppings.size ( ); i++ ) {
 			str += "\n" + "    " + toppings.get ( i );
 		}		

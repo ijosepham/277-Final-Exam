@@ -20,7 +20,6 @@ public class Wings extends Food {
 		name = "Wings";
 		flavor = "";
 		bone = true;
-		quantity = 0;
 	}
 	
 	/**
@@ -29,11 +28,10 @@ public class Wings extends Food {
 	 * @param bone - if the wings are bone-in
 	 * @param quantity - quantity of the wings
 	 */
-	public Wings ( String flavor, boolean bone, int quantity ) {
+	public Wings ( String flavor, boolean bone ) {
 		name = "Wings";
 		this.flavor = flavor;
 		this.bone = bone;
-		this.quantity = quantity;
 	}
 	
 	/**
@@ -74,7 +72,7 @@ public class Wings extends Food {
 	 */
 	@Override
 	public String toString ( ) {
-		String str = name + " x " + quantity;
+		String str = name;
 		str += "\n" + "    " + flavor;
 		if ( bone ) {
 			str += "\n" + "    Bone-In";

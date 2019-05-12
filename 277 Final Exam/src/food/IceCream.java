@@ -14,7 +14,6 @@ public class IceCream extends Food {
 	public IceCream ( ) {
 		name = "Ice Cream";
 		flavor = "";
-		quantity = 0;
 	}
 	
 	/**
@@ -22,10 +21,9 @@ public class IceCream extends Food {
 	 * @param flavor - flavor of the ice cream
 	 * @param quantity - quantity of the ice cream
 	 */
-	public IceCream ( String flavor, int quantity ) {
+	public IceCream ( String flavor ) {
 		name = "Ice Cream";
 		this.flavor = flavor;
-		this.quantity = quantity;
 	}
 	
 	/**
@@ -50,7 +48,7 @@ public class IceCream extends Food {
 	 */
 	@Override
 	public String toString ( ) {
-		String str = name + " x " + quantity;
+		String str = name;
 		str += "\n" + "    " + flavor;
 		return str;
 	}

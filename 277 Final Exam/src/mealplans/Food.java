@@ -7,16 +7,10 @@ public abstract class Food {
 	protected String name;
 	
 	/**
-	 * amount of food
-	 */
-	protected int quantity;
-	
-	/**
 	 * default constructor
 	 */
 	public Food ( ) {
 		name = "";
-		quantity = 0;
 	}
 	
 	/**
@@ -28,27 +22,11 @@ public abstract class Food {
 	}
 	
 	/**
-	 * sets the quantity of the food
-	 * @param quantity - quantity of the food
-	 */
-	public void setQuantity ( int quantity ) {
-		this.quantity = quantity;
-	}
-	
-	/**
 	 * returns the name of the food
 	 * @return name of the food
 	 */
 	public String getName ( ) {
 		return name;
-	}
-	
-	/**
-	 * returns the quantity of the food
-	 * @return quantity of the food
-	 */
-	public int getQuantity ( ) {
-		return quantity;
 	}
 	
 	/**

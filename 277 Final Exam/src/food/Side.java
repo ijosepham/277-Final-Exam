@@ -8,7 +8,6 @@ public class Side extends Food {
 	 */
 	public Side ( ) {
 		name = "";
-		quantity = 0;
 	}
 	
 	/**
@@ -17,7 +16,6 @@ public class Side extends Food {
 	 */
 	public Side ( String name ) {
 		this.name = name;
-		quantity = 1;
 	}
 	
 	/**

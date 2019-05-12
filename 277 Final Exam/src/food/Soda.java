@@ -14,7 +14,6 @@ public class Soda extends Food {
 	public Soda ( ) {
 		name = "Soda";
 		flavor = "";
-		quantity = 0;
 	}
 	
 	/**
@@ -22,10 +21,9 @@ public class Soda extends Food {
 	 * @param flavor - flavor of the soda
 	 * @param quantity - quantity of the soda
 	 */
-	public Soda ( String flavor, int quantity ) {
+	public Soda ( String flavor ) {
 		name = "Soda";
 		this.flavor = flavor;
-		this.quantity = quantity;
 	}
 	
 	/**
@@ -50,7 +48,7 @@ public class Soda extends Food {
 	 */
 	@Override
 	public String toString ( ) {
-		String str = name + " x " + quantity;
+		String str = name;
 		str += "\n" + "    " + flavor;
 		return str;
 	}

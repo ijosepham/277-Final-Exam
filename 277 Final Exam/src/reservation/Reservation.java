@@ -232,7 +232,8 @@ public class Reservation {
 		str += "\n" + "Date: " + date;
 		str += "\n" + "Start Time: " + startTime;
 		str += "\n" + "End Time: " + endTime;
-		
+		str += "\n" + "Meal Plan: " + mealPlan.getTier ( ) + " Tier";
+				
 		if ( isFinalized ) {
 			str += "\n" + "Finalized: True";
 			str += "\n" + "Confirmation Number: " + confNum;

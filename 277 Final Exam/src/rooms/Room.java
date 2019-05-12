@@ -266,6 +266,7 @@ public abstract class Room {
 				}
 			}
 			
+			/** dont needa go through reservations
 			// go through each reservation in the waitlist
 			for ( int i = 0; i < waitlist.size ( ); i++ ) {
 				// get the reservation
@@ -290,7 +291,9 @@ public abstract class Room {
 						return false;
 					}
 				}
+				
 			}
+			*/
 			System.out.println ( "Your room is available at the given date and time." );
 			reservations.add ( r );
 			return true;

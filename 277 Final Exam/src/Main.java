@@ -59,9 +59,9 @@ public class Main {
 		
 		System.out.println ( "Adding foods." );
 		mealPlan.addFood ( pizza );
-		mealPlan.addFood ( new IceCream ( "Strawberry Shortcake", 1 ) );
-		mealPlan.addFood ( new Wings ( "Lemon Pepper", true, 1 ) );
-		mealPlan.addFood ( new Soda ( "Canada Dry", 1 ) );
+		mealPlan.addFood ( new IceCream ( "Strawberry Shortcake" ) );
+		mealPlan.addFood ( new Wings ( "Lemon Pepper", true ) );
+		mealPlan.addFood ( new Soda ( "Canada Dry" ) );
 		System.out.println ( "Foods: " + "\n" + mealPlan );
 		
 		return mealPlan;

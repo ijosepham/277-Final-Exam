@@ -120,4 +120,12 @@ public class Card {
 		}
 		return false;
 	}
+	
+	public String toString ( ) {
+		String str = "Card Company: " + cardCompany;
+		str += "\n" + "Card Number: " + ccNumber;
+		str += "\n" + "CVC: " + securityCode;
+		str += "\n" + "ExpDate: " + expDate;
+		return str;
+	}
 }

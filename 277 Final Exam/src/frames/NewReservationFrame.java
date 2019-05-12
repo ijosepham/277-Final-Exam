@@ -5,6 +5,10 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import food.*;
+import rooms.*;
+import pizzas.*;
+import mealplans.*;
 import reservation.*;
 
 // needa finish save button listener
@@ -538,45 +542,169 @@ public class NewReservationFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
+			// guest info
 			String name = guestNameField.getText ( );
 			String address = guestAddressField.getText ( );
-			String phone = guestAddressField.getText ( );
+			String phone = guestPhoneField.getText ( );
 			String email = guestEmailField.getText ( );
 			
+			
+			// guest dob
 			int dobMonth = ( int ) dobMonthCombo.getSelectedItem ( );
 			int dobDay = ( int ) dobDayCombo.getSelectedItem ( );
 			int dobYear = ( int ) dobYearCombo.getSelectedItem ( );
 			Date dob = new Date ( dobMonth, dobDay, dobYear );
 			
+			// payment info
 			String cardCompany = ( String ) cardCompanyCombo.getSelectedItem ( );
 			String ccNumber = ccNumberField.getText ( );
 			String securityCode = cardSecurityField.getText ( );
 			
+			
+			// card exp date
 			int expMonth = ( int ) expMonthCombo.getSelectedItem ( );
 			int expYear = ( int ) expYearCombo.getSelectedItem ( );
 			Date expDate = new Date ( expMonth, expYear );
 			
 			Card paymentMethod = new Card ( cardCompany, ccNumber, securityCode, expDate );
+			System.out.println ( "Card: " + paymentMethod );
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
+			System.out.println ( "Guest: " + guest );
 			
-			
+			// room date
 			int roomMonth = ( int ) roomMonthCombo.getSelectedItem ( );
 			int roomDay = ( int ) roomDayCombo.getSelectedItem ( );
 			Date roomDate = new Date ( roomMonth, roomDay, 2019 );
+			System.out.println ( "Room Date: " + roomDate );
 			
-			int startHour = ( int ) startHourCombo.getSelectedItem ( );
-			int startMin = ( int ) startMinCombo.getSelectedItem ( );
+			// room start time
+			int startHour = Integer.parseInt ( ( String ) startHourCombo.getSelectedItem ( ) );
+			int startMin = Integer.parseInt ( ( String ) startMinCombo.getSelectedItem ( ) );
 			Time startTime = new Time ( startHour, startMin );
+			System.out.println ( "Start time: " + startTime );
 			
-			int endHour = ( int ) endHourCombo.getSelectedItem ( );
-			int endMin = ( int ) endMinCombo.getSelectedItem ( );
+			// room end time
+			int endHour = Integer.parseInt ( ( String ) endHourCombo.getSelectedItem ( ) );
+			int endMin = Integer.parseInt ( ( String ) endMinCombo.getSelectedItem ( ) );
 			Time endTime = new Time ( endHour, endMin );
+			System.out.println ( "End time: " + endTime );
+			
+			// create a meal plan according to what they chose
+			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
+			MealPlan mealPlan = new BasicMealPlan ( );
+			if ( meal.contains ( "Basic" ) ) {
+				mealPlan = new BasicMealPlan ( );
+			} else if ( meal.contains ( "Bronze" ) ) {
+				mealPlan = new BronzeMealPlan ( );
+			} else if ( meal.contains ( "Silver" ) ) {
+				mealPlan = new SilverMealPlan ( );
+			} else if ( meal.contains ( "Gold" ) ) {
+				mealPlan = new GoldMealPlan ( );
+			} else if ( meal.contains ( "Platinum" ) ) {
+				mealPlan = new PlatinumMealPlan ( );
+			}
 			
 			
-			// Roov 
+			// adding all pizzas to the meal plan
+			Pizza pizza;
+			JPanel panel = new JPanel ( ); // pizza1, pizza2, pizza3
+			Component [ ] toppings; // checkboxes of the pizza
+			JCheckBox topping = new JCheckBox ( ); // specific topping
 			
-			// Reservation r = new Reservation ( "" );
+			// go through each pizza on the panel
+			for ( int i = 0; i < pizzaPanel.getComponentCount ( ); i++ ) {
+				pizza = new Pizza ( );
+				panel = ( JPanel ) pizzaPanel.getComponent ( i );
+				toppings = ( Component [ ] ) panel.getComponents ( );
+
+				
+				// go through each topping on the specific pizza
+				for ( int j = 1; j < 11; j++ ) {
+					topping = ( JCheckBox ) toppings [ j ];
+					if ( topping.isSelected ( ) ) { // check if its checked
+						if ( topping.getText ( ).contains ( "Cheese" ) ) {
+							pizza = new Cheese ( pizza );
+						} else if ( topping.getText ( ).contains ( "Pepperoni" ) ) {
+							pizza = new Pepperoni ( pizza );
+						} else if ( topping.getText ( ).contains ( "Ham" ) ) {
+							pizza = new Ham ( pizza );
+						} else if ( topping.getText ( ).contains ( "Jalapeno" ) ) {
+							pizza = new Jalapeno ( pizza );
+						} else if ( topping.getText ( ).contains ( "Sausage" ) ) {
+							pizza = new Sausage ( pizza );
+						} else if ( topping.getText ( ).contains ( "Mushroom" ) ) {
+							pizza = new Mushroom ( pizza );
+						} else if ( topping.getText ( ).contains ( "Pineapple" ) ) {
+							pizza = new Pineapple ( pizza );
+						} else if ( topping.getText ( ).contains ( "Bell Pepper" ) ) {
+							pizza = new BellPepper ( pizza );
+						} else if ( topping.getText ( ).contains ( "Onion" ) ) {
+							pizza = new Onion ( pizza );
+						} else if ( topping.getText ( ).contains ( "Garlic Chicken" ) ) {
+							pizza = new GarlicChicken ( pizza );
+						}
+					}
+				}
+				mealPlan.addFood ( pizza );
+			}
+			
+			
+			// adding sodas
+			String flavor = "";
+			JComboBox < String > flavors = new JComboBox < String > ( );
+
+			// go through each soda on the panel
+			for ( int i = 0; i < sodaPanel.getComponentCount ( ); i++ ) {
+				panel = ( JPanel ) sodaPanel.getComponent ( i ); // get sodapanel1/2/3
+				flavors = ( JComboBox < String > ) panel.getComponent ( 1 ); // get the combobox
+				flavor = ( String ) flavors.getSelectedItem ( ); // get the flavor slected
+			
+				mealPlan.addFood ( new Soda ( flavor ) );
+			}
+			
+			
+			// add sides
+			if ( mealPlan instanceof SilverMealPlan ) { // silver meal plan only chooses one side
+				flavors = ( JComboBox < String > ) sidesPanel.getComponent ( 1 ); // get the combo box
+				flavor =  ( String ) flavors.getSelectedItem ( ); // get the selected item
+				
+				mealPlan.addFood ( new Side ( flavor ) );
+			} // gold+ automatically add the sides inside their constructors
+			
+			
+			// add wings
+			JComboBox < String > bones = new JComboBox < String > ( );
+			String bone = "";
+			// go through each wing on the panel
+			for ( int i = 0; i < wingsPanel.getComponentCount ( ); i++ ) {
+				panel = ( JPanel ) wingsPanel.getComponent ( i ); // get wingspanel1/2/3
+				flavors = ( JComboBox < String > ) panel.getComponent ( 1 ); // get the flavors box
+				flavor = ( String ) flavors.getSelectedItem ( ); // get the flavor slected
+			
+				bones = ( JComboBox < String > ) panel.getComponent ( 2 ); // get the bones box
+				bone = ( String ) bones.getSelectedItem ( );
+				
+				if ( bone.contains ( "In" ) ) { // if bone in
+					mealPlan.addFood ( new Wings ( flavor, true ) );
+				} else { // if boneless
+					mealPlan.addFood ( new Wings ( flavor, false ) );
+				}
+			}
+			
+			
+			// add ice cream
+			// go through each ice cream on the panel
+			for ( int i = 0; i < iceCreamPanel.getComponentCount ( ); i++ ) {
+				panel = ( JPanel ) iceCreamPanel.getComponent ( i ); // get icecreampanel1/2/3
+				flavors = ( JComboBox < String > ) panel.getComponent ( 1 ); // get the combobox
+				flavor = ( String ) flavors.getSelectedItem ( ); // get the flavor slected
+			
+				mealPlan.addFood ( new IceCream ( flavor ) );
+			}
+			System.out.println ( "Meal plan: " + mealPlan );
+			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, new KaraokeLounge ( ), mealPlan );
+			System.out.println ( r );
 		}
 	}
 	
