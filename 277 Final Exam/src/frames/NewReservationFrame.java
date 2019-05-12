@@ -32,7 +32,10 @@ public class NewReservationFrame extends JFrame {
 	JCheckBox contactPhoneCheck;
 	JCheckBox contactEmailCheck;
 	
+	JPanel roomPanel;
 	JComboBox < String > roomTypeCombo;
+	JPanel upgradesPanel;
+	JPanel decorationPanel;
 	
 	JPanel mealPlanPanel;
 	JComboBox < String > mealPlanCombo;
@@ -163,7 +166,7 @@ public class NewReservationFrame extends JFrame {
 		
 		
 		// JPanel planel = new JPanel ( ); // its a pun for plan panel hehe // man i didnt getta use this
-		JPanel roomPanel = new JPanel ( );
+		roomPanel = new JPanel ( );
 		
 		roomPanel.add ( new JLabel ( "Room Type: " ) );
 		String [ ] roomTypes = { "Aqua World", "Medium Party Room", "Small Party Room", "Billiards Lounge", "Karaoke Lounge" };
@@ -212,12 +215,17 @@ public class NewReservationFrame extends JFrame {
 		roomPanel.add ( endHourCombo );
 		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		
+		upgradesPanel = new JPanel ( );
+		setUpgradesPanel ( "Aqua Party" );
+		decorationPanel = new JPanel ( );
+		
+		upgradesPanel.add ( decorationPanel );
 		
 		mealPlanPanel = new JPanel ( );
 		
 		mealPlanPanel.add ( new JLabel ( "Meal Plan: " ) );
 		
-		String [ ] mealPlans = { "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+		String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
 		mealPlanCombo = new JComboBox < String > ( mealPlans );
 		
 		mealPlanCombo.addActionListener ( new MealPlanListener ( ) );
@@ -225,19 +233,19 @@ public class NewReservationFrame extends JFrame {
 		
 		pizzaPanel = new JPanel ( );
 		pizzaPanel.setLayout ( new BoxLayout ( pizzaPanel, BoxLayout.Y_AXIS ) );
-		createPizzaPanel ( 3 );
+		setPizzaPanel ( 0 );
 		
 		sodaPanel = new JPanel ( );
-		createSodaPanel ( 3 );
+		setSodaPanel ( 0 );
 		
 		sidesPanel = new JPanel ( );
-		createSidesPanel ( 0 );
+		setSidesPanel ( 0 );
 		
 		wingsPanel = new JPanel ( );
-		createWingsPanel ( 0 );
+		setWingsPanel ( 0 );
 		
 		iceCreamPanel = new JPanel ( );
-		createIceCreamPanel ( 0 );
+		setIceCreamPanel ( 0 );
 
 		
 		JPanel contactPanel = new JPanel ( );
@@ -249,8 +257,13 @@ public class NewReservationFrame extends JFrame {
 		
 		JPanel buttonPanel = new JPanel ( );
 		
-		buttonPanel.add ( saveReservationButton = new JButton ( "Save Reservation" ) );
-		buttonPanel.add ( cancelReservationButton = new JButton ( "Cancel Reservation" ) );
+		saveReservationButton = new JButton ( "Save Reservation" );
+		saveReservationButton.addActionListener ( new SaveButtonListener ( ) );
+		buttonPanel.add ( saveReservationButton );
+		
+		cancelReservationButton = new JButton ( "Cancel Reservation" );
+		cancelReservationButton.addActionListener ( new CancelButtonListener ( ) );
+		buttonPanel.add ( cancelReservationButton );
 		
 		panel.add ( titlePanel );
 		panel.add ( guestPanel );
@@ -263,7 +276,43 @@ public class NewReservationFrame extends JFrame {
 		this.add ( panel );
 	}
 	
-	public void createPizzaPanel ( int amount ) {
+	public void setUpgradesPanel ( String roomType ) {
+		if ( roomType.contains ( "Party" ) ) {
+			if ( upgradesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
+				
+				if ( roomType.contains ( "Aqua" ) ) {
+					upgradesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
+				}
+				
+				upgradesPanel.add ( new JCheckBox ( "Party Favor Bags" ) );
+				upgradesPanel.add ( new JCheckBox ( "Projector" ) );
+				
+				JCheckBox upgradeBox = new JCheckBox ( "Party Decoration Set-Up" );
+				upgradeBox.addActionListener ( new UpgradeListener ( ) );
+				
+				upgradesPanel.add ( upgradeBox );
+				
+			} else { // either has 3/4
+				JCheckBox checkBox = ( JCheckBox ) upgradesPanel.getComponent ( 0 ); // get the first check box
+				
+				if ( checkBox.getText ( ).contains ( "Towel" ) ) { // if its towel
+					if ( ! roomType.contains ( "Aqua" ) ) { // and its not aqua world
+						upgradesPanel.remove ( 0 ); // remove it
+					}
+				} else { // if there's no towel
+					if ( roomType.contains ( "Aqua" ) ) { // and its aqua
+						upgradesPanel.add ( new JCheckBox ( "Towel Rentals" ), 0 ); // add it
+					}
+				}
+			}
+		} else { // if its the lounge, thers no upgrades available
+			upgradesPanel.removeAll ( );
+		}
+		
+		roomPanel.add ( upgradesPanel );
+	}
+	
+	public void setPizzaPanel ( int amount ) {
 		// reset the pizza panel
 		int count = pizzaPanel.getComponentCount ( );
 		
@@ -356,7 +405,7 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 	
-	public void createSodaPanel ( int amount ) {
+	public void setSodaPanel ( int amount ) {
 		// reset the wings panel
 		int count = sodaPanel.getComponentCount ( );
 		
@@ -379,7 +428,7 @@ public class NewReservationFrame extends JFrame {
 		mealPlanPanel.add ( sodaPanel );
 	}
 	
-	public void createWingsPanel ( int amount ) {
+	public void setWingsPanel ( int amount ) {
 		// reset the wings panel
 		int count = wingsPanel.getComponentCount ( );
 		
@@ -406,7 +455,7 @@ public class NewReservationFrame extends JFrame {
 		mealPlanPanel.add ( wingsPanel );
 	}
 	
-	public void createIceCreamPanel ( int amount ) {
+	public void setIceCreamPanel ( int amount ) {
 		// reset the wings panel
 		int count = iceCreamPanel.getComponentCount ( );
 		
@@ -431,7 +480,7 @@ public class NewReservationFrame extends JFrame {
 		mealPlanPanel.add ( iceCreamPanel );
 	}
 	
-	public void createSidesPanel ( int amount ) {
+	public void setSidesPanel ( int amount ) {
 		// reset the wings panel
 		sidesPanel.removeAll ( );
 		
@@ -482,9 +531,10 @@ public class NewReservationFrame extends JFrame {
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
 			
-			//Roov 
 			
-			//Reservation r = new Reservation ( "" );
+			// Roov 
+			
+			// Reservation r = new Reservation ( "" );
 		}
 	}
 	
@@ -498,7 +548,48 @@ public class NewReservationFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			System.exit ( 0 );
+			// get the frame you clciekd in and clsoe it
+			Component comp = ( Component ) click.getSource ( );
+			JFrame frame = ( JFrame ) SwingUtilities.getRoot ( comp );
+			
+			frame.dispose ( );
+			
+			// open the new frame
+			new MainFrame ( );
+		}
+	}
+	
+	class UpgradeListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			JCheckBox box = ( JCheckBox ) click.getSource ( );
+			if ( box.isSelected ( ) ) {
+				JCheckBox hawaiian = ( new JCheckBox ( "Hawaiian" ) );
+				hawaiian.addActionListener ( new DecorationListener ( ) );
+				
+				JCheckBox seaLife = ( new JCheckBox ( "Sea Life" ) );
+				seaLife.addActionListener ( new DecorationListener ( ) );
+				
+				JCheckBox jungle = ( new JCheckBox ( "Jungle" ) );
+				jungle.addActionListener ( new DecorationListener ( ) );
+				
+				JCheckBox space = ( new JCheckBox ( "Space" ) );
+				space.addActionListener ( new DecorationListener ( ) );
+				
+				JCheckBox modern = ( new JCheckBox ( "Modern" ) );
+				modern.addActionListener ( new DecorationListener ( ) );
+				
+				decorationPanel.add ( hawaiian );
+				decorationPanel.add ( seaLife );
+				decorationPanel.add ( jungle );
+				decorationPanel.add ( space );
+				decorationPanel.add ( modern );
+			} else {
+				decorationPanel.removeAll ( );
+			}
+			mealPlanPanel.revalidate ( );
+			mealPlanPanel.repaint ( );
 		}
 	}
 	
@@ -506,12 +597,20 @@ public class NewReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			if ( ( ( String ) roomTypeCombo.getSelectedItem ( ) ).contains ( "Lounge" ) ) { // if it's a lounge
+			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			if ( roomType.contains ( "Lounge" ) ) { // if it's a lounge
 				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) ); // change to dusplay lounge hours
 				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) );
+				setUpgradesPanel ( "Lounge" );
 			} else { // else its a party room
 				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) ); // change to dusplay party hours
 				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) );
+				
+				if ( roomType.contains ( "Aqua" ) ) {
+					setUpgradesPanel ( "Aqua Party" );
+				} else {
+					setUpgradesPanel ( "Party" );
+				}
 			}
 		}
 	}
@@ -631,51 +730,80 @@ public class NewReservationFrame extends JFrame {
 		public void actionPerformed ( ActionEvent click ) {
 			String selected = ( String ) mealPlanCombo.getSelectedItem ( );
 			// depending on what meal plan, allow up to a certain number of foods
+			if ( selected.contains ( "No" ) ) {
+				setPizzaPanel ( 0 ); 
+				setSodaPanel ( 0 ); 
+				setWingsPanel ( 0 );
+				setIceCreamPanel ( 0 ); 
+				setSidesPanel ( 0 );
+			}
 			if ( selected.contains ( "Basic" ) ) {
-				createPizzaPanel ( 3 ); // 3 pizzass
+				setPizzaPanel ( 3 ); // 3 pizzass
 				validateToppings ( 1 ); // make sure only one topping is checked
-				createSodaPanel ( 3 ); // 3 sodas
-				createWingsPanel ( 0 ); // no wings
-				createIceCreamPanel ( 0 ); // no ice cream
-				createSidesPanel ( 0 ); // no sides
+				setSodaPanel ( 3 ); // 3 sodas
+				setWingsPanel ( 0 ); // no wings
+				setIceCreamPanel ( 0 ); // no ice cream
+				setSidesPanel ( 0 ); // no sides
 				
 			} else if ( selected.contains ( "Bronze" ) ) {
-				createPizzaPanel ( 3 );
+				setPizzaPanel ( 3 );
 				validateToppings ( 2 );
-				createSodaPanel ( 5 );
-				createWingsPanel ( 0 );
-				createIceCreamPanel ( 0 );
-				createSidesPanel ( 1 );
+				setSodaPanel ( 5 );
+				setWingsPanel ( 0 );
+				setIceCreamPanel ( 0 );
+				setSidesPanel ( 1 );
 				
 			} else if ( selected.contains ( "Silver" ) ) {
-				createPizzaPanel ( 3 );
+				setPizzaPanel ( 3 );
 				validateToppings ( 3 );
-				createSodaPanel ( 5 );
-				createWingsPanel ( 0 );
-				createIceCreamPanel ( 0 );
-				createSidesPanel ( 2 );
+				setSodaPanel ( 5 );
+				setWingsPanel ( 0 );
+				setIceCreamPanel ( 0 );
+				setSidesPanel ( 2 );
 				
 			} else if ( selected.contains ( "Gold" ) ) {
-				createPizzaPanel ( 3 );
+				setPizzaPanel ( 3 );
 				validateToppings ( 3 );
-				createSodaPanel ( 5 );
-				createWingsPanel ( 2 );
-				createIceCreamPanel ( 0 );
-				createSidesPanel ( 2 );
+				setSodaPanel ( 5 );
+				setWingsPanel ( 2 );
+				setIceCreamPanel ( 0 );
+				setSidesPanel ( 2 );
 				
 			} else if ( selected.contains ( "Platinum" ) ) {
-				createPizzaPanel ( 4 );
+				setPizzaPanel ( 4 );
 				validateToppings ( 4 );
-				createSodaPanel ( 5 );
-				createWingsPanel ( 2 );
-				createIceCreamPanel ( 2 );
-				createSidesPanel ( 2 );
+				setSodaPanel ( 5 );
+				setWingsPanel ( 2 );
+				setIceCreamPanel ( 2 );
+				setSidesPanel ( 2 );
 				
 			}
+			mealPlanPanel.revalidate ( );
 			mealPlanPanel.repaint ( );
-			mealPlanPanel.invalidate();
-			mealPlanPanel.validate();
-			mealPlanPanel.repaint();
+		}
+	}
+	
+	class DecorationListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			int count = 0; // count of decorations chosen
+			JCheckBox decoration = new JCheckBox ( );
+			
+			for ( int i = 0; i < 5; i++ ) { // go through each decoration and count how manya re checked
+				decoration = ( JCheckBox ) decorationPanel.getComponent ( i ) ;
+				if ( decoration.isSelected ( ) ) {
+					count++;
+				}
+			}
+			
+			// get the checkbox clicked
+			JCheckBox comp = ( JCheckBox ) click.getSource ( );
+			
+			// more than one box is check, uncheck one of them
+			if ( count > 1 ) { 
+				comp.setSelected ( false ); // dont allow them to check any more
+			}
 		}
 	}
 	
@@ -684,7 +812,7 @@ public class NewReservationFrame extends JFrame {
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
 			// get the checkbox clicked
-			Component comp = ( Component ) click.getSource ( );
+			JCheckBox comp = ( JCheckBox ) click.getSource ( );
 			
 			// get the specific pizza panel clicked, eg pizza1/pizza2
 			JPanel panel = ( JPanel ) comp.getParent ( );
@@ -706,23 +834,23 @@ public class NewReservationFrame extends JFrame {
 			String mealPlan = ( String ) mealPlanCombo.getSelectedItem ( );
 			if ( mealPlan.contains( "Basic" ) ) { // if its a basic meal plan, you cna only have one topping
 				if ( count > 1 ) { 
-					( ( JCheckBox ) comp ).setSelected ( false ); // dont allow them to check any more
+					comp.setSelected ( false ); // dont allow them to check any more
 				}
 			} else if ( mealPlan.contains( "Bronze" ) ) {
 				if ( count > 2 ) {
-					( ( JCheckBox ) comp ).setSelected ( false );
+					comp.setSelected ( false );
 				}
 			} else if ( mealPlan.contains( "Silver" ) ) {
 				if ( count > 3 ) {
-					( ( JCheckBox ) comp ).setSelected ( false );
+					comp.setSelected ( false );
 				}
 			} else if ( mealPlan.contains( "Gold" ) ) {
 				if ( count > 3 ) {
-					( ( JCheckBox ) comp ).setSelected ( false );
+					comp.setSelected ( false );
 				}
 			} else if ( mealPlan.contains( "Plat" ) ) {
 				if ( count > 4 ) {
-					( ( JCheckBox ) comp ).setSelected ( false );
+					comp.setSelected ( false );
 				}
 			}
 		}
