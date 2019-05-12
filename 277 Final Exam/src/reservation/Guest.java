@@ -22,6 +22,11 @@ public class Guest {
 	private String email;
 	
 	/**
+	 * DOB of the guest
+	 */
+	private Date dateOfBirth;
+	
+	/**
 	 * payment method of the guest
 	 */
 	private Card paymentMethod;
@@ -39,6 +44,7 @@ public class Guest {
 		address = "";
 		phone = "";
 		email = "";
+		dateOfBirth = new Date ( );
 		paymentMethod = new Card ( );
 		dateOfBirth = new Date ( );
 	}
@@ -49,7 +55,11 @@ public class Guest {
 	 * @param address - address of guest
 	 * @param phone - phone number of guest
 	 * @param email - email of guest
+<<<<<<< HEAD
 	 * @param dateOfBirth - DOB of guest
+=======
+	 * @param dateOfBirth - date of birth oft he guest
+>>>>>>> branch 'master' of https://github.com/ijosepham/277-Final-Exam.git
 	 * @param paymentMethod - payment method of guest
 	 */
 	public Guest ( String name, String address, String phone, String email, Date dateOfBirth, Card paymentMethod ) {
@@ -94,6 +104,7 @@ public class Guest {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * sets the DOB of the guest
 	 * @param dateOfBirth - date of birth of the guest
 	 */
@@ -101,6 +112,15 @@ public class Guest {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+=======
+	 * sets the date of birth of the guesty
+	 * @param dateOfBirth - date of birth of the guets
+	 */
+	public void setDateOfBirth ( Date dateOfBirth ) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	
+>>>>>>> branch 'master' of https://github.com/ijosepham/277-Final-Exam.git
 	/**
 	 * sets the payment method of guest
 	 * @param paymentMethod - payment method of guest
@@ -142,10 +162,17 @@ public class Guest {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * returns date of birth
 	 * @return DOB
 	 */
 	public Date getDateOfBirth() {
+=======
+	 * returns the dob of the guest
+	 * @return dob of the guest
+	 */
+	public Date getDateOfBirth ( ) {
+>>>>>>> branch 'master' of https://github.com/ijosepham/277-Final-Exam.git
 		return dateOfBirth;
 	}
 	
@@ -166,6 +193,7 @@ public class Guest {
 		str += "\n" + "Address: " + address;
 		str += "\n" + "Phone: " + phone;
 		str += "\n" + "Email: " + email;
+		str += "\n" + "DOB: " + dateOfBirth;
 		str += "\n" + "Payment Method: " + paymentMethod.getCardCompany ( );
 		return str;
 	}
