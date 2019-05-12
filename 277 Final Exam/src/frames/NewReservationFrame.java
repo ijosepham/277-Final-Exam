@@ -34,10 +34,11 @@ public class NewReservationFrame extends JFrame {
 	
 	JPanel roomPanel;
 	JComboBox < String > roomTypeCombo;
-	JPanel upgradesPanel;
+	JPanel themesPanel;
 	
 	JPanel mealPlanPanel;
 	JComboBox < String > mealPlanCombo;
+	JCheckBox mealUpgradeBox;
 	JPanel pizzaPanel;
 	JPanel wingsPanel;
 	JPanel sodaPanel;
@@ -214,18 +215,24 @@ public class NewReservationFrame extends JFrame {
 		roomPanel.add ( endHourCombo );
 		roomPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		
-		upgradesPanel = new JPanel ( );
-		setUpgradesPanel ( "Aqua Party" );
+		themesPanel = new JPanel ( );
+		setThemesPanel ( "Aqua Party" );
 		
 		mealPlanPanel = new JPanel ( );
 		
+		
+		
 		mealPlanPanel.add ( new JLabel ( "Meal Plan: " ) );
 		
-		String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+		String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan" };
 		mealPlanCombo = new JComboBox < String > ( mealPlans );
 		mealPlanCombo.setSelectedIndex ( 1 );
 		mealPlanCombo.addActionListener ( new MealPlanListener ( ) );
 		mealPlanPanel.add ( mealPlanCombo );
+		
+		mealUpgradeBox = new JCheckBox ( "Upgrade" );
+		mealUpgradeBox.addActionListener ( new UpgradeListener ( ) );
+		mealPlanPanel.add ( mealUpgradeBox );
 		
 		pizzaPanel = new JPanel ( );
 		pizzaPanel.setLayout ( new BoxLayout ( pizzaPanel, BoxLayout.Y_AXIS ) );
@@ -272,39 +279,40 @@ public class NewReservationFrame extends JFrame {
 		this.add ( panel );
 	}
 	
-	public void setUpgradesPanel ( String roomType ) {
+	public void setThemesPanel ( String roomType ) {
 		if ( roomType.contains ( "Party" ) ) {
-			if ( upgradesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
+			if ( themesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
+				themesPanel.add ( new JLabel ( "Upgrades: " ) );
 				if ( roomType.contains ( "Aqua" ) ) {
-					upgradesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
+					themesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
 				}
 				
-				upgradesPanel.add ( new JCheckBox ( "Party Favor Bags" ) );
-				upgradesPanel.add ( new JCheckBox ( "Projector" ) );
+				themesPanel.add ( new JCheckBox ( "Party Favor Bags" ) );
+				themesPanel.add ( new JCheckBox ( "Projector" ) );
 				
-				JCheckBox upgradeBox = new JCheckBox ( "Party Decoration Set-Up" );
-				upgradeBox.addActionListener ( new UpgradeListener ( ) );
+				JCheckBox themeBox = new JCheckBox ( "Party Decoration Set-Up" );
+				themeBox.addActionListener ( new ThemeListener ( ) );
 				
-				upgradesPanel.add ( upgradeBox );
+				themesPanel.add ( themeBox );
 				
 			} else { // either has 3/4
-				JCheckBox checkBox = ( JCheckBox ) upgradesPanel.getComponent ( 0 ); // get the first check box
+				JCheckBox checkBox = ( JCheckBox ) themesPanel.getComponent ( 1 ); // get the first check box
 				
 				if ( checkBox.getText ( ).contains ( "Towel" ) ) { // if its towel
 					if ( ! roomType.contains ( "Aqua" ) ) { // and its not aqua world
-						upgradesPanel.remove ( 0 ); // remove it
+						themesPanel.remove ( 1 ); // remove it
 					}
 				} else { // if there's no towel
 					if ( roomType.contains ( "Aqua" ) ) { // and its aqua
-						upgradesPanel.add ( new JCheckBox ( "Towel Rentals" ), 0 ); // add it
+						themesPanel.add ( new JCheckBox ( "Towel Rentals" ), 1 ); // add it
 					}
 				}
 			}
 		} else { // if its the lounge, thers no upgrades available
-			upgradesPanel.removeAll ( );
+			themesPanel.removeAll ( );
 		}
 		
-		roomPanel.add ( upgradesPanel );
+		roomPanel.add ( themesPanel );
 	}
 	
 	public void setPizzaPanel ( int amount ) {
@@ -554,7 +562,68 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 	
-	class UpgradeListener implements ActionListener
+	public void setUpgradePanel ( ) {
+		if ( ! mealUpgradeBox.isSelected ( ) ) { //
+			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			if ( roomType.contains ( "Lounge" ) ) { // lounge room
+				String [ ] mealPlans = { "No Meal Plan" };	
+				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+				
+				setPizzaPanel ( 0 ); // 3 pizzass
+				setSodaPanel ( 0 ); // 3 sodas
+				setWingsPanel ( 0 ); // no wings
+				setIceCreamPanel ( 0 ); // no ice cream
+				setSidesPanel ( 0 ); // no sides
+				
+			} else { // party room
+				String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan" };
+				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+				
+				setPizzaPanel ( 3 ); // 3 pizzass
+				validateToppings ( 1 ); // make sure only one topping is checked
+				setSodaPanel ( 3 ); // 3 sodas
+				setWingsPanel ( 0 ); // no wings
+				setIceCreamPanel ( 0 ); // no ice cream
+				setSidesPanel ( 0 ); // no sides
+			}
+		}
+	}
+	
+	class UpgradeListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			if ( mealUpgradeBox.isSelected ( ) ) { // if they chose to upgrade, then make it them available
+				String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+			} else { //
+				String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+				if ( roomType.contains ( "Lounge" ) ) { // lounge room
+					String [ ] mealPlans = { "No Meal Plan" };	
+					mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+					
+					setPizzaPanel ( 0 ); // 3 pizzass
+					setSodaPanel ( 0 ); // 3 sodas
+					setWingsPanel ( 0 ); // no wings
+					setIceCreamPanel ( 0 ); // no ice cream
+					setSidesPanel ( 0 ); // no sides
+					
+				} else { // party room
+					String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan" };
+					mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+					
+					setPizzaPanel ( 3 ); // 3 pizzass
+					validateToppings ( 1 ); // make sure only one topping is checked
+					setSodaPanel ( 3 ); // 3 sodas
+					setWingsPanel ( 0 ); // no wings
+					setIceCreamPanel ( 0 ); // no ice cream
+					setSidesPanel ( 0 ); // no sides
+				}
+			}
+		}
+	}
+	
+	class ThemeListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
@@ -563,12 +632,12 @@ public class NewReservationFrame extends JFrame {
 				String [ ] themes = { "Hawaiian", "Sea Life", "Jungle", "Space", "Modern" };
 				JComboBox < String > themeCombo = new JComboBox < String > ( themes );
 				
-				upgradesPanel.add ( themeCombo );
+				themesPanel.add ( themeCombo );
 			} else {
-				upgradesPanel.remove ( upgradesPanel.getComponentCount ( ) - 1 );
+				themesPanel.remove ( themesPanel.getComponentCount ( ) - 1 );
 			}
-			upgradesPanel.revalidate ( );
-			upgradesPanel.repaint ( );
+			themesPanel.revalidate ( );
+			themesPanel.repaint ( );
 		}
 	}
 	
@@ -577,29 +646,24 @@ public class NewReservationFrame extends JFrame {
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
 			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			setUpgradePanel ( );
 			if ( roomType.contains ( "Lounge" ) ) { // if it's a lounge
 				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) ); // change to dusplay lounge hours
 				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( loungeHours ) );
-				setUpgradesPanel ( "Lounge" );
+				setThemesPanel ( "Lounge" );
 			} else { // else its a party room
 				startHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) ); // change to dusplay party hours
 				endHourCombo.setModel ( new DefaultComboBoxModel < String > ( partyHours ) );
 				
 				if ( roomType.contains ( "Aqua" ) ) {
-					setUpgradesPanel ( "Aqua Party" );
+					setThemesPanel ( "Aqua Party" );
 				} else {
-					setUpgradesPanel ( "Party" );
+					setThemesPanel ( "Party" );
 				}
 				
 				// if they're at the default no meal plan, set it to basic cause party rooms come with a basic meal plan
 				if ( ( ( String ) mealPlanCombo.getSelectedItem ( ) ).contains ( "No" ) ) {
 					mealPlanCombo.setSelectedIndex ( 1 );
-					setPizzaPanel ( 3 ); // 3 pizzass
-					validateToppings ( 1 ); // make sure only one topping is checked
-					setSodaPanel ( 3 ); // 3 sodas
-					setWingsPanel ( 0 ); // no wings
-					setIceCreamPanel ( 0 ); // no ice cream
-					setSidesPanel ( 0 ); // no sides
 				}
 			}
 			roomPanel.revalidate ( );
