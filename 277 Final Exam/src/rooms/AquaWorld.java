@@ -1,7 +1,5 @@
 package rooms;
 
-import reservation.*;
-
 public class AquaWorld extends Room {
 	/**
 	 * single instance of aqua world

@@ -1,15 +1,11 @@
 package mealplans;
 
-import food.Side;
-
 public class SilverMealPlan extends MealPlan {
 	/**
 	 * default constructor
 	 */
 	public SilverMealPlan ( ) {
 		tier = "Silver";
-		foods.add ( new Side ( "Bread-Sticks" ) );
-		foods.add ( new Side ( "Salad" ) );
 	}
 	
 	/**

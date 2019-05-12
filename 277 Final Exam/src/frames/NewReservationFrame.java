@@ -670,7 +670,10 @@ public class NewReservationFrame extends JFrame {
 				flavor =  ( String ) flavors.getSelectedItem ( ); // get the selected item
 				
 				mealPlan.addFood ( new Side ( flavor ) );
-			} // gold+ automatically add the sides inside their constructors
+			} else if ( ! ( mealPlan instanceof BasicMealPlan ) ) { // every other beisde basic and bronze get both
+				mealPlan.addFood ( new Side ( "Breadsticks" ) );
+				mealPlan.addFood ( new Side ( "Salad" ) );
+			}
 			
 			
 			// add wings
@@ -1087,5 +1090,6 @@ public class NewReservationFrame extends JFrame {
 	
 	public static void main ( String [ ] args ) {
 		NewReservationFrame f = new NewReservationFrame ( );
+		f.setVisible ( true );
 	}
 }

@@ -1,7 +1,4 @@
 package rooms;
-
-import reservation.*;
-
 public class BilliardsLounge extends Room {
 	/**
 	 * represents restrictions of the billiards lounge1

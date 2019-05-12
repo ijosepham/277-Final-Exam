@@ -1,7 +1,5 @@
 package mealplans;
 
-import food.Side;
-
 public class GoldMealPlan extends MealPlan {
 	
 	/**
@@ -9,8 +7,6 @@ public class GoldMealPlan extends MealPlan {
 	 */
 	public GoldMealPlan ( ) {
 		tier = "Gold";
-		foods.add ( new Side ( "Bread-Sticks" ) );
-		foods.add ( new Side ( "Salad" ) );
 	}
 	
 	/**

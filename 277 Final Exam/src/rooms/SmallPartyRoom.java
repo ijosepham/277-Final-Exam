@@ -1,7 +1,5 @@
 package rooms;
 
-import reservation.*;
-
 public class SmallPartyRoom extends Room {
 	/**
 	 * default consturctor

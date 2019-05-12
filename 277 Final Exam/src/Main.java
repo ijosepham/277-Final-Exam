@@ -19,8 +19,8 @@ import pizzas.*;
 public class Main {
 	public static void main ( String [ ] args ) {
 		//Room aquaWorld = aquaWorldTester ( );
-		Pizza pizza = pizzaTester ( );
-		MealPlan mealPlan = mealPlanTester ( pizza );
+		//Pizza pizza = pizzaTester ( );
+		//MealPlan mealPlan = mealPlanTester ( pizza );
 		waitlistTester ( );
 	}
 	
@@ -29,8 +29,8 @@ public class Main {
 		System.out.println ( "Create an Aqua World." );
 		Room aquaWorld = RoomFactory.createRoom ( new AquaWorldFactory ( ) );
 		
-		System.out.println ( "Create a second Aqua World." );
-		Room aquaWorld1 = RoomFactory.createRoom ( new AquaWorldFactory ( ) );
+		//System.out.println ( "Create a second Aqua World." );
+		//Room aquaWorld1 = RoomFactory.createRoom ( new AquaWorldFactory ( ) );
 		
 		System.out.println ( "Change capacity of Aqua World to 1234124312." );
 		aquaWorld.setCapacity ( 1234124312 );

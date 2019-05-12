@@ -1,7 +1,5 @@
 package rooms;
 
-import reservation.*;
-
 public class KaraokeLounge extends Room {
 	/**
 	 * default constructor

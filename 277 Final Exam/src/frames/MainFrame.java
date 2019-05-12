@@ -199,33 +199,33 @@ public class MainFrame extends JFrame {
 	    container.add ( p );
 	  }
 
-	 private void addMealPlanDescription ( Container container, String imgDir, String mealPlanName, String mealPlanDesc ) {
-	 	JPanel p = new JPanel ( );
-		 	
-	 	ImageIcon icon = new ImageIcon ( imgDir );
-	 	JLabel picture = new JLabel ( mealPlanName, icon, JLabel.CENTER );
-	 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
-	 	
-	 	//Set the position of the text, relative to the icon:
-	 	picture.setVerticalTextPosition ( JLabel.TOP );
-	 	picture.setHorizontalTextPosition ( JLabel.CENTER );
-	 	
-	 	//Set border around 
-	 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
-	 	
-	 	p.add ( picture );
-	 	
-	 	JTextArea description = new JTextArea ( 5,10 );
-	 	description.append ( mealPlanDesc );
-	 	description.setEditable ( false );
-	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
-	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
-		p.add ( description );
-		
-	    JButton bookButton = new JButton ( "Book Now" );
-	    p.add ( bookButton );
-	    container.add ( p );
-	  }
+//	 private void addMealPlanDescription ( Container container, String imgDir, String mealPlanName, String mealPlanDesc ) {
+//	 	JPanel p = new JPanel ( );
+//		 	
+//	 	ImageIcon icon = new ImageIcon ( imgDir );
+//	 	JLabel picture = new JLabel ( mealPlanName, icon, JLabel.CENTER );
+//	 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
+//	 	
+//	 	//Set the position of the text, relative to the icon:
+//	 	picture.setVerticalTextPosition ( JLabel.TOP );
+//	 	picture.setHorizontalTextPosition ( JLabel.CENTER );
+//	 	
+//	 	//Set border around 
+//	 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+//	 	
+//	 	p.add ( picture );
+//	 	
+//	 	JTextArea description = new JTextArea ( 5,10 );
+//	 	description.append ( mealPlanDesc );
+//	 	description.setEditable ( false );
+//	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
+//	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+//		p.add ( description );
+//		
+//	    JButton bookButton = new JButton ( "Book Now" );
+//	    p.add ( bookButton );
+//	    container.add ( p );
+//	  }
 
 	// press on the meal item inside the top menu, then do an action
 	class MealItemListener implements ActionListener {
@@ -272,5 +272,6 @@ public class MainFrame extends JFrame {
 	
 	public static void main ( String [ ] args ) {
 		MainFrame f = new MainFrame ( );
+		f.setVisible ( true );
 	}
 }
