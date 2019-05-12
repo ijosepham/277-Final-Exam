@@ -442,23 +442,55 @@ public class NewReservationFrame extends JFrame {
 		// reset the pizza panel
 		int count = pizzaPanel.getComponentCount ( );
 		
+		// if you dont have enough pizzas, add smore B^)
 		if ( count < amount ) {
 			for ( int i = count; i < amount; i++ ) {
 				JPanel pizza = new JPanel ( );
 				pizza.add ( new JLabel ( "Pizza " + ( i + 1 ) + ": " ) );
-				pizza.add ( new JCheckBox ( "Cheese" ) );
-				pizza.add ( new JCheckBox ( "Pepperoni" ) );
-				pizza.add ( new JCheckBox ( "Ham" ) );
-				pizza.add ( new JCheckBox ( "Jalapeno" ) );
-				pizza.add ( new JCheckBox ( "Sausage" ) );
-				pizza.add ( new JCheckBox ( "Mushroom" ) );
-				pizza.add ( new JCheckBox ( "Pineapple" ) );
-				pizza.add ( new JCheckBox ( "Bell Pepper" ) );
-				pizza.add ( new JCheckBox ( "Onion" ) );
-				pizza.add ( new JCheckBox ( "Garlic Chicken" ) );
+
+				JCheckBox cheese =  ( new JCheckBox ( "Cheese" ) );
+				cheese.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox pepperoni =  ( new JCheckBox ( "Pepperoni" ) );
+				pepperoni.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox ham =  ( new JCheckBox ( "Ham" ) );
+				ham.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox jalapeno =  ( new JCheckBox ( "Jalapeno" ) );
+				jalapeno.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox sausage =  ( new JCheckBox ( "Sausage" ) );
+				sausage.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox mushroom =  ( new JCheckBox ( "Mushroom" ) );
+				mushroom.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox pineapple =  ( new JCheckBox ( "Pineapple" ) );
+				pineapple.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox bellpepper =  ( new JCheckBox ( "Bell Pepper" ) );
+				bellpepper.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox onion =  ( new JCheckBox ( "Onion" ) );
+				onion.addActionListener ( new ToppingListener ( ) );
+				
+				JCheckBox chicken =  ( new JCheckBox ( "Garlic Chicken" ) );
+				chicken.addActionListener ( new ToppingListener ( ) );
+				
+				pizza.add ( cheese );
+				pizza.add ( pepperoni );
+				pizza.add ( ham );
+				pizza.add ( jalapeno );
+				pizza.add ( sausage );
+				pizza.add ( mushroom );
+				pizza.add ( pineapple );
+				pizza.add ( bellpepper );
+				pizza.add ( onion );
+				pizza.add ( chicken );
 				pizzaPanel.add ( pizza );
 			}
-		} else if ( count > amount ) {
+		} else if ( count > amount ) { // if you have too many, then remove some
 			for ( int i = count; i > amount; i-- ) {
 				pizzaPanel.remove ( i - 1 );
 			}
@@ -606,6 +638,55 @@ public class NewReservationFrame extends JFrame {
 			mealPlanPanel.invalidate();
 			mealPlanPanel.validate();
 			mealPlanPanel.repaint();
+		}
+	}
+	
+	class ToppingListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			// get the checkbox clicked
+			Component comp = ( Component ) click.getSource ( );
+			
+			// get the specific pizza panel clicked, eg pizza1/pizza2
+			JPanel panel = ( JPanel ) comp.getParent ( );
+			
+			// get all the checkboxes in that panel
+			Component [ ] toppings = ( Component [ ] ) panel.getComponents ( );
+			
+			JCheckBox topping = new JCheckBox ( );
+			int count = 0; // keep track of how many boxes were ticked
+			// check which toppings wwere checked
+			for ( int i = 1; i < 11; i++ ) {
+				topping = ( JCheckBox ) toppings [ i ];
+				if ( topping.isSelected ( ) ) {
+					count++;
+				}
+			}
+			
+			// get the meal plan
+			String mealPlan = ( String ) mealPlanCombo.getSelectedItem ( );
+			if ( mealPlan.contains( "Basic" ) ) { // if its a basic meal plan, you cna only have one topping
+				if ( count > 1 ) { 
+					( ( JCheckBox ) comp ).setSelected ( false ); // dont allow them to check any more
+				}
+			} else if ( mealPlan.contains( "Bronze" ) ) {
+				if ( count > 2 ) {
+					( ( JCheckBox ) comp ).setSelected ( false );
+				}
+			} else if ( mealPlan.contains( "Silver" ) ) {
+				if ( count > 3 ) {
+					( ( JCheckBox ) comp ).setSelected ( false );
+				}
+			} else if ( mealPlan.contains( "Gold" ) ) {
+				if ( count > 3 ) {
+					( ( JCheckBox ) comp ).setSelected ( false );
+				}
+			} else if ( mealPlan.contains( "Plat" ) ) {
+				if ( count > 4 ) {
+					( ( JCheckBox ) comp ).setSelected ( false );
+				}
+			}
 		}
 	}
 	
