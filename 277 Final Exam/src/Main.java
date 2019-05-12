@@ -5,11 +5,23 @@ import food.*;
 import mealplans.*;
 import pizzas.*;
 
+/**
+ * to-do: 
+ * check in and out
+ * creating rooms all at once? or when called
+ * 		make thme all at once
+ * waitlists belongs to the room itself
+ * do waitlisted people need a reservation, or just guest info?
+ * 		reservation needs time
+ * 		resrevation is cancelled if the whole entire tiem lot is not open
+ */
+
 public class Main {
 	public static void main ( String [ ] args ) {
-		Room aquaWorld = aquaWorldTester ( );
+		//Room aquaWorld = aquaWorldTester ( );
 		Pizza pizza = pizzaTester ( );
 		MealPlan mealPlan = mealPlanTester ( pizza );
+		waitlistTester ( );
 	}
 	
 	public static Room aquaWorldTester ( ) {
@@ -63,7 +75,8 @@ public class Main {
 		
 		Date ep1 = new Date ( 4, 0, 2019 );
 		Card c1 = new Card ( "Visa", "1234 5678 9012 3456", "123", ep1 );
-		Guest g1 = new Guest ( "Joey Joe", "1234 Cerritos Drive", "(562) 275-5206", "joeyjoe@mail.com", c1 );
+		Date dob1 = new Date ( 6, 8, 1999 );
+		Guest g1 = new Guest ( "Joey Joe", "1234 Cerritos Drive", "(562) 275-5206", "joeyjoe@mail.com", dob1, c1 );
 		Date d1 = new Date ( 5, 7, 2019 );
 		Time s1 = new Time ( 8, 00 );
 		Time e1 = new Time ( 12, 00 );
@@ -80,7 +93,8 @@ public class Main {
 		
 		Date ep2 = new Date ( 10, 0, 2019 );
 		Card c2 = new Card ( "MasterCard", "6543 2109 8765 4321", "321", ep2 );
-		Guest g2 = new Guest ( "Bobby Bob", "4321 Sotirrec Drive", "(265) 572-6025", "bobbybob@mail.com", c2 );
+		Date dob2 = new Date ( 5, 6, 1998 );
+		Guest g2 = new Guest ( "Bobby Bob", "4321 Sotirrec Drive", "(265) 572-6025", "bobbybob@mail.com", dob2, c2 );
 		Date d2 = new Date ( 5, 7, 2019 );
 		Time s2 = new Time ( 10, 00 );
 		Time e2 = new Time ( 14, 00 );
@@ -88,12 +102,14 @@ public class Main {
 		
 		Reservation r2 = new Reservation ( g2, d2, s2, e2, karaokeLounge, m2 );
 		
-		System.out.println ( "Guest2: " + "\n" + g2 );
+		System.out.println ( "\n" + "Guest2: " + "\n" + g2 );
 		System.out.println ( "\n" + "Reservation2: " + "\n" + r2 );
 		
 		if ( karaokeLounge.isAvailable ( r2 ) ) {
 			r2.finalizeReservation ( );
 		}
+		
+		System.out.println ( "\n" + "Try to create another reservation with the same date" );
 		
 		if ( karaokeLounge.isAvailable ( r2 ) ) {
 			r2.finalizeReservation ( );

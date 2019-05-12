@@ -27,6 +27,11 @@ public class Guest {
 	private Card paymentMethod;
 	
 	/**
+	 * 
+	 */
+	private Date dateOfBirth;
+	
+	/**
 	 * default constructor
 	 */
 	public Guest ( ) {
@@ -35,6 +40,7 @@ public class Guest {
 		phone = "";
 		email = "";
 		paymentMethod = new Card ( );
+		dateOfBirth = new Date ( );
 	}
 	
 	/**
@@ -43,13 +49,15 @@ public class Guest {
 	 * @param address - address of guest
 	 * @param phone - phone number of guest
 	 * @param email - email of guest
+	 * @param dateOfBirth - DOB of guest
 	 * @param paymentMethod - payment method of guest
 	 */
-	public Guest ( String name, String address, String phone, String email, Card paymentMethod ) {
+	public Guest ( String name, String address, String phone, String email, Date dateOfBirth, Card paymentMethod ) {
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
+		this.dateOfBirth = dateOfBirth;
 		this.paymentMethod = paymentMethod;
 	}
 	
@@ -85,6 +93,14 @@ public class Guest {
 		this.email = email;
 	}
 	
+	/**
+	 * sets the DOB of the guest
+	 * @param dateOfBirth - date of birth of the guest
+	 */
+	public void setDateOfBirth ( Date dateOfBirth ) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	/**
 	 * sets the payment method of guest
 	 * @param paymentMethod - payment method of guest
@@ -123,6 +139,14 @@ public class Guest {
 	 */
 	public String getEmail ( ) {
 		return email;
+	}
+	
+	/**
+	 * returns date of birth
+	 * @return DOB
+	 */
+	public Date getDateOfBirth() {
+		return dateOfBirth;
 	}
 	
 	/**

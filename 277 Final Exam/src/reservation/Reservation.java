@@ -209,7 +209,6 @@ public class Reservation {
 			System.out.println ( "Your card has expired. Please enter a new card: " );
 			
 			
-			
 			// remember to change this later, solely for testing purposes
 			guest.getPaymentMethod ( ).setExpDate ( date );
 			
