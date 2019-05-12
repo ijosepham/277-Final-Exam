@@ -32,11 +32,6 @@ public class Guest {
 	private Card paymentMethod;
 	
 	/**
-	 * 
-	 */
-	private Date dateOfBirth;
-	
-	/**
 	 * default constructor
 	 */
 	public Guest ( ) {
@@ -104,23 +99,12 @@ public class Guest {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * sets the DOB of the guest
-	 * @param dateOfBirth - date of birth of the guest
-	 */
-	public void setDateOfBirth ( Date dateOfBirth ) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-=======
 	 * sets the date of birth of the guesty
 	 * @param dateOfBirth - date of birth of the guets
 	 */
 	public void setDateOfBirth ( Date dateOfBirth ) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	
->>>>>>> branch 'master' of https://github.com/ijosepham/277-Final-Exam.git
 	/**
 	 * sets the payment method of guest
 	 * @param paymentMethod - payment method of guest
@@ -162,17 +146,10 @@ public class Guest {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * returns date of birth
 	 * @return DOB
 	 */
-	public Date getDateOfBirth() {
-=======
-	 * returns the dob of the guest
-	 * @return dob of the guest
-	 */
 	public Date getDateOfBirth ( ) {
->>>>>>> branch 'master' of https://github.com/ijosepham/277-Final-Exam.git
 		return dateOfBirth;
 	}
 	
