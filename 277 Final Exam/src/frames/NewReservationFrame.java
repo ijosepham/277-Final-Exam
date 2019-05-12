@@ -35,7 +35,6 @@ public class NewReservationFrame extends JFrame {
 	JPanel roomPanel;
 	JComboBox < String > roomTypeCombo;
 	JPanel upgradesPanel;
-	JPanel decorationPanel;
 	
 	JPanel mealPlanPanel;
 	JComboBox < String > mealPlanCombo;
@@ -217,9 +216,6 @@ public class NewReservationFrame extends JFrame {
 		
 		upgradesPanel = new JPanel ( );
 		setUpgradesPanel ( "Aqua Party" );
-		decorationPanel = new JPanel ( );
-		
-		upgradesPanel.add ( decorationPanel );
 		
 		mealPlanPanel = new JPanel ( );
 		
@@ -279,7 +275,7 @@ public class NewReservationFrame extends JFrame {
 	public void setUpgradesPanel ( String roomType ) {
 		if ( roomType.contains ( "Party" ) ) {
 			if ( upgradesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
-				
+				System.out.println ( "yes" );
 				if ( roomType.contains ( "Aqua" ) ) {
 					upgradesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
 				}
@@ -565,31 +561,15 @@ public class NewReservationFrame extends JFrame {
 		public void actionPerformed ( ActionEvent click ) {
 			JCheckBox box = ( JCheckBox ) click.getSource ( );
 			if ( box.isSelected ( ) ) {
-				JCheckBox hawaiian = ( new JCheckBox ( "Hawaiian" ) );
-				hawaiian.addActionListener ( new DecorationListener ( ) );
+				String [ ] themes = { "Hawaiian", "Sea Life", "Jungle", "Space", "Modern" };
+				JComboBox < String > themeCombo = new JComboBox < String > ( themes );
 				
-				JCheckBox seaLife = ( new JCheckBox ( "Sea Life" ) );
-				seaLife.addActionListener ( new DecorationListener ( ) );
-				
-				JCheckBox jungle = ( new JCheckBox ( "Jungle" ) );
-				jungle.addActionListener ( new DecorationListener ( ) );
-				
-				JCheckBox space = ( new JCheckBox ( "Space" ) );
-				space.addActionListener ( new DecorationListener ( ) );
-				
-				JCheckBox modern = ( new JCheckBox ( "Modern" ) );
-				modern.addActionListener ( new DecorationListener ( ) );
-				
-				decorationPanel.add ( hawaiian );
-				decorationPanel.add ( seaLife );
-				decorationPanel.add ( jungle );
-				decorationPanel.add ( space );
-				decorationPanel.add ( modern );
+				upgradesPanel.add ( themeCombo );
 			} else {
-				decorationPanel.removeAll ( );
+				upgradesPanel.remove ( upgradesPanel.getComponentCount ( ) - 1 );
 			}
-			mealPlanPanel.revalidate ( );
-			mealPlanPanel.repaint ( );
+			upgradesPanel.revalidate ( );
+			upgradesPanel.repaint ( );
 		}
 	}
 	
@@ -612,6 +592,8 @@ public class NewReservationFrame extends JFrame {
 					setUpgradesPanel ( "Party" );
 				}
 			}
+			roomPanel.revalidate ( );
+			roomPanel.repaint ( );
 		}
 	}
 	
@@ -783,6 +765,7 @@ public class NewReservationFrame extends JFrame {
 		}
 	}
 	
+	/** big oof
 	class DecorationListener implements ActionListener
 	{
 		@Override
@@ -806,6 +789,7 @@ public class NewReservationFrame extends JFrame {
 			}
 		}
 	}
+	*/
 	
 	class ToppingListener implements ActionListener
 	{
