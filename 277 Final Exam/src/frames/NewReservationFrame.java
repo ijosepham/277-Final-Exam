@@ -2,6 +2,7 @@ package frames;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -500,6 +501,38 @@ public class NewReservationFrame extends JFrame {
 		mealPlanPanel.add ( pizzaPanel );
 	}
 	
+	public void validateToppings ( int amount ) {
+		int count; // count of toppings per pizza
+		JPanel panel = new JPanel ( ); // pizza1, pizza2, pizza3
+		Component [ ] toppings; // checkboxes of the pizza
+		JCheckBox topping = new JCheckBox ( ); // specific topping
+		ArrayList < Integer > checkedToppings = new ArrayList < Integer > ( ); // index of checked toppings
+		
+		// go through each pizza on the panel
+		for ( int i = 0; i < pizzaPanel.getComponentCount ( ); i++ ) {
+			checkedToppings = new ArrayList < Integer > ( );
+			panel = ( JPanel ) pizzaPanel.getComponent ( i );
+			toppings = ( Component [ ] ) panel.getComponents ( );
+			count = 0;
+			
+			// go through each topping on the specific pizza
+			for ( int j = 1; j < 11; j++ ) {
+				topping = ( JCheckBox ) toppings [ j ];
+				if ( topping.isSelected ( ) ) { // check if its checked
+					checkedToppings.add ( j );
+					count++;
+				}
+			}
+			
+			// if checked toppings are more than allowed, uncheck the last checked one
+			if ( count > amount ) {
+				for ( int j = 0; j < count - amount; j++ ) {
+					( ( JCheckBox ) panel.getComponent ( checkedToppings.get ( j ) ) ).setSelected ( false );
+				}
+			}
+		}
+	}
+	
 	public void createSodaPanel ( int amount ) {
 		// reset the wings panel
 		int count = sodaPanel.getComponentCount ( );
@@ -602,6 +635,7 @@ public class NewReservationFrame extends JFrame {
 			// depending on what meal plan, allow up to a certain number of foods
 			if ( selected.contains ( "Basic" ) ) {
 				createPizzaPanel ( 3 ); // 3 pizzass
+				validateToppings ( 1 ); // make sure only one topping is checked
 				createSodaPanel ( 3 ); // 3 sodas
 				createSidesPanel ( 0 ); // no sides
 				createWingsPanel ( 0 ); // no wings
@@ -609,6 +643,7 @@ public class NewReservationFrame extends JFrame {
 				
 			} else if ( selected.contains ( "Bronze" ) ) {
 				createPizzaPanel ( 3 );
+				validateToppings ( 2 );
 				createSodaPanel ( 5 );
 				createSidesPanel ( 1 );
 				createWingsPanel ( 0 );
@@ -616,6 +651,7 @@ public class NewReservationFrame extends JFrame {
 				
 			} else if ( selected.contains ( "Silver" ) ) {
 				createPizzaPanel ( 3 );
+				validateToppings ( 3 );
 				createSodaPanel ( 5 );
 				createSidesPanel ( 2 );
 				createWingsPanel ( 0 );
@@ -623,6 +659,7 @@ public class NewReservationFrame extends JFrame {
 				
 			} else if ( selected.contains ( "Gold" ) ) {
 				createPizzaPanel ( 3 );
+				validateToppings ( 3 );
 				createSodaPanel ( 5 );
 				createSidesPanel ( 2 );
 				createWingsPanel ( 2 );
@@ -630,6 +667,7 @@ public class NewReservationFrame extends JFrame {
 				
 			} else if ( selected.contains ( "Platinum" ) ) {
 				createPizzaPanel ( 4 );
+				validateToppings ( 4 );
 				createSodaPanel ( 5 );
 				createSidesPanel ( 2 );
 				createWingsPanel ( 2 );
