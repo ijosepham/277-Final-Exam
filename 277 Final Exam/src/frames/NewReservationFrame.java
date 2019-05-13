@@ -12,7 +12,6 @@ import mealplans.*;
 import reservation.*;
 
 // needa finish save button listener
-// meal plan stuff like pizzas 
 // needa make a thing for guest/res i think to see if they're checked in ornot
 // main frame just make everything into the boxlayout
 //		probably needa change things that have to do with the description of the place
@@ -1012,32 +1011,6 @@ public class NewReservationFrame extends JFrame {
 			mealPlanPanel.repaint ( );
 		}
 	}
-	
-	/** big oof
-	class DecorationListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed ( ActionEvent click ) {
-			int count = 0; // count of decorations chosen
-			JCheckBox decoration = new JCheckBox ( );
-			
-			for ( int i = 0; i < 5; i++ ) { // go through each decoration and count how manya re checked
-				decoration = ( JCheckBox ) decorationPanel.getComponent ( i ) ;
-				if ( decoration.isSelected ( ) ) {
-					count++;
-				}
-			}
-			
-			// get the checkbox clicked
-			JCheckBox comp = ( JCheckBox ) click.getSource ( );
-			
-			// more than one box is check, uncheck one of them
-			if ( count > 1 ) { 
-				comp.setSelected ( false ); // dont allow them to check any more
-			}
-		}
-	}
-	*/
 	
 	class ToppingListener implements ActionListener
 	{
