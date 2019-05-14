@@ -18,6 +18,7 @@ import roomfactories.RoomFactory;
 //		probably needa change things that have to do with the description of the place
 
 public class NewReservationFrame extends JFrame {
+	Date today = new Date ( 5, 16, 2019 );
 	JTextField guestNameField;
 	JTextField guestAddressField;
 	JTextField guestPhoneField;
@@ -42,6 +43,8 @@ public class NewReservationFrame extends JFrame {
 	JPanel roomDatePanel;
 	JPanel roomStartPanel;
 	JPanel roomEndPanel;
+	JPanel sizePanel;
+	JTextField sizeField;
 	JPanel themesPanel;
 	JLabel restrictionsLabel;
 	
@@ -74,12 +77,12 @@ public class NewReservationFrame extends JFrame {
 	String [ ] loungeHours;
 	String [ ] minutes;
 	
-	RoomFactory roomFactory;
+	PartyWorld partyWorld;
 	
-	public NewReservationFrame ( RoomFactory roomFactory ) {
+	public NewReservationFrame ( PartyWorld rooms ) {
 		this.setTitle ( "New Reservation" );
 		
-		this.roomFactory = roomFactory;
+		this.partyWorld = rooms;
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -238,6 +241,12 @@ public class NewReservationFrame extends JFrame {
 		roomEndPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		roomPanel.add ( roomEndPanel );
 		
+		sizePanel = new JPanel ( );
+		sizePanel.add ( new JLabel ( "Party Size: " ) );
+		sizeField = new JTextField ( 2 );
+		sizePanel.add ( sizeField );
+		roomPanel.add ( sizePanel );
+		
 		themesPanel = new JPanel ( );
 		setThemesPanel ( "Aqua Party" );
 		restrictionsLabel = new JLabel ( "Restrictions: Bathing suits must be worn to access water facilities." );
@@ -336,7 +345,7 @@ public class NewReservationFrame extends JFrame {
 			themesPanel.removeAll ( );
 		}
 		
-		roomPanel.add ( themesPanel, 4 );
+		roomPanel.add ( themesPanel, 5 );
 	}
 	
 	public void setRestrictionsPanel ( String roomType ) {
@@ -598,6 +607,9 @@ public class NewReservationFrame extends JFrame {
 			System.out.println ( "End time: " + endTime );
 			
 			
+			// party size
+			int partySize = Integer.parseInt ( ( String ) sizeField.getText ( ) );
+			
 			// create a meal plan according to what they chose
 			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
 			MealPlan mealPlan = new BasicMealPlan ( );
@@ -714,7 +726,46 @@ public class NewReservationFrame extends JFrame {
 			}
 			System.out.println ( "Meal plan: " + mealPlan );
 			
-			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, null, mealPlan );
+			// make a reservation out of the given info
+			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, null, partySize, mealPlan );
+			
+			
+			
+			
+			// first check all info is valid: cc, partysize, booking time, age if billiards
+			if ( startTime.compareTo ( endTime ) > 0 ) {
+				System.out.println ( "yo" );
+			}
+			
+			if ( paymentMethod.isExpired ( today ) ) {
+				System.out.println ( "cmon  brug" );
+			}
+			
+			if ( guest.is21 ( today ) ) {
+				System.out.println ( "its a no for me dog" );
+			}
+			
+			// check if the roomtype is available at the given date, staart/endtime
+			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			int room = partyWorld.getAvailableRoom ( roomType, r ); // gets an available room
+			System.out.println ( roomType + ", Room #" + ( room + 1 ) );
+			
+			// if no rooms are currently available
+			if ( room == -1 ) {
+				System.out.println ( "There are no rooms available at the given time. Would you like to instead waitlist?" );
+				boolean waitlist = GetInput.getYesOrNo ( );
+				if ( waitlist ) { // if user chooses to waitlist
+					room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+					r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
+					partyWorld.waitlist ( roomType, room, r ); // add the reservation to the waitlist of the room
+					System.out.println ( roomType + ", Room #" + ( room + 1 ) );
+					System.out.println ( "Waitlisted" );
+				}
+			} else {
+				System.out.println ( "Your room is available at the given times. Reserved." );
+				r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
+				partyWorld.reserve ( roomType, room, r ); // officially reserve the room
+			}
 		}
 	}
 	
@@ -1070,8 +1121,8 @@ public class NewReservationFrame extends JFrame {
 	}
 	
 	public static void main ( String [ ] args ) {
-		RoomFactory roomFactory = new RoomFactory ( );
-		NewReservationFrame f = new NewReservationFrame ( roomFactory );
+		PartyWorld rooms = new PartyWorld ( );
+		NewReservationFrame f = new NewReservationFrame ( rooms );
 		f.setVisible ( true );
 	}
 }

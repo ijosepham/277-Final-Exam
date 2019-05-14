@@ -18,6 +18,7 @@ import pizzas.*;
 
 public class Main {
 	public static void main ( String [ ] args ) {
-		RoomFactory roomFactory = new RoomFactory ( );
+		PartyWorld rooms = new PartyWorld ( );
+		
 	}
 }

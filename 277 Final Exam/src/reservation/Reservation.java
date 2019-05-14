@@ -25,6 +25,11 @@ public class Reservation {
 	private Room room;
 	
 	/**
+	 * party size
+	 */
+	private int partySize;
+	
+	/**
 	 * meal plan of the room
 	 */
 	private MealPlan mealPlan;
@@ -61,6 +66,7 @@ public class Reservation {
 		mealPlan = new BasicMealPlan ( );
 		initialPayment = 0;
 		isFinalized = false;
+		partySize = 0;
 	}
 	
 	/**
@@ -69,15 +75,16 @@ public class Reservation {
 	 * @param room - room of the reservation
 	 * @param mealPlan - mealplan of the reservation
 	 */
-	public Reservation ( Guest guest, Date date, Time startTime, Time endTime, Room room, MealPlan mealPlan ) {
+	public Reservation ( Guest guest, Date date, Time startTime, Time endTime, Room room, int partySize, MealPlan mealPlan ) {
 		this.guest = guest;
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.room = room;
+		this.partySize = partySize;
 		this.mealPlan = mealPlan;
 		isFinalized = false;
-		initialPayment += room.getCost ( ) + mealPlan.getCost ( );
+		//initialPayment += room.getCost ( ) + mealPlan.getCost ( );
 	}
 	
 	/**
@@ -110,6 +117,14 @@ public class Reservation {
 	 */
 	public void setRoom ( Room room ) {
 		this.room = room;
+	}
+	
+	/**
+	 * sets the party size of the res
+	 * @param partySize - party size
+	 */
+	public void setPartySize ( int partySize ) {
+		this.partySize = partySize;
 	}
 	
 	/**
@@ -158,6 +173,14 @@ public class Reservation {
 	 */
 	public Room getRoom ( ) {
 		return room;
+	}
+	
+	/**
+	 * gets the size of the party
+	 * @return size of teh party
+	 */
+	public int getPartySize ( ) {
+		return partySize;
 	}
 	
 	/**

@@ -157,6 +157,25 @@ public class Guest {
 		return paymentMethod;
 	}
 	
+	public boolean is21 ( Date today ) {
+		if ( today.getYear ( ) - dateOfBirth.getYear ( ) > 21) {
+			return true;
+		}
+		// if hasnt even been 21 years
+		if ( today.getYear ( ) - dateOfBirth.getYear ( ) < 21 ) {
+			return false;
+		} else { // its been 21 years, but maybe less months, eg late birthdays
+			if ( today.getMonth ( ) - dateOfBirth.getMonth ( ) < 0 ) { // may - june. june hasnt turned 21 yet
+				return false;
+			} else if ( today.getMonth ( ) == dateOfBirth.getMonth ( ) ) { // else if same month, check days
+				if ( today.getDay ( ) - dateOfBirth.getDay ( ) < 0 ) { // 16 - 30. if you were born 30, youre not 21 yet
+					return false;
+				} // else if same day, then youre 21
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * returns a string representation of the guest's info
 	 * @return guest's info

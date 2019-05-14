@@ -57,7 +57,7 @@ public abstract class Room {
 		basicAmenities = new ArrayList < String > ( );
 		specialAmenities = new ArrayList < String > ( );
 		capacity = 0;
-		isAvailable = false;
+		isAvailable = true;
 		status = "Reserved";
 		reservations = new ArrayList < Reservation > ( );
 		waitlist = new ArrayList < Reservation > ( );
@@ -230,7 +230,6 @@ public abstract class Room {
 			System.out.println ( "Your room is available at the given date and time." );
 			isAvailable = false;
 			status = "Reserved for Party.";
-			reservations.add ( r );
 			return true;
 		} else {
 			Reservation r1;
@@ -240,52 +239,23 @@ public abstract class Room {
 				r1 = reservations.get ( i );
 				
 				// if the dates are the same, then check the times
-				if ( r1.getDate ( ) == r.getDate ( ) ) {
+				if ( r1.getDate ( ).equals ( r.getDate ( ) ) ) {
 					
 					// 1/2 hour cleanup, 1/2 hour setip. 1hour gap total
 					
 					// if the given start time is in between any reservation, then its not available
 					boolean a = ( r1.getStartTime ( ).compareTo ( r.getStartTime ( ) ) - prepTime ) < 0;
-					boolean b = ( r1.getEndTime ( ).compareTo ( r.getStartTime ( ) ) +  ( prepTime * 2 ) ) > 0;
+					boolean b = ( r1.getEndTime ( ).compareTo ( r.getStartTime ( ) ) + ( prepTime * 2 ) ) > 0;
 					boolean c = ( r1.getStartTime ( ).compareTo ( r.getEndTime ( ) ) - ( prepTime * 2 ) ) < 0;
 					boolean d = ( r1.getEndTime ( ).compareTo ( r.getEndTime ( ) ) + prepTime ) > 0;
+					
+					
 					
 					if ( ( a && b ) || ( c && d ) ) {
 						return false;
 					}
 				}
 			}
-			
-			/** dont needa go through reservations
-			// go through each reservation in the waitlist
-			for ( int i = 0; i < waitlist.size ( ); i++ ) {
-				// get the reservation
-				r1 = waitlist.get ( i );
-				
-				// if the dates are the same, then check the times
-				if ( r1.getDate ( ) == r.getDate ( ) ) {
-					
-					// 1/2 hour cleanup, 1/2 hour setip. 1hour gap total
-					
-					// if the given start time is in between any reservation, then its not available
-					boolean a = ( r1.getStartTime ( ).compareTo ( r.getStartTime ( ) ) - prepTime ) < 0;
-					boolean b = ( r1.getEndTime ( ).compareTo ( r.getStartTime ( ) ) +  ( prepTime * 2 ) ) > 0;
-					boolean c = ( r1.getStartTime ( ).compareTo ( r.getEndTime ( ) ) - ( prepTime * 2 ) ) < 0;
-					boolean d = ( r1.getEndTime ( ).compareTo ( r.getEndTime ( ) ) + prepTime ) > 0;
-					
-					if ( ( a && b ) || ( c && d ) ) {
-						System.out.println ( "Your room is not available at the given date and time." );
-						System.out.println ( "Would you  like to be waitlisted? " );
-						waitlist.add ( r );
-						System.out.println ( "Waitlisted." );
-						return false;
-					}
-				}
-				
-			}
-			*/
-			reservations.add ( r );
-			isAvailable = false;
 			return true;
 		}
 	}

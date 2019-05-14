@@ -8,9 +8,8 @@ public class MediumPartyRoom extends Room {
 	 */
 	public MediumPartyRoom ( ) {
 		prepTime = 60;
-		name = "Medium Party Room";
-		
 		capacity = 45;
+		name = "Medium Party Room";
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Quick Access to Arcade" );
 		basicAmenities.add ( "DJ" );

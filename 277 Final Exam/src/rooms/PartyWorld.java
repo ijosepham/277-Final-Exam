@@ -3,9 +3,10 @@ package rooms;
 import java.util.ArrayList;
 
 import reservation.Reservation;
+import roomfactories.*;
 import rooms.*;
 
-public class Rooms {
+public class PartyWorld {
 	
 	private ArrayList < Room > aquaWorlds;
 	private ArrayList < Room > mediumPartyRooms;
@@ -13,13 +14,13 @@ public class Rooms {
 	private ArrayList < Room > billiardsLounges;
 	private ArrayList < Room > karaokeLounges;
 	
-	AquaWorldFactory aquaWorldFactory = new AquaWorldFactory ( );
-	MediumPartyRoomFactory mPartyFactory = new MediumPartyRoomFactory ( );
-	SmallPartyRoomFactory sPartyFactory = new SmallPartyRoomFactory ( );
-	BilliardsLoungeFactory bLoungeFactory = new BilliardsLoungeFactory ( );
-	KaraokeLoungeFactory kLoungeFactory = new KaraokeLoungeFactory ( );
-	
-	public RoomFactory ( ) {
+	public PartyWorld ( ) {
+		AquaWorldFactory aquaWorldFactory = new AquaWorldFactory ( );
+		MediumPartyRoomFactory mPartyFactory = new MediumPartyRoomFactory ( );
+		SmallPartyRoomFactory sPartyFactory = new SmallPartyRoomFactory ( );
+		BilliardsLoungeFactory bLoungeFactory = new BilliardsLoungeFactory ( );
+		KaraokeLoungeFactory kLoungeFactory = new KaraokeLoungeFactory ( );
+		
 		aquaWorlds = new ArrayList < Room > ( );
 		mediumPartyRooms = new ArrayList < Room > ( );
 		smallPartyRooms = new ArrayList < Room > ( );
@@ -30,24 +31,22 @@ public class Rooms {
 		
 		aquaWorlds.add ( aquaWorldFactory.createRoom ( ) );
 		
-		for ( int i = 0; i < 2; i++ ) {
+		for ( int i = 0; i < RoomFactory.MAX_MEDIUM; i++ ) {
 			mediumPartyRooms.add ( mPartyFactory.createRoom ( ) );
 		}
 		
-		for ( int i = 0; i < 10; i++ ) {
+		for ( int i = 0; i < RoomFactory.MAX_SMALL; i++ ) {
 			smallPartyRooms.add ( sPartyFactory.createRoom ( ) );
 		}
 		
-		for ( int i = 0; i < 5; i++ ) {
+		for ( int i = 0; i < RoomFactory.MAX_BILLIARDS; i++ ) {
 			billiardsLounges.add ( bLoungeFactory.createRoom ( ) );
 		}
 		
-		for ( int i = 0; i < 10; i++ ) {
+		for ( int i = 0; i < RoomFactory.MAX_KARAOKE; i++ ) {
 			karaokeLounges.add ( kLoungeFactory.createRoom ( ) );
 		}
 	}
-	
-	
 	
 	public ArrayList < Room > getRooms ( String roomType ) {
 		if ( roomType.contains ( "Aqua" ) ) {
@@ -63,6 +62,7 @@ public class Rooms {
 		}
 	}
 	
+	// gets the next available room. if none are available, returns -1
 	public int getAvailableRoom ( String roomType, Reservation r ) {
 		Room room;
 		if ( roomType.contains ( "Aqua" ) ) {
@@ -186,17 +186,31 @@ public class Rooms {
 		}
 	}
 	
-	public void setRoom ( String roomType, int index, Room room ) {
+	public void waitlist ( String roomType, int index, Reservation r ) {
 		if ( roomType.contains ( "Aqua" ) ) {
-			aquaWorlds.set ( index, room );
+			aquaWorlds.get ( index ).addToWaitlist ( r );
 		} else if ( roomType.contains ( "Medium" ) ) {
-			mediumPartyRooms.set ( index, room );
+			mediumPartyRooms.get ( index ).addToWaitlist ( r );
 		} else if ( roomType.contains ( "Small" ) ) {
-			smallPartyRooms.set ( index, room );
+			smallPartyRooms.get ( index ).addToWaitlist ( r );
 		} else if ( roomType.contains ( "Billiards" ) ) {
-			billiardsLounges.set ( index, room );
+			billiardsLounges.get ( index ).addToWaitlist ( r );
 		} else {
-			karaokeLounges.set ( index, room );
+			karaokeLounges.get ( index ).addToWaitlist ( r );
+		}
+	}
+	
+	public void reserve ( String roomType, int index, Reservation r ) {
+		if ( roomType.contains ( "Aqua" ) ) {
+			aquaWorlds.get ( index ).reserve ( r );
+		} else if ( roomType.contains ( "Medium" ) ) {
+			mediumPartyRooms.get ( index ).reserve ( r );
+		} else if ( roomType.contains ( "Small" ) ) {
+			smallPartyRooms.get ( index ).reserve ( r );
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			billiardsLounges.get ( index ).reserve ( r );
+		} else {
+			karaokeLounges.get ( index ).reserve ( r );
 		}
 	}
 }
