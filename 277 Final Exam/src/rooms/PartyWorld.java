@@ -48,20 +48,6 @@ public class PartyWorld {
 		}
 	}
 	
-	public ArrayList < Room > getRooms ( String roomType ) {
-		if ( roomType.contains ( "Aqua" ) ) {
-			return aquaWorlds;
-		} else if ( roomType.contains ( "Medium" ) ) {
-			return mediumPartyRooms;
-		} else if ( roomType.contains ( "Small" ) ) {
-			return smallPartyRooms;
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			return billiardsLounges;
-		} else {
-			return karaokeLounges;
-		}
-	}
-	
 	// gets the next available room. if none are available, returns -1
 	public int getAvailableRoom ( String roomType, Reservation r ) {
 		Room room;
@@ -183,6 +169,20 @@ public class PartyWorld {
 			return billiardsLounges.get ( index );
 		} else {
 			return karaokeLounges.get ( index );
+		}
+	}
+	
+	public int getIndex ( String roomType, Room room ) {
+		if ( roomType.contains ( "Aqua" ) ) {
+			return aquaWorlds.indexOf ( room );
+		} else if ( roomType.contains ( "Medium" ) ) {
+			return mediumPartyRooms.indexOf ( room );
+		} else if ( roomType.contains ( "Small" ) ) {
+			return smallPartyRooms.indexOf ( room );
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			return billiardsLounges.indexOf ( room );
+		} else {
+			return karaokeLounges.indexOf ( room );
 		}
 	}
 	

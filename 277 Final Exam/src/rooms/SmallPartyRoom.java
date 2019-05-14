@@ -2,7 +2,7 @@ package rooms;
 
 public class SmallPartyRoom extends Room {
 	public static String DESCRIPTION = "Small Party Room";
-	
+	public static int CAPACITY = 30;
 	/**
 	 * default consturctor
 	 */
@@ -14,6 +14,8 @@ public class SmallPartyRoom extends Room {
 		basicAmenities.add ( "Adjacent to Arcade" );
 		basicAmenities.add ( "Basic Meal Plan" );
 	}
+	
+	
 
 	/**
 	 * returns the cost of the small party room

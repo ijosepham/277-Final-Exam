@@ -2,6 +2,7 @@ package rooms;
 
 public class MediumPartyRoom extends Room {
 	public static String DESCRIPTION = "Medium Party Room";
+	public static int CAPACITY = 45;
 	
 	/**
 	 * default constructor

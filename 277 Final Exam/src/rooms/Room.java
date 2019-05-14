@@ -227,7 +227,6 @@ public abstract class Room {
 	 */
 	public boolean isAvailable ( Reservation r ) {
 		if ( isAvailable ) {
-			System.out.println ( "Your room is available at the given date and time." );
 			isAvailable = false;
 			status = "Reserved for Party.";
 			return true;

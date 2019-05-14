@@ -2,6 +2,8 @@ package rooms;
 
 public class KaraokeLounge extends Room {
 	public static String DESCRIPTION = "karoake lounge";
+	public static int CAPACITY = 10;
+	
 	/**
 	 * default constructor
 	 */

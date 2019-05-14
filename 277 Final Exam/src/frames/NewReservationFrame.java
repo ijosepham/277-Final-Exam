@@ -65,8 +65,12 @@ public class NewReservationFrame extends JFrame {
 	JComboBox < String > endHourCombo;
 	JComboBox < String > endMinCombo;
 	
-	JButton saveReservationButton;
-	JButton cancelReservationButton;
+	JPanel reservationPanel;
+	JButton saveButton;
+	JButton cancelButton;
+	
+	JPanel problemsPanel;
+	JTextArea resProblems;
 	
 	Integer [ ] days31;
 	Integer [ ] days30;
@@ -174,8 +178,8 @@ public class NewReservationFrame extends JFrame {
 		cardPanel.add ( new JLabel ( "Expiration Date: " ) );
 		cardPanel.add ( expMonthCombo = new JComboBox < Integer > ( months ) );
 		
-		Integer [ ] expYears = new Integer [ 11 ]; // 5 years into the past and into the future
-		for ( int i = 0; i < 11; i++ ) {
+		Integer [ ] expYears = new Integer [ 16 ]; // 5 years into the past and into the future
+		for ( int i = 0; i < 16; i++ ) {
 			expYears [ i ] = 2025 - i;
 		}
 		cardPanel.add ( expYearCombo = new JComboBox < Integer > ( expYears ) );
@@ -291,15 +295,23 @@ public class NewReservationFrame extends JFrame {
 		contactPanel.add ( contactEmailCheck = new JCheckBox ( "Email" ) );
 		
 		
-		JPanel buttonPanel = new JPanel ( );
+		reservationPanel = new JPanel ( );
 		
-		saveReservationButton = new JButton ( "Save Reservation" );
-		saveReservationButton.addActionListener ( new SaveButtonListener ( ) );
-		buttonPanel.add ( saveReservationButton );
+		saveButton = new JButton ( "Save Reservation" );
+		saveButton.addActionListener ( new SaveButtonListener ( ) );
+		reservationPanel.add ( saveButton );
 		
-		cancelReservationButton = new JButton ( "Cancel Reservation" );
-		cancelReservationButton.addActionListener ( new CancelButtonListener ( ) );
-		buttonPanel.add ( cancelReservationButton );
+		cancelButton = new JButton ( "Cancel Reservation" );
+		cancelButton.addActionListener ( new CancelButtonListener ( ) );
+		reservationPanel.add ( cancelButton );
+		
+		
+		problemsPanel = new JPanel ( );
+		
+		resProblems = new JTextArea ( );
+		resProblems.setEditable ( false );
+		problemsPanel.add ( resProblems );
+		problemsPanel.setVisible ( false );
 		
 		panel.add ( titlePanel );
 		panel.add ( guestPanel );
@@ -307,7 +319,8 @@ public class NewReservationFrame extends JFrame {
 		panel.add ( roomPanel );
 		panel.add ( mealPlanPanel );
 		panel.add ( contactPanel );
-		panel.add ( buttonPanel );
+		panel.add ( reservationPanel );
+		panel.add ( problemsPanel );
 		
 		this.add ( panel );
 	}
@@ -580,31 +593,26 @@ public class NewReservationFrame extends JFrame {
 			Date expDate = new Date ( expMonth, expYear );
 			
 			Card paymentMethod = new Card ( cardCompany, ccNumber, securityCode, expDate );
-			System.out.println ( "Card: " + paymentMethod );
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
-			System.out.println ( "Guest: " + guest );
 			
 			
 			// room date
 			int roomMonth = ( int ) roomMonthCombo.getSelectedItem ( );
 			int roomDay = ( int ) roomDayCombo.getSelectedItem ( );
 			Date roomDate = new Date ( roomMonth, roomDay, 2019 );
-			System.out.println ( "Room Date: " + roomDate );
 			
 			
 			// room start time
 			int startHour = Integer.parseInt ( ( String ) startHourCombo.getSelectedItem ( ) );
 			int startMin = Integer.parseInt ( ( String ) startMinCombo.getSelectedItem ( ) );
 			Time startTime = new Time ( startHour, startMin );
-			System.out.println ( "Start time: " + startTime );
 			
 			
 			// room end time
 			int endHour = Integer.parseInt ( ( String ) endHourCombo.getSelectedItem ( ) );
 			int endMin = Integer.parseInt ( ( String ) endMinCombo.getSelectedItem ( ) );
 			Time endTime = new Time ( endHour, endMin );
-			System.out.println ( "End time: " + endTime );
 			
 			
 			// party size
@@ -724,47 +732,80 @@ public class NewReservationFrame extends JFrame {
 			
 				mealPlan.addFood ( new IceCream ( flavor ) );
 			}
-			System.out.println ( "Meal plan: " + mealPlan );
 			
 			// make a reservation out of the given info
 			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, null, partySize, mealPlan );
 			
 			
 			
-			
-			// first check all info is valid: cc, partysize, booking time, age if billiards
-			if ( startTime.compareTo ( endTime ) > 0 ) {
-				System.out.println ( "yo" );
-			}
-			
-			if ( paymentMethod.isExpired ( today ) ) {
-				System.out.println ( "cmon  brug" );
-			}
-			
-			if ( guest.is21 ( today ) ) {
-				System.out.println ( "its a no for me dog" );
-			}
-			
-			// check if the roomtype is available at the given date, staart/endtime
 			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
-			int room = partyWorld.getAvailableRoom ( roomType, r ); // gets an available room
-			System.out.println ( roomType + ", Room #" + ( room + 1 ) );
+			boolean valid = true;
+			resProblems.setText ( "Invalid Reservation: " + "\n" + "\n" );
 			
-			// if no rooms are currently available
-			if ( room == -1 ) {
-				System.out.println ( "There are no rooms available at the given time. Would you like to instead waitlist?" );
-				boolean waitlist = GetInput.getYesOrNo ( );
-				if ( waitlist ) { // if user chooses to waitlist
-					room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+			// first check all info is valid: booking time, cc, partysize, age if billiards
+			// start time is later than end time
+			if ( startTime.compareTo ( endTime ) > 0 ) { 
+				resProblems.append ( "Start time begins later than end time." + "\n" );
+				valid = false;
+			}
+			
+			// if payment is expired
+			if ( paymentMethod.isExpired ( today ) ) { 
+				resProblems.append ( "Payment method has expired." + "\n" );
+				valid = false;
+			}
+			
+			// if party size exceeds maximum capacity
+			int capacity;
+			if ( roomType.contains ( "Aqua" ) ) {
+				capacity = AquaWorld.CAPACITY;
+			} else if ( roomType.contains ( "Medium" ) ) {
+				capacity = MediumPartyRoom.CAPACITY;
+			} else if ( roomType.contains ( "Small" ) ) {
+				capacity = SmallPartyRoom.CAPACITY;
+			} else if ( roomType.contains ( "Billiards" ) ) {
+				capacity = BilliardsLounge.CAPACITY;
+			} else {
+				capacity = KaraokeLounge.CAPACITY;
+			}
+			if ( partySize > capacity ) {
+				resProblems.append ( "Party size exceeds maximum capacity." + "\n" );
+				valid = false;
+			}
+			
+			// if billiards booker is below 21
+			if ( roomType.contains ( "Billiards" ) && ! guest.is21 ( today ) ) {
+				resProblems.append ( "Not old enough to book a Billiards Lounge." + "\n" );
+				valid = false;
+			}
+			
+			// if passes all requirements, book it book it
+			if ( valid ) {
+				problemsPanel.setVisible ( false );
+				// check if the roomtype is available at the given date, staart/endtime
+				int room = partyWorld.getAvailableRoom ( roomType, r ); // gets an available room
+				System.out.println ( roomType + ", Room #" + ( room + 1 ) );
+				
+				// if no rooms are currently available
+				if ( room == -1 ) {
+					System.out.println ( "There are no rooms available at the given time. Would you like to instead waitlist?" );
+					boolean waitlist = GetInput.getYesOrNo ( );
+					if ( waitlist ) { // if user chooses to waitlist
+						room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+						r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
+						partyWorld.waitlist ( roomType, room, r ); // add the reservation to the waitlist of the room
+						System.out.println ( roomType + ", Room #" + ( room + 1 ) );
+						System.out.println ( "Waitlisted" );
+					}
+				} else {
+					System.out.println ( "Your room is available at the given times. Reserved." );
 					r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
-					partyWorld.waitlist ( roomType, room, r ); // add the reservation to the waitlist of the room
-					System.out.println ( roomType + ", Room #" + ( room + 1 ) );
-					System.out.println ( "Waitlisted" );
+					partyWorld.reserve ( roomType, room, r ); // officially reserve the room
 				}
 			} else {
-				System.out.println ( "Your room is available at the given times. Reserved." );
-				r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
-				partyWorld.reserve ( roomType, room, r ); // officially reserve the room
+				problemsPanel.setVisible ( true );
+				problemsPanel.revalidate ( );
+				problemsPanel.repaint ( );
 			}
 		}
 	}
