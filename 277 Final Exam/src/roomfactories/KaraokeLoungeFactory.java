@@ -7,6 +7,7 @@ public class KaraokeLoungeFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public KaraokeLounge createRoom ( ) {
+		karaoke_count++;
 		return new KaraokeLounge ( );
 	}
 }

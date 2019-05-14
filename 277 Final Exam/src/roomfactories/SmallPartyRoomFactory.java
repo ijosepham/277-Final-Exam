@@ -7,6 +7,7 @@ public class SmallPartyRoomFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public SmallPartyRoom createRoom ( ) {
+		small_count++;
 		return new SmallPartyRoom ( );
 	}
 }

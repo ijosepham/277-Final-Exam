@@ -1,4 +1,7 @@
 package rooms;
+
+import roomfactories.RoomFactory;
+
 public class BilliardsLounge extends Room {
 	/**
 	 * represents restrictions of the billiards lounge1
@@ -14,7 +17,7 @@ public class BilliardsLounge extends Room {
 	public BilliardsLounge ( ) {
 		prepTime = 15;
 		capacity = 10;
-		name = "Billiards Lounge";
+		name = "Billiards Lounge, Room #" + RoomFactory.billiards_count;
 		restrictions = "21 and Older Only";
 		basicAmenities.add ( "Lounge with Pool Table" );
 		basicAmenities.add ( "Access to Pool Table & Cues" );

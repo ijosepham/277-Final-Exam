@@ -7,6 +7,7 @@ public class MediumPartyRoomFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public MediumPartyRoom createRoom ( ) {
+		medium_count++;
 		return new MediumPartyRoom ( );
 	}
 }

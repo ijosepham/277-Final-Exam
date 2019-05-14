@@ -258,10 +258,7 @@ public class Reservation {
 		str += "\n" + "Meal Plan: " + mealPlan.getTier ( ) + " Tier";
 				
 		if ( isFinalized ) {
-			str += "\n" + "Finalized: True";
 			str += "\n" + "Confirmation Number: " + confNum;
-		} else {
-			str += "\n" + "Finalized: False";
 		}
 		
 		return str;

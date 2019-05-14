@@ -8,6 +8,7 @@ public class AquaWorldFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public AquaWorld createRoom ( ) {
+		aqua_count++;
 		return AquaWorld.getInstance ( );
 	}
 }

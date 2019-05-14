@@ -1,5 +1,7 @@
 package rooms;
 
+import roomfactories.RoomFactory;
+
 public class MediumPartyRoom extends Room {
 	public static String DESCRIPTION = "Medium Party Room";
 	public static int CAPACITY = 45;
@@ -10,7 +12,7 @@ public class MediumPartyRoom extends Room {
 	public MediumPartyRoom ( ) {
 		prepTime = 60;
 		capacity = 45;
-		name = "Medium Party Room";
+		name = "Medium Party Room, Room #" + RoomFactory.medium_count;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Quick Access to Arcade" );
 		basicAmenities.add ( "DJ" );

@@ -1,5 +1,7 @@
 package rooms;
 
+import roomfactories.RoomFactory;
+
 public class KaraokeLounge extends Room {
 	public static String DESCRIPTION = "karoake lounge";
 	public static int CAPACITY = 10;
@@ -10,7 +12,7 @@ public class KaraokeLounge extends Room {
 	public KaraokeLounge ( ) {
 		prepTime = 15;
 		capacity = 10;
-		name = "Karaoke Lounge";
+		name = "Karaoke Lounge, Room #" + RoomFactory.karaoke_count;
 		basicAmenities.add ( "Lounge with Karaoke Machine" );
 		basicAmenities.add ( "Access to Karaoke Machine" );
 	}

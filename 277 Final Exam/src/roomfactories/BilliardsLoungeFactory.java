@@ -7,6 +7,7 @@ public class BilliardsLoungeFactory extends RoomFactory {
 	 * @return room that was created
 	 */
 	public BilliardsLounge createRoom ( ) {
+		billiards_count++;
 		return new BilliardsLounge ( );
 	}
 }

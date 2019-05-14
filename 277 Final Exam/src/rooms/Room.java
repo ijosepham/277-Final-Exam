@@ -181,6 +181,7 @@ public abstract class Room {
 	 * reserves a room
 	 */
 	public void reserve ( Reservation reservation ) {
+		status = "Reserved for party.";
 		reservations.add ( reservation );
 	}
 	

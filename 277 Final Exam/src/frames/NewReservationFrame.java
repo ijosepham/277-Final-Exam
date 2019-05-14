@@ -18,6 +18,9 @@ import roomfactories.RoomFactory;
 //		probably needa change things that have to do with the description of the place
 
 public class NewReservationFrame extends JFrame {
+	JPanel titlePanel;
+	
+	JPanel guestPanel;
 	Date today = new Date ( 5, 16, 2019 );
 	JTextField guestNameField;
 	JTextField guestAddressField;
@@ -28,12 +31,14 @@ public class NewReservationFrame extends JFrame {
 	JComboBox < Integer > dobDayCombo;
 	JComboBox < Integer > dobYearCombo;
 	
+	JPanel cardPanel;
 	JComboBox < String > cardCompanyCombo;
 	JTextField ccNumberField;
 	JTextField cardSecurityField;
 	JComboBox < Integer > expMonthCombo;
 	JComboBox < Integer > expYearCombo;
 	
+	JPanel contactPanel;
 	JCheckBox contactPhoneCheck;
 	JCheckBox contactEmailCheck;
 	
@@ -69,8 +74,12 @@ public class NewReservationFrame extends JFrame {
 	JButton saveButton;
 	JButton cancelButton;
 	
-	JPanel problemsPanel;
-	JTextArea resProblems;
+	JPanel postResPanel;
+	JTextArea postResText;
+	
+	JButton waitlistButton;
+	JButton cancelWaitlistButton;
+	JButton exitButton;
 	
 	Integer [ ] days31;
 	Integer [ ] days30;
@@ -82,6 +91,11 @@ public class NewReservationFrame extends JFrame {
 	String [ ] minutes;
 	
 	PartyWorld partyWorld;
+	
+	String roomType;
+	Room room;
+	Reservation res;
+	int roomNumber;
 	
 	public NewReservationFrame ( PartyWorld rooms ) {
 		this.setTitle ( "New Reservation" );
@@ -103,14 +117,14 @@ public class NewReservationFrame extends JFrame {
 		panel.setLayout ( new BoxLayout ( panel, BoxLayout.Y_AXIS ) );
 		
 		
-		JPanel titlePanel = new JPanel ( );
+		titlePanel = new JPanel ( );
 		
 		JLabel titleLabel = new JLabel ( "New Reservation" );
 		titleLabel.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 		titlePanel.add ( titleLabel );
 
 		
-		JPanel guestPanel = new JPanel ( );
+		guestPanel = new JPanel ( );
 		
 		guestPanel.add ( new JLabel ( "Name: " ) );
 		guestPanel.add ( guestNameField = new JTextField ( 20 ) );
@@ -163,7 +177,7 @@ public class NewReservationFrame extends JFrame {
 		guestPanel.add ( dobYearCombo );
 		
 		
-		JPanel cardPanel = new JPanel ( );
+		cardPanel = new JPanel ( );
 		
 		cardPanel.add ( new JLabel ( "Card Company: " ) );
 		String [ ] cardCompanies = { "Visa", "Mastercard", "American Express" };
@@ -288,7 +302,7 @@ public class NewReservationFrame extends JFrame {
 		setIceCreamPanel ( 0 );
 
 		
-		JPanel contactPanel = new JPanel ( );
+		contactPanel = new JPanel ( );
 		
 		contactPanel.add ( new JLabel ( "Contact By: " ) );
 		contactPanel.add ( contactPhoneCheck = new JCheckBox ( "Phone" ) );
@@ -306,12 +320,31 @@ public class NewReservationFrame extends JFrame {
 		reservationPanel.add ( cancelButton );
 		
 		
-		problemsPanel = new JPanel ( );
+		// this is here because it formatted weird if put in resrvation panel
+		postResPanel = new JPanel ( );
 		
-		resProblems = new JTextArea ( );
-		resProblems.setEditable ( false );
-		problemsPanel.add ( resProblems );
-		problemsPanel.setVisible ( false );
+		postResText = new JTextArea ( );
+		postResText.setEditable ( false );
+		postResPanel.add ( postResText );
+		postResPanel.setVisible ( false );
+		
+		waitlistButton = new JButton ( "Waitlist" );
+		waitlistButton.addActionListener ( new WaitlistButtonListener ( ) );
+		
+		cancelWaitlistButton = new JButton ( "Cancel" );
+		cancelWaitlistButton.addActionListener ( new CancelWaitlistButtonListener ( ) );
+		
+		postResPanel.add ( waitlistButton );
+		postResPanel.add ( cancelWaitlistButton );
+		
+		waitlistButton.setVisible ( false );
+		cancelWaitlistButton.setVisible ( false );
+		
+		exitButton = new JButton ( "Exit" );
+		exitButton.addActionListener ( new CancelButtonListener ( ) );
+		postResPanel.add ( exitButton );
+		exitButton.setVisible ( false );
+		
 		
 		panel.add ( titlePanel );
 		panel.add ( guestPanel );
@@ -320,7 +353,7 @@ public class NewReservationFrame extends JFrame {
 		panel.add ( mealPlanPanel );
 		panel.add ( contactPanel );
 		panel.add ( reservationPanel );
-		panel.add ( problemsPanel );
+		panel.add ( postResPanel );
 		
 		this.add ( panel );
 	}
@@ -330,13 +363,13 @@ public class NewReservationFrame extends JFrame {
 			if ( themesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
 				themesPanel.add ( new JLabel ( "Upgrades: " ) );
 				if ( roomType.contains ( "Aqua" ) ) {
-					themesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
+					themesPanel.add ( new JCheckBox ( "Towel Rentals ($2/ea)" ) );
 				}
 				
-				themesPanel.add ( new JCheckBox ( "Party Favor Bags" ) );
-				themesPanel.add ( new JCheckBox ( "Projector" ) );
+				themesPanel.add ( new JCheckBox ( "Party Favor Bags ($5/ea)" ) );
+				themesPanel.add ( new JCheckBox ( "Projector ($10/hr)" ) );
 				
-				JCheckBox themeBox = new JCheckBox ( "Party Decoration Set-Up" );
+				JCheckBox themeBox = new JCheckBox ( "Party Decoration Set-Up ($100)" );
 				themeBox.addActionListener ( new ThemeListener ( ) );
 				
 				themesPanel.add ( themeBox );
@@ -734,24 +767,24 @@ public class NewReservationFrame extends JFrame {
 			}
 			
 			// make a reservation out of the given info
-			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, null, partySize, mealPlan );
+			res = new Reservation ( guest, roomDate, startTime, endTime, null, partySize, mealPlan );
 			
 			
 			
-			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			roomType = ( String ) roomTypeCombo.getSelectedItem ( );
 			boolean valid = true;
-			resProblems.setText ( "Invalid Reservation: " + "\n" + "\n" );
+			postResText.setText ( "Invalid Reservation: " + "\n" + "\n" );
 			
 			// first check all info is valid: booking time, cc, partysize, age if billiards
 			// start time is later than end time
 			if ( startTime.compareTo ( endTime ) > 0 ) { 
-				resProblems.append ( "Start time begins later than end time." + "\n" );
+				postResText.append ( "Start time begins later than end time." + "\n" );
 				valid = false;
 			}
 			
 			// if payment is expired
 			if ( paymentMethod.isExpired ( today ) ) { 
-				resProblems.append ( "Payment method has expired." + "\n" );
+				postResText.append ( "Payment method has expired." + "\n" );
 				valid = false;
 			}
 			
@@ -769,45 +802,81 @@ public class NewReservationFrame extends JFrame {
 				capacity = KaraokeLounge.CAPACITY;
 			}
 			if ( partySize > capacity ) {
-				resProblems.append ( "Party size exceeds maximum capacity." + "\n" );
+				postResText.append ( "Party size exceeds maximum capacity." + "\n" );
 				valid = false;
 			}
 			
 			// if billiards booker is below 21
 			if ( roomType.contains ( "Billiards" ) && ! guest.is21 ( today ) ) {
-				resProblems.append ( "Not old enough to book a Billiards Lounge." + "\n" );
+				postResText.append ( "Not old enough to book a Billiards Lounge." + "\n" );
 				valid = false;
 			}
 			
 			// if passes all requirements, book it book it
 			if ( valid ) {
-				problemsPanel.setVisible ( false );
+				postResText.setText ( "" );
 				// check if the roomtype is available at the given date, staart/endtime
-				int room = partyWorld.getAvailableRoom ( roomType, r ); // gets an available room
-				System.out.println ( roomType + ", Room #" + ( room + 1 ) );
+				roomNumber = partyWorld.getAvailableRoom ( roomType, res ); // gets an available room
 				
 				// if no rooms are currently available
-				if ( room == -1 ) {
-					System.out.println ( "There are no rooms available at the given time. Would you like to instead waitlist?" );
-					boolean waitlist = GetInput.getYesOrNo ( );
-					if ( waitlist ) { // if user chooses to waitlist
-						room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
-						r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
-						partyWorld.waitlist ( roomType, room, r ); // add the reservation to the waitlist of the room
-						System.out.println ( roomType + ", Room #" + ( room + 1 ) );
-						System.out.println ( "Waitlisted" );
-					}
+				if ( roomNumber == -1 ) {
+					postResText.append ( "There are no rooms available at the given time."); 
+					postResText.append ( "\n" + "Would you like to waitlist instead?" );
+					waitlistButton.setVisible ( true );
+					cancelWaitlistButton.setVisible ( true );
+					
 				} else {
-					System.out.println ( "Your room is available at the given times. Reserved." );
-					r.setRoom ( partyWorld.getRoom ( roomType, room ) ); // attach the room to the reservation
-					partyWorld.reserve ( roomType, room, r ); // officially reserve the room
+					res.setRoom ( partyWorld.getRoom ( roomType, roomNumber ) ); // attach the room to the reservation
+					partyWorld.reserve ( roomType, roomNumber, res ); // officially reserve the room
+					
+					postResText.append ( "Your room is available in the given time frame. Reserved." );
+					postResText.append ( roomType + ", Room #" + ( roomNumber + 1 ) );
+					postResText.append ( "i need to finalize somewhere here" );
 				}
-			} else {
-				problemsPanel.setVisible ( true );
-				problemsPanel.revalidate ( );
-				problemsPanel.repaint ( );
 			}
+			postResPanel.setVisible ( true );
 		}
+	}
+	
+	class WaitlistButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			roomNumber = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+			res.setRoom ( partyWorld.getRoom ( roomType, roomNumber ) ); // attach the room to the reservation
+			partyWorld.waitlist ( roomType, roomNumber, res ); // add the reservation to the waitlist of the room
+			
+			postResText.setText ( "Waitlisted." );
+			postResText.append ( "\n" + res );
+			
+			
+			titlePanel.setVisible ( false );
+			guestPanel.setVisible ( false );
+			cardPanel.setVisible ( false );
+			contactPanel.setVisible ( false );
+			roomPanel.setVisible ( false );
+			mealPlanPanel.setVisible ( false );
+			reservationPanel.setVisible ( false );
+			waitlistButton.setVisible ( false );
+			cancelWaitlistButton.setVisible ( false );
+			
+			exitButton.setVisible ( true );
+		}
+		
+	}
+	
+	class CancelWaitlistButtonListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			waitlistButton.setVisible ( false );
+			cancelWaitlistButton.setVisible ( false );
+			postResPanel.setVisible ( false );
+			
+			exitButton.setVisible ( true );
+		}
+		
 	}
 	
 	/**
