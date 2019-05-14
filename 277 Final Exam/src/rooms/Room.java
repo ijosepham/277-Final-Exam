@@ -11,11 +11,6 @@ public abstract class Room {
 	protected String name;
 	
 	/**
-	 * description used for the frames
-	 */
-	public static String DESCRIPTION;
-	
-	/**
 	 * basic amenities of the room
 	 */
 	protected ArrayList < String > basicAmenities;
@@ -183,11 +178,10 @@ public abstract class Room {
 	}
 	
 	/**
-	 * tries to reserve the room, and returns whether it was successful or not
-	 * @return if reserving was successful
+	 * reserves a room
 	 */
-	public boolean reserve ( ) {
-		return true;
+	public void reserve ( Reservation reservation ) {
+		reservations.add ( reservation );
 	}
 	
 	/**
@@ -257,10 +251,6 @@ public abstract class Room {
 					boolean d = ( r1.getEndTime ( ).compareTo ( r.getEndTime ( ) ) + prepTime ) > 0;
 					
 					if ( ( a && b ) || ( c && d ) ) {
-						System.out.println ( "Your room is not available at the given date and time." );
-						System.out.println ( "Would you  like to be waitlisted? " );
-						waitlist.add ( r );
-						System.out.println ( "Waitlisted." );
 						return false;
 					}
 				}
@@ -294,8 +284,8 @@ public abstract class Room {
 				
 			}
 			*/
-			System.out.println ( "Your room is available at the given date and time." );
 			reservations.add ( r );
+			isAvailable = false;
 			return true;
 		}
 	}

@@ -1,6 +1,7 @@
 package rooms;
 
 public class MediumPartyRoom extends Room {
+	public static String DESCRIPTION = "Medium Party Room";
 	
 	/**
 	 * default constructor
@@ -8,6 +9,7 @@ public class MediumPartyRoom extends Room {
 	public MediumPartyRoom ( ) {
 		prepTime = 60;
 		name = "Medium Party Room";
+		
 		capacity = 45;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Quick Access to Arcade" );

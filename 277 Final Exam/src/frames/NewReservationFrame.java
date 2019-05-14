@@ -10,6 +10,7 @@ import rooms.*;
 import pizzas.*;
 import mealplans.*;
 import reservation.*;
+import roomfactories.RoomFactory;
 
 // needa finish save button listener
 // needa make a thing for guest/res i think to see if they're checked in ornot
@@ -73,8 +74,12 @@ public class NewReservationFrame extends JFrame {
 	String [ ] loungeHours;
 	String [ ] minutes;
 	
-	public NewReservationFrame ( ) {
+	RoomFactory roomFactory;
+	
+	public NewReservationFrame ( RoomFactory roomFactory ) {
 		this.setTitle ( "New Reservation" );
+		
+		this.roomFactory = roomFactory;
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -571,11 +576,13 @@ public class NewReservationFrame extends JFrame {
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
 			System.out.println ( "Guest: " + guest );
 			
+			
 			// room date
 			int roomMonth = ( int ) roomMonthCombo.getSelectedItem ( );
 			int roomDay = ( int ) roomDayCombo.getSelectedItem ( );
 			Date roomDate = new Date ( roomMonth, roomDay, 2019 );
 			System.out.println ( "Room Date: " + roomDate );
+			
 			
 			// room start time
 			int startHour = Integer.parseInt ( ( String ) startHourCombo.getSelectedItem ( ) );
@@ -583,11 +590,13 @@ public class NewReservationFrame extends JFrame {
 			Time startTime = new Time ( startHour, startMin );
 			System.out.println ( "Start time: " + startTime );
 			
+			
 			// room end time
 			int endHour = Integer.parseInt ( ( String ) endHourCombo.getSelectedItem ( ) );
 			int endMin = Integer.parseInt ( ( String ) endMinCombo.getSelectedItem ( ) );
 			Time endTime = new Time ( endHour, endMin );
 			System.out.println ( "End time: " + endTime );
+			
 			
 			// create a meal plan according to what they chose
 			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
@@ -603,7 +612,6 @@ public class NewReservationFrame extends JFrame {
 			} else if ( meal.contains ( "Platinum" ) ) {
 				mealPlan = new PlatinumMealPlan ( );
 			}
-			
 			
 			// adding all pizzas to the meal plan
 			Pizza pizza;
@@ -705,8 +713,8 @@ public class NewReservationFrame extends JFrame {
 				mealPlan.addFood ( new IceCream ( flavor ) );
 			}
 			System.out.println ( "Meal plan: " + mealPlan );
-			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, new KaraokeLounge ( ), mealPlan );
-			System.out.println ( r );
+			
+			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, null, mealPlan );
 		}
 	}
 	
@@ -1062,7 +1070,8 @@ public class NewReservationFrame extends JFrame {
 	}
 	
 	public static void main ( String [ ] args ) {
-		NewReservationFrame f = new NewReservationFrame ( );
+		RoomFactory roomFactory = new RoomFactory ( );
+		NewReservationFrame f = new NewReservationFrame ( roomFactory );
 		f.setVisible ( true );
 	}
 }

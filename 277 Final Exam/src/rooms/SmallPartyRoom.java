@@ -1,6 +1,8 @@
 package rooms;
 
 public class SmallPartyRoom extends Room {
+	public static String DESCRIPTION = "Small Party Room";
+	
 	/**
 	 * default consturctor
 	 */

@@ -6,6 +6,8 @@ public class AquaWorld extends Room {
 	 */
 	private static AquaWorld aquaWorld;
 	
+	public static String DESCRIPTION = "Water park";
+	
 	/**
 	 * restrictions of aquaworld
 	 */

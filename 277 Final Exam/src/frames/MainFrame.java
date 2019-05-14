@@ -41,9 +41,9 @@ public class MainFrame extends JFrame {
 		panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 		
 		centerPanel.add ( panelTitle );
-		addRoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );
-		addRoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
-		addRoomDescription ( centerPanel, "C:\\Users\\kapiv\\Desktop\\Pictures\\medroom.jpg", "Aqua Room" , AquaWorld. DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\mparty.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\sparty.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\aworld.jpg", "Aqua World" , AquaWorld.DESCRIPTION );
 		
 		scrollPane = new JScrollPane ( centerPanel );
 		this.add ( scrollPane, BorderLayout.CENTER );
@@ -76,7 +76,7 @@ public class MainFrame extends JFrame {
 				menuItem.addActionListener ( new RoomItemListener ( ) );
 				submenu.add ( menuItem );
 				
-				menuItem = new JMenuItem ( "Aqua Room" );
+				menuItem = new JMenuItem ( "Aqua World" );
 				submenu.add ( menuItem );
 				menu.add ( submenu );
 				

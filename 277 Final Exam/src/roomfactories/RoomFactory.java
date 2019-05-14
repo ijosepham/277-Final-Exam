@@ -54,50 +54,6 @@ public abstract class RoomFactory {
 	 */
 	protected static int billiards_count = 0;
 	
-	/**
-	 * constructor
-	 * @param roomFactory - specific roomfactory to create a room
-	 * @return room that was create with the given factory
-	 */
-	/**
-	public Room createRoom ( AbstractRoomFactory roomFactory ) {
-		Room room = null;
-		
-		// create a room of give roomfactory, and make sure that it's less than the max
-		if ( roomFactory instanceof BilliardsLoungeFactory ) {
-			if ( billiards_count < MAX_BILLIARDS ) {
-				room = ( ( BilliardsLoungeFactory ) roomFactory ).createRoom ( );
-				billiards_count++;
-			}
-			
-		} else if ( roomFactory instanceof AquaWorldFactory ) {
-			if ( aqua_count < MAX_AQUA ) {
-				room = ( ( AquaWorldFactory ) roomFactory ).createRoom ( );
-				aqua_count++;
-			}
-			
-		} else if ( roomFactory instanceof KaraokeLoungeFactory ) {
-			if ( karaoke_count < MAX_KARAOKE ) {
-				room = ( ( KaraokeLoungeFactory ) roomFactory ).createRoom ( );
-				karaoke_count++;
-			}
-				
-		} else if ( roomFactory instanceof MediumPartyRoomFactory ) {
-			if ( medium_count < MAX_MEDIUM ) {
-				room = ( ( MediumPartyRoomFactory ) roomFactory ).createRoom ( );
-				medium_count++;
-			}
-			
-		} else {
-			if ( small_count < MAX_SMALL ) {
-				room = ( ( SmallPartyRoomFactory ) roomFactory ).createRoom ( );
-				small_count++;
-			}
-		}
-		
-		return room;
-	}
-	*/
 	
 	public static Room createRoom ( RoomFactory roomFactory ) {
 		return roomFactory.createRoom ( );

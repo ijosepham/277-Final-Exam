@@ -50,11 +50,7 @@ public class Guest {
 	 * @param address - address of guest
 	 * @param phone - phone number of guest
 	 * @param email - email of guest
-<<<<<<< HEAD
 	 * @param dateOfBirth - DOB of guest
-=======
-	 * @param dateOfBirth - date of birth oft he guest
->>>>>>> branch 'master' of https://github.com/ijosepham/277-Final-Exam.git
 	 * @param paymentMethod - payment method of guest
 	 */
 	public Guest ( String name, String address, String phone, String email, Date dateOfBirth, Card paymentMethod ) {

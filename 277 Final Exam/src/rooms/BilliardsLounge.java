@@ -5,6 +5,8 @@ public class BilliardsLounge extends Room {
 	 */
 	private String restrictions;
 	
+	public static String DESCRIPTION = "billiards lounge";
+	
 	/**
 	 * default consturctor
 	 */
