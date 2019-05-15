@@ -228,21 +228,9 @@ public class Reservation {
 	 * also makes sure that down payment is paid beforehand
 	 */
 	public void finalizeReservation ( ) {
-		while ( guest.getPaymentMethod ( ).isExpired ( date ) ) {
-			System.out.println ( "Your card has expired. Please enter a new card: " );
-			
-			
-			// remember to change this later, solely for testing purposes
-			guest.getPaymentMethod ( ).setExpDate ( date );
-			
-			System.out.println ( "auto update, card valid" );
-		}
-		
-		System.out.println ( "Initial payment amount: $" + ( initialPayment * .25 ) );
+		initialPayment = 0;
 		confNum = ( ( int ) ( Math.random ( ) * 1000000000 ) ) + "";
-		System.out.println ( "Your confirmation number: " + confNum );
 		isFinalized = true;
-		System.out.println ( "Finalized." );
 	}
 	
 	/**
@@ -252,11 +240,13 @@ public class Reservation {
 	public String toString ( ) {
 		String str = "Name: " + guest.getName ( );
 		str += "\n" + "Room: " + room.getName ( );
+		str += "\n" + "Party Size: " + partySize;
 		str += "\n" + "Date: " + date;
 		str += "\n" + "Start Time: " + startTime;
 		str += "\n" + "End Time: " + endTime;
 		str += "\n" + "Meal Plan: " + mealPlan.getTier ( ) + " Tier";
-				
+		str += "\n" + "Initial Payment: $" + initialPayment;
+		
 		if ( isFinalized ) {
 			str += "\n" + "Confirmation Number: " + confNum;
 		}

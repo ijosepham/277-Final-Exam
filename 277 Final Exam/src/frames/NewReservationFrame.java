@@ -10,7 +10,6 @@ import rooms.*;
 import pizzas.*;
 import mealplans.*;
 import reservation.*;
-import roomfactories.RoomFactory;
 
 // needa finish save button listener
 // needa make a thing for guest/res i think to see if they're checked in ornot
@@ -18,6 +17,8 @@ import roomfactories.RoomFactory;
 //		probably needa change things that have to do with the description of the place
 
 public class NewReservationFrame extends JFrame {
+	JFrame thisFrame = this;
+	
 	JPanel titlePanel;
 	
 	JPanel guestPanel;
@@ -51,6 +52,7 @@ public class NewReservationFrame extends JFrame {
 	JPanel sizePanel;
 	JTextField sizeField;
 	JPanel themesPanel;
+	JComboBox < String > themeCombo;
 	JLabel restrictionsLabel;
 	
 	JPanel mealPlanPanel;
@@ -94,8 +96,8 @@ public class NewReservationFrame extends JFrame {
 	
 	String roomType;
 	Room room;
-	Reservation res;
 	int roomNumber;
+	Reservation res;
 	
 	public NewReservationFrame ( PartyWorld rooms ) {
 		this.setTitle ( "New Reservation" );
@@ -342,8 +344,8 @@ public class NewReservationFrame extends JFrame {
 		
 		exitButton = new JButton ( "Exit" );
 		exitButton.addActionListener ( new CancelButtonListener ( ) );
-		postResPanel.add ( exitButton );
 		exitButton.setVisible ( false );
+		postResPanel.add ( exitButton );
 		
 		
 		panel.add ( titlePanel );
@@ -355,6 +357,7 @@ public class NewReservationFrame extends JFrame {
 		panel.add ( reservationPanel );
 		panel.add ( postResPanel );
 		
+		
 		this.add ( panel );
 	}
 	
@@ -363,13 +366,13 @@ public class NewReservationFrame extends JFrame {
 			if ( themesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
 				themesPanel.add ( new JLabel ( "Upgrades: " ) );
 				if ( roomType.contains ( "Aqua" ) ) {
-					themesPanel.add ( new JCheckBox ( "Towel Rentals ($2/ea)" ) );
+					themesPanel.add ( new JCheckBox ( "Towel Rentals" ) );
 				}
 				
-				themesPanel.add ( new JCheckBox ( "Party Favor Bags ($5/ea)" ) );
-				themesPanel.add ( new JCheckBox ( "Projector ($10/hr)" ) );
+				themesPanel.add ( new JCheckBox ( "Party Favor Bags" ) );
+				themesPanel.add ( new JCheckBox ( "Projector" ) );
 				
-				JCheckBox themeBox = new JCheckBox ( "Party Decoration Set-Up ($100)" );
+				JCheckBox themeBox = new JCheckBox ( "Party Decoration Set-Up" );
 				themeBox.addActionListener ( new ThemeListener ( ) );
 				
 				themesPanel.add ( themeBox );
@@ -651,6 +654,26 @@ public class NewReservationFrame extends JFrame {
 			// party size
 			int partySize = Integer.parseInt ( ( String ) sizeField.getText ( ) );
 			
+			
+			// upgrades
+			ArrayList < String > specialAmenities = new ArrayList < String > ( );
+			JCheckBox upgrade = new JCheckBox ( );
+			String amenity;
+			for ( int i = 1; i < themesPanel.getComponentCount ( ); i++ ) {
+				upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
+				
+				if ( upgrade.isSelected ( ) ) { // add all items checked
+					amenity = upgrade.getText ( );
+					
+					if ( upgrade.getText ( ).contains ( "Decoration" ) ) { // if its the theme set up
+						amenity += ( ": " + ( String ) themeCombo.getSelectedItem ( ) ); // add the theme
+					}
+					
+					specialAmenities.add ( amenity );
+				}
+			}
+			
+			
 			// create a meal plan according to what they chose
 			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
 			MealPlan mealPlan = new BasicMealPlan ( );
@@ -816,22 +839,38 @@ public class NewReservationFrame extends JFrame {
 			if ( valid ) {
 				postResText.setText ( "" );
 				// check if the roomtype is available at the given date, staart/endtime
-				roomNumber = partyWorld.getAvailableRoom ( roomType, res ); // gets an available room
+				room = partyWorld.getAvailableRoom ( roomType, res ); // gets an available room
+				roomNumber = partyWorld.getIndex( roomType, room ); // index of available room
 				
 				// if no rooms are currently available
-				if ( roomNumber == -1 ) {
+				if ( room == null ) {
 					postResText.append ( "There are no rooms available at the given time."); 
 					postResText.append ( "\n" + "Would you like to waitlist instead?" );
 					waitlistButton.setVisible ( true );
 					cancelWaitlistButton.setVisible ( true );
 					
-				} else {
-					res.setRoom ( partyWorld.getRoom ( roomType, roomNumber ) ); // attach the room to the reservation
-					partyWorld.reserve ( roomType, roomNumber, res ); // officially reserve the room
+				} else { // if a room is available to reserve immediately
+					titlePanel.setVisible ( false );
+					guestPanel.setVisible ( false );
+					cardPanel.setVisible ( false );
+					contactPanel.setVisible ( false );
+					roomPanel.setVisible ( false );
+					mealPlanPanel.setVisible ( false );
+					reservationPanel.setVisible ( false );
+					waitlistButton.setVisible ( false );
+					cancelWaitlistButton.setVisible ( false );
+					
+					
+					res.setRoom ( room ); // attach the room to the reservation
+					res.finalizeReservation ( ); // initial payment and confirmation number
 					
 					postResText.append ( "Your room is available in the given time frame. Reserved." );
-					postResText.append ( roomType + ", Room #" + ( roomNumber + 1 ) );
-					postResText.append ( "i need to finalize somewhere here" );
+					postResText.append ( "\n" + "\n" + res );
+					
+					room.reserve ( res ); // reserve the room
+					partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+					
+					exitButton.setVisible ( true );
 				}
 			}
 			postResPanel.setVisible ( true );
@@ -842,9 +881,11 @@ public class NewReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			roomNumber = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
-			res.setRoom ( partyWorld.getRoom ( roomType, roomNumber ) ); // attach the room to the reservation
-			partyWorld.waitlist ( roomType, roomNumber, res ); // add the reservation to the waitlist of the room
+			room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+			res.setRoom ( room ); // attach the room to the reservation
+			
+			room.addToWaitlist ( res ); // walist the room
+			partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
 			
 			postResText.setText ( "Waitlisted." );
 			postResText.append ( "\n" + res );
@@ -862,7 +903,6 @@ public class NewReservationFrame extends JFrame {
 			
 			exitButton.setVisible ( true );
 		}
-		
 	}
 	
 	class CancelWaitlistButtonListener implements ActionListener
@@ -889,14 +929,10 @@ public class NewReservationFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			// get the frame you clciekd in and clsoe it
-			Component comp = ( Component ) click.getSource ( );
-			JFrame frame = ( JFrame ) SwingUtilities.getRoot ( comp );
-			
-			frame.dispose ( );
+			thisFrame.dispose ( );
 			
 			// open the new frame
-			new MainFrame ( );
+			new MainFrame ( partyWorld );
 		}
 	}
 	
@@ -970,7 +1006,7 @@ public class NewReservationFrame extends JFrame {
 			JCheckBox box = ( JCheckBox ) click.getSource ( );
 			if ( box.isSelected ( ) ) {
 				String [ ] themes = { "Hawaiian", "Sea Life", "Jungle", "Space", "Modern" };
-				JComboBox < String > themeCombo = new JComboBox < String > ( themes );
+				themeCombo = new JComboBox < String > ( themes );
 				
 				themesPanel.add ( themeCombo );
 			} else {

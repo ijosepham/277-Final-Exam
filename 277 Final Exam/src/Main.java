@@ -1,9 +1,6 @@
-import reservation.*;
-import roomfactories.*;
+
 import rooms.*;
-import food.*;
-import mealplans.*;
-import pizzas.*;
+import frames.*;
 
 /**
  * to-do: 
@@ -19,6 +16,6 @@ import pizzas.*;
 public class Main {
 	public static void main ( String [ ] args ) {
 		PartyWorld rooms = new PartyWorld ( );
-		
+		new MainFrame ( rooms );
 	}
 }

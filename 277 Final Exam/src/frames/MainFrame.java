@@ -8,16 +8,18 @@ import javax.swing.border.*;
 import rooms.*;
 
 public class MainFrame extends JFrame {
+	JFrame thisFrame = this;
 	JMenuBar menuBar;
 	JScrollPane scrollPane;
 	JPanel centerPanel;
-	
+	PartyWorld partyWorld;
 
 	//border settings used in the method addARoomDescription ( ) 
  	Border raisedbevel = BorderFactory.createRaisedBevelBorder ( ); 
  	Border loweredbevel = BorderFactory.createLoweredBevelBorder ( );
 	
-	public MainFrame ( ) {
+	public MainFrame ( PartyWorld partyWorld ) {
+		this.partyWorld = partyWorld;
 		this.setTitle ( "Reservation System" );
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -134,23 +136,28 @@ public class MainFrame extends JFrame {
 						
 						//New reservation item
 						menuItem = new JMenuItem ( "New Reservation..." );
+						menuItem.addActionListener ( new NewReservationListener ( ) );
 						menu.add ( menuItem );
 						menu.addSeparator ( );
 						
 						//Edit reservation item
 						menuItem = new JMenuItem ( "Edit Existing Reservation..." );
+						// menuItem.addActionListener ( new NewReservationListener ( ) );
 						menu.add ( menuItem );
 						menu.addSeparator ( );
 						
 						
 						//Manage reservation sub menu 
 						submenu = new JMenu ( "Manage Current Reservation" );
+						// menuItem.addActionListener ( new NewReservationListener ( ) );
 						submenu.setMnemonic ( KeyEvent.VK_S );
 
 						menuItem = new JMenuItem ( "Check-in" );
+						// menuItem.addActionListener ( new NewReservationListener ( ) );
 						submenu.add ( menuItem );
 						
 						menuItem = new JMenuItem ( "Check-out" );
+						// menuItem.addActionListener ( new NewReservationListener ( ) );
 						submenu.add ( menuItem );
 						
 
@@ -264,14 +271,33 @@ public class MainFrame extends JFrame {
 		public void actionPerformed ( ActionEvent select ) {
 			JMenuItem item = ( JMenuItem ) select.getSource ( );
 			
-			if ( item.getText ( ).equals ( "Medium Party Rooms" ) ) {
+			if ( item.getText ( ).contains ( "Aqua" ) ) {
+				System.out.println ( "Display only Aqua Room" );
+			} else if ( item.getText ( ).contains ( "Medium" ) ) {
 				System.out.println ( "Display only Medium Party Room" );
+			} else if ( item.getText ( ).contains ( "Small" ) ) {
+				System.out.println ( "Display only Small Party Room" );
+			} else if ( item.getText ( ).contains ( "Billiards" ) ) {
+				System.out.println ( "Display only Billiards Room" );
+			} else if ( item.getText ( ).contains ( "Karaoke" ) ) {
+				System.out.println ( "Display only Karaoke Room" );
 			}
 		}
 	}
 	
+	class NewReservationListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed ( ActionEvent select ) {
+			thisFrame.dispose ( );
+			
+			new NewReservationFrame ( partyWorld );
+		}
+	}
+	
 	public static void main ( String [ ] args ) {
-		MainFrame f = new MainFrame ( );
+		PartyWorld partyWorld = new PartyWorld ( );
+		MainFrame f = new MainFrame ( partyWorld );
 		f.setVisible ( true );
 	}
 }

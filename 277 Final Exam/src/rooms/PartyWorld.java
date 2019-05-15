@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import reservation.Reservation;
 import roomfactories.*;
-import rooms.*;
 
 public class PartyWorld {
 	
@@ -49,53 +48,51 @@ public class PartyWorld {
 	}
 	
 	// gets the next available room. if none are available, returns -1
-	public int getAvailableRoom ( String roomType, Reservation r ) {
+	public Room getAvailableRoom ( String roomType, Reservation r ) {
 		Room room;
 		if ( roomType.contains ( "Aqua" ) ) {
 			if ( aquaWorlds.get ( 0 ).isAvailable ( r ) ) {
-				return 0;
-			} else {
-				return -1;
+				return aquaWorlds.get ( 0 );
 			}
 		} else if ( roomType.contains ( "Medium" ) ) {
 			for ( int i = 0; i < mediumPartyRooms.size ( ); i++ ) {
 				room = mediumPartyRooms.get ( i );
 				if ( room.isAvailable ( r ) ) {
-					return i;
+					return room;
 				}
 			}
 		} else if ( roomType.contains ( "Small" ) ) {
 			for ( int i = 0; i < smallPartyRooms.size ( ); i++ ) {
 				room = smallPartyRooms.get ( i );
 				if ( room.isAvailable ( r ) ) {
-					return i;
+					return room;
 				}
 			}
 		} else if ( roomType.contains ( "Billiards" ) ) {
 			for ( int i = 0; i < billiardsLounges.size ( ); i++ ) {
 				room = billiardsLounges.get ( i );
 				if ( room.isAvailable ( r ) ) {
-					return i;
+					return room;
 				}
 			}
 		} else {
 			for ( int i = 0; i < karaokeLounges.size ( ); i++ ) {
 				room = karaokeLounges.get ( i );
 				if ( room.isAvailable ( r ) ) {
-					return i;
+					return room;
 				}
 			}
 		}
-		return -1;
+		return null;
 	}
 	
 	// get the next room with the smallest waitlist
-	public int getNextAvailableRoom ( String roomType ) {
+	public Room getNextAvailableRoom ( String roomType ) {
 		Room room;
 		int waitlistSize = 0;
 		
 		if ( roomType.contains ( "Aqua" ) ) {
-			 return 0;
+			 return aquaWorlds.get ( 0 );
 		} else if ( roomType.contains ( "Medium" ) ) {
 			waitlistSize = mediumPartyRooms.get ( 0 ).getWaitlist ( ).size ( ); // get the size of the waitlist of room1
 			
@@ -103,13 +100,15 @@ public class PartyWorld {
 				room = mediumPartyRooms.get ( i );
 				
 				if ( room.getWaitlist ( ).size ( ) == 0 ) { // if the first room has an empty waitlist, return it
-					return i;
+					return room;
 					
 				// or if any other waitlist is smaller than the first one
 				} else if ( room.getWaitlist ( ).size ( ) < waitlistSize ) { 
-					return i;
+					return room;
 				}
 			}
+			// gets here if all waitlists of that roomtype are the same size
+			return mediumPartyRooms.get ( 0 ); // return the first room
 			
 		} else if ( roomType.contains ( "Small" ) ) {
 			waitlistSize = smallPartyRooms.get ( 0 ).getWaitlist ( ).size ( ); // get the size of the waitlist of room1
@@ -118,13 +117,16 @@ public class PartyWorld {
 				room = smallPartyRooms.get ( i );
 				
 				if ( room.getWaitlist ( ).size ( ) == 0 ) { // if the first room has an empty waitlist, return it
-					return i;
+					return room;
 					
 				// or if any other waitlist is smaller than the first one
 				} else if ( room.getWaitlist ( ).size ( ) < waitlistSize ) { 
-					return i;
+					return room;
 				}
 			}
+			// gets here if all waitlists of that roomtype are the same size
+			return smallPartyRooms.get ( 0 ); // return the first room
+			
 		} else if ( roomType.contains ( "Billiards" ) ) {
 			waitlistSize = billiardsLounges.get ( 0 ).getWaitlist ( ).size ( ); // get the size of the waitlist of room1
 			
@@ -132,13 +134,16 @@ public class PartyWorld {
 				room = billiardsLounges.get ( i );
 				
 				if ( room.getWaitlist ( ).size ( ) == 0 ) { // if the first room has an empty waitlist, return it
-					return i;
+					return room;
 					
 				// or if any other waitlist is smaller than the first one
 				} else if ( room.getWaitlist ( ).size ( ) < waitlistSize ) { 
-					return i;
+					return room;
 				}
 			}
+			// gets here if all waitlists of that roomtype are the same size
+			return billiardsLounges.get ( 0 ); // return the first room
+			
 		} else {
 			waitlistSize = karaokeLounges.get ( 0 ).getWaitlist ( ).size ( ); // get the size of the waitlist of room1
 			
@@ -146,16 +151,17 @@ public class PartyWorld {
 				room = karaokeLounges.get ( i );
 				
 				if ( room.getWaitlist ( ).size ( ) == 0 ) { // if the first room has an empty waitlist, return it
-					return i;
+					return room;
 					
 				// or if any other waitlist is smaller than the first one
 				} else if ( room.getWaitlist ( ).size ( ) < waitlistSize ) { 
-					return i;
+					return room;
 				}
 			}
+			
+			// gets here if all waitlists of that roomtype are the same size
+			return karaokeLounges.get ( 0 ); // return the first room
 		}
-		// gets here if all waitlists of that roomtype are the same size
-		return 0; // return the first room
 	}
 	
 	public Room getRoom ( String roomType, int index ) {
@@ -186,6 +192,7 @@ public class PartyWorld {
 		}
 	}
 	
+	/**
 	public void waitlist ( String roomType, int index, Reservation r ) {
 		if ( roomType.contains ( "Aqua" ) ) {
 			aquaWorlds.get ( index ).addToWaitlist ( r );
@@ -211,6 +218,21 @@ public class PartyWorld {
 			billiardsLounges.get ( index ).reserve ( r );
 		} else {
 			karaokeLounges.get ( index ).reserve ( r );
+		}
+	}
+	*/
+	
+	public void setRoom ( String roomType, int index, Room room ) {
+		if ( roomType.contains ( "Aqua" ) ) {
+			aquaWorlds.set ( index, room );
+		} else if ( roomType.contains ( "Medium" ) ) {
+			mediumPartyRooms.set ( index, room );
+		} else if ( roomType.contains ( "Small" ) ) {
+			smallPartyRooms.set ( index, room );
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			billiardsLounges.set ( index, room );
+		} else {
+			karaokeLounges.set ( index, room );
 		}
 	}
 }
