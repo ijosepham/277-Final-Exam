@@ -882,6 +882,8 @@ public class NewReservationFrame extends JFrame {
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
 			room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+			roomNumber = partyWorld.getIndex ( roomType, room ); // update the index
+			
 			res.setRoom ( room ); // attach the room to the reservation
 			
 			room.addToWaitlist ( res ); // walist the room
@@ -914,7 +916,7 @@ public class NewReservationFrame extends JFrame {
 			cancelWaitlistButton.setVisible ( false );
 			postResPanel.setVisible ( false );
 			
-			exitButton.setVisible ( true );
+			exitButton.setVisible ( false );
 		}
 		
 	}
