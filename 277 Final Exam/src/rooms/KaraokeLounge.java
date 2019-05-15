@@ -12,7 +12,8 @@ public class KaraokeLounge extends Room {
 	public KaraokeLounge ( ) {
 		prepTime = 15;
 		capacity = 10;
-		name = "Karaoke Lounge, Room #" + RoomFactory.karaoke_count;
+		name = "Karaoke Lounge";
+		roomNumber = RoomFactory.karaoke_count;
 		basicAmenities.add ( "Lounge with Karaoke Machine" );
 		basicAmenities.add ( "Access to Karaoke Machine" );
 	}

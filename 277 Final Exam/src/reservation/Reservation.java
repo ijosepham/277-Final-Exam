@@ -1,6 +1,9 @@
 package reservation;
 
 import rooms.*;
+
+import java.util.ArrayList;
+
 import mealplans.*;
 
 public class Reservation {
@@ -30,6 +33,11 @@ public class Reservation {
 	private int partySize;
 	
 	/**
+	 * special amenities
+	 */
+	private ArrayList < String > specialAmenities;
+	
+	/**
 	 * meal plan of the room
 	 */
 	private MealPlan mealPlan;
@@ -38,6 +46,11 @@ public class Reservation {
 	 * guest rqeuesting the reservation
 	 */
 	private Guest guest;
+	
+	/**
+	 * contact by
+	 */
+	private ArrayList < Boolean > contactBy;
 	
 	/**
 	 * whether or not the reservation was made
@@ -63,7 +76,9 @@ public class Reservation {
 		startTime = new Time ( );
 		endTime = new Time ( );
 		room = new SmallPartyRoom ( );
-		mealPlan = new BasicMealPlan ( );
+		specialAmenities = new ArrayList < String > ( );
+		contactBy = new ArrayList < Boolean > ( );
+		mealPlan = null;
 		initialPayment = 0;
 		isFinalized = false;
 		partySize = 0;
@@ -75,14 +90,16 @@ public class Reservation {
 	 * @param room - room of the reservation
 	 * @param mealPlan - mealplan of the reservation
 	 */
-	public Reservation ( Guest guest, Date date, Time startTime, Time endTime, Room room, int partySize, MealPlan mealPlan ) {
+	public Reservation ( Guest guest, Date date, Time startTime, Time endTime, Room room, ArrayList < String > specialAmenities, int partySize, MealPlan mealPlan, ArrayList < Boolean > contactBy ) {
 		this.guest = guest;
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.room = room;
+		this.specialAmenities = specialAmenities;
 		this.partySize = partySize;
 		this.mealPlan = mealPlan;
+		this.contactBy = contactBy;
 		isFinalized = false;
 		//initialPayment += room.getCost ( ) + mealPlan.getCost ( );
 	}
@@ -200,6 +217,14 @@ public class Reservation {
 	}
 	
 	/**
+	 * returns the means of contact
+	 * @return means of contact
+	 */
+	public ArrayList < Boolean > getContactBy ( ) {
+		return contactBy;
+	}
+	
+	/**
 	 * returns whether or not the reservationw as finalized
 	 * @return if the reservation was finalized
 	 */
@@ -234,12 +259,20 @@ public class Reservation {
 	}
 	
 	/**
+	 * return the confirmation number 
+	 * @return confirmation number
+	 */
+	public String getConfNum ( ) {
+		return confNum;
+	}
+	
+	/**
 	 * string representation of the reservation
 	 * @return the reservation
 	 */
 	public String toString ( ) {
 		String str = "Name: " + guest.getName ( );
-		str += "\n" + "Room: " + room.getName ( );
+		str += "\n" + "Room: " + room.getName ( ) + ", Room #" + room.getRoomNumber ( );
 		str += "\n" + "Party Size: " + partySize;
 		str += "\n" + "Date: " + date;
 		str += "\n" + "Start Time: " + startTime;

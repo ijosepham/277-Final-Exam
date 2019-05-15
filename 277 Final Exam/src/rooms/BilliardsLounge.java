@@ -17,7 +17,8 @@ public class BilliardsLounge extends Room {
 	public BilliardsLounge ( ) {
 		prepTime = 15;
 		capacity = 10;
-		name = "Billiards Lounge, Room #" + RoomFactory.billiards_count;
+		name = "Billiards Lounge";
+		roomNumber = RoomFactory.billiards_count;
 		restrictions = "21 and Older Only";
 		basicAmenities.add ( "Lounge with Pool Table" );
 		basicAmenities.add ( "Access to Pool Table & Cues" );

@@ -12,12 +12,26 @@ import mealplans.*;
 import reservation.*;
 
 // needa finish save button listener
-// meal plan stuff like pizzas 
 // needa make a thing for guest/res i think to see if they're checked in ornot
 // main frame just make everything into the boxlayout
 //		probably needa change things that have to do with the description of the place
 
 public class EditReservationFrame extends JFrame {
+	JFrame thisFrame = this;
+	
+	JPanel titlePanel;
+	
+	JPanel resInfoPanel;
+	JButton confirmedButton;
+	JButton waitlistedButton;
+	JLabel resInfoLabel;
+	JTextField resInfoField;
+	JButton editButton;
+	JButton backButton;
+	JButton cancelEditButton;
+	
+	JPanel guestPanel;
+	Date today = new Date ( 5, 16, 2019 );
 	JTextField guestNameField;
 	JTextField guestAddressField;
 	JTextField guestPhoneField;
@@ -27,12 +41,14 @@ public class EditReservationFrame extends JFrame {
 	JComboBox < Integer > dobDayCombo;
 	JComboBox < Integer > dobYearCombo;
 	
+	JPanel cardPanel;
 	JComboBox < String > cardCompanyCombo;
 	JTextField ccNumberField;
 	JTextField cardSecurityField;
 	JComboBox < Integer > expMonthCombo;
 	JComboBox < Integer > expYearCombo;
 	
+	JPanel contactPanel;
 	JCheckBox contactPhoneCheck;
 	JCheckBox contactEmailCheck;
 	
@@ -42,7 +58,10 @@ public class EditReservationFrame extends JFrame {
 	JPanel roomDatePanel;
 	JPanel roomStartPanel;
 	JPanel roomEndPanel;
+	JPanel sizePanel;
+	JTextField sizeField;
 	JPanel themesPanel;
+	JComboBox < String > themeCombo;
 	JLabel restrictionsLabel;
 	
 	JPanel mealPlanPanel;
@@ -62,8 +81,17 @@ public class EditReservationFrame extends JFrame {
 	JComboBox < String > endHourCombo;
 	JComboBox < String > endMinCombo;
 	
-	JButton saveReservationButton;
-	JButton cancelReservationButton;
+	JPanel reservationPanel;
+	JButton saveButton;
+	JButton cancelButton;
+	JButton deleteButton;
+	
+	JPanel postResPanel;
+	JTextArea postResText;
+	
+	JButton waitlistButton;
+	JButton cancelWaitlistButton;
+	JButton exitButton;
 	
 	Integer [ ] days31;
 	Integer [ ] days30;
@@ -74,8 +102,17 @@ public class EditReservationFrame extends JFrame {
 	String [ ] loungeHours;
 	String [ ] minutes;
 	
-	public EditReservationFrame ( ) {
-		this.setTitle ( "New Reservation" );
+	PartyWorld partyWorld;
+	
+	String roomType;
+	Room room;
+	int roomNumber;
+	Reservation res;
+	
+	public EditReservationFrame ( PartyWorld rooms ) {
+		this.setTitle ( "Edit Reservation" );
+		
+		this.partyWorld = rooms;
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -92,14 +129,51 @@ public class EditReservationFrame extends JFrame {
 		panel.setLayout ( new BoxLayout ( panel, BoxLayout.Y_AXIS ) );
 		
 		
-		JPanel titlePanel = new JPanel ( );
+		titlePanel = new JPanel ( );
 		
-		JLabel titleLabel = new JLabel ( "New Reservation" );
+		JLabel titleLabel = new JLabel ( "Edit Reservation" );
 		titleLabel.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 		titlePanel.add ( titleLabel );
 
 		
-		JPanel guestPanel = new JPanel ( );
+		resInfoPanel = new JPanel ( );
+		
+		confirmedButton = new JButton ( "Confirmed Reservation" );
+		confirmedButton.addActionListener ( new ConfirmedButtonListener ( ) );
+		
+		waitlistedButton = new JButton ( "Waitlisted Reservation" );
+		waitlistedButton.addActionListener ( new WaitlistedButtonListener ( ) );
+		
+		resInfoLabel = new JLabel ( "" );
+		resInfoField = new JTextField ( 20 );
+		
+		resInfoPanel.add ( confirmedButton );
+		resInfoPanel.add ( waitlistedButton );
+		resInfoPanel.add ( resInfoLabel );
+		resInfoPanel.add ( resInfoField );
+		
+		resInfoLabel.setVisible ( false );
+		resInfoField.setVisible ( false );
+		
+		editButton = new JButton ( "Edit" );
+		editButton.addActionListener ( new EditButtonListener ( ) );
+		backButton = new JButton ( "Back" );
+		backButton.addActionListener ( new BackButtonListener ( ) );
+		cancelEditButton = new JButton ( "Cancel" );
+		cancelEditButton.addActionListener ( new CancelButtonListener ( ) );
+		
+		editButton.setVisible ( false );
+		backButton.setVisible ( false );
+		cancelEditButton.setVisible ( false );
+		
+		resInfoPanel.add ( editButton );
+		resInfoPanel.add ( backButton );
+		resInfoPanel.add ( cancelEditButton );
+		
+		
+		titlePanel = new JPanel ( );
+		
+		guestPanel = new JPanel ( );
 		
 		guestPanel.add ( new JLabel ( "Name: " ) );
 		guestPanel.add ( guestNameField = new JTextField ( 20 ) );
@@ -152,7 +226,7 @@ public class EditReservationFrame extends JFrame {
 		guestPanel.add ( dobYearCombo );
 		
 		
-		JPanel cardPanel = new JPanel ( );
+		cardPanel = new JPanel ( );
 		
 		cardPanel.add ( new JLabel ( "Card Company: " ) );
 		String [ ] cardCompanies = { "Visa", "Mastercard", "American Express" };
@@ -167,8 +241,8 @@ public class EditReservationFrame extends JFrame {
 		cardPanel.add ( new JLabel ( "Expiration Date: " ) );
 		cardPanel.add ( expMonthCombo = new JComboBox < Integer > ( months ) );
 		
-		Integer [ ] expYears = new Integer [ 11 ]; // 5 years into the past and into the future
-		for ( int i = 0; i < 11; i++ ) {
+		Integer [ ] expYears = new Integer [ 16 ]; // 5 years into the past and into the future
+		for ( int i = 0; i < 16; i++ ) {
 			expYears [ i ] = 2025 - i;
 		}
 		cardPanel.add ( expYearCombo = new JComboBox < Integer > ( expYears ) );
@@ -234,6 +308,12 @@ public class EditReservationFrame extends JFrame {
 		roomEndPanel.add ( endMinCombo = new JComboBox < String > ( minutes ) );
 		roomPanel.add ( roomEndPanel );
 		
+		sizePanel = new JPanel ( );
+		sizePanel.add ( new JLabel ( "Party Size: " ) );
+		sizeField = new JTextField ( 2 );
+		sizePanel.add ( sizeField );
+		roomPanel.add ( sizePanel );
+		
 		themesPanel = new JPanel ( );
 		setThemesPanel ( "Aqua Party" );
 		restrictionsLabel = new JLabel ( "Restrictions: Bathing suits must be worn to access water facilities." );
@@ -271,30 +351,67 @@ public class EditReservationFrame extends JFrame {
 		setIceCreamPanel ( 0 );
 
 		
-		JPanel contactPanel = new JPanel ( );
+		contactPanel = new JPanel ( );
 		
 		contactPanel.add ( new JLabel ( "Contact By: " ) );
 		contactPanel.add ( contactPhoneCheck = new JCheckBox ( "Phone" ) );
 		contactPanel.add ( contactEmailCheck = new JCheckBox ( "Email" ) );
 		
 		
-		JPanel buttonPanel = new JPanel ( );
+		reservationPanel = new JPanel ( );
 		
-		saveReservationButton = new JButton ( "Save Reservation" );
-		saveReservationButton.addActionListener ( new SaveButtonListener ( ) );
-		buttonPanel.add ( saveReservationButton );
+		saveButton = new JButton ( "Save Reservation" );
+		saveButton.addActionListener ( new SaveButtonListener ( ) );
+		reservationPanel.add ( saveButton );
 		
-		cancelReservationButton = new JButton ( "Cancel Reservation" );
-		cancelReservationButton.addActionListener ( new CancelButtonListener ( ) );
-		buttonPanel.add ( cancelReservationButton );
+		cancelButton = new JButton ( "Cancel Reservation" );
+		cancelButton.addActionListener ( new CancelButtonListener ( ) );
+		reservationPanel.add ( cancelButton );
+		
+		
+		// this is here because it formatted weird if put in resrvation panel
+		postResPanel = new JPanel ( );
+		
+		postResText = new JTextArea ( );
+		postResText.setEditable ( false );
+		postResPanel.add ( postResText );
+		postResPanel.setVisible ( false );
+		
+		waitlistButton = new JButton ( "Waitlist" );
+		waitlistButton.addActionListener ( new WaitlistButtonListener ( ) );
+		
+		cancelWaitlistButton = new JButton ( "Cancel" );
+		cancelWaitlistButton.addActionListener ( new CancelWaitlistButtonListener ( ) );
+		
+		postResPanel.add ( waitlistButton );
+		postResPanel.add ( cancelWaitlistButton );
+		
+		waitlistButton.setVisible ( false );
+		cancelWaitlistButton.setVisible ( false );
+		
+		exitButton = new JButton ( "Exit" );
+		exitButton.addActionListener ( new CancelButtonListener ( ) );
+		exitButton.setVisible ( false );
+		postResPanel.add ( exitButton );
+		
 		
 		panel.add ( titlePanel );
+		panel.add ( resInfoPanel );
 		panel.add ( guestPanel );
 		panel.add ( cardPanel );
 		panel.add ( roomPanel );
 		panel.add ( mealPlanPanel );
 		panel.add ( contactPanel );
-		panel.add ( buttonPanel );
+		panel.add ( reservationPanel );
+		panel.add ( postResPanel );
+		
+		guestPanel.setVisible ( false );
+		cardPanel.setVisible ( false );
+		roomPanel.setVisible ( false );
+		mealPlanPanel.setVisible ( false );
+		contactPanel.setVisible ( false );
+		reservationPanel.setVisible ( false );
+		postResPanel.setVisible ( false );
 		
 		this.add ( panel );
 	}
@@ -313,7 +430,13 @@ public class EditReservationFrame extends JFrame {
 				JCheckBox themeBox = new JCheckBox ( "Party Decoration Set-Up" );
 				themeBox.addActionListener ( new ThemeListener ( ) );
 				
+				String [ ] themes = { "Hawaiian", "Sea Life", "Jungle", "Space", "Modern" };
+				themeCombo = new JComboBox < String > ( themes );
+
 				themesPanel.add ( themeBox );
+				themesPanel.add ( themeCombo );
+				
+				themeCombo.setVisible ( false );
 				
 			} else { // either has 3/4
 				JCheckBox checkBox = ( JCheckBox ) themesPanel.getComponent ( 1 ); // get the first check box
@@ -332,7 +455,7 @@ public class EditReservationFrame extends JFrame {
 			themesPanel.removeAll ( );
 		}
 		
-		roomPanel.add ( themesPanel, 4 );
+		roomPanel.add ( themesPanel, 5 );
 	}
 	
 	public void setRestrictionsPanel ( String roomType ) {
@@ -567,28 +690,53 @@ public class EditReservationFrame extends JFrame {
 			Date expDate = new Date ( expMonth, expYear );
 			
 			Card paymentMethod = new Card ( cardCompany, ccNumber, securityCode, expDate );
-			System.out.println ( "Card: " + paymentMethod );
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
-			System.out.println ( "Guest: " + guest );
+			
 			
 			// room date
 			int roomMonth = ( int ) roomMonthCombo.getSelectedItem ( );
 			int roomDay = ( int ) roomDayCombo.getSelectedItem ( );
 			Date roomDate = new Date ( roomMonth, roomDay, 2019 );
-			System.out.println ( "Room Date: " + roomDate );
+			
 			
 			// room start time
 			int startHour = Integer.parseInt ( ( String ) startHourCombo.getSelectedItem ( ) );
 			int startMin = Integer.parseInt ( ( String ) startMinCombo.getSelectedItem ( ) );
 			Time startTime = new Time ( startHour, startMin );
-			System.out.println ( "Start time: " + startTime );
+			
 			
 			// room end time
 			int endHour = Integer.parseInt ( ( String ) endHourCombo.getSelectedItem ( ) );
 			int endMin = Integer.parseInt ( ( String ) endMinCombo.getSelectedItem ( ) );
 			Time endTime = new Time ( endHour, endMin );
-			System.out.println ( "End time: " + endTime );
+			
+			
+			// party size
+			int partySize = Integer.parseInt ( ( String ) sizeField.getText ( ) );
+			
+			
+			// upgrades
+			ArrayList < String > specialAmenities = new ArrayList < String > ( );
+			JCheckBox upgrade = new JCheckBox ( );
+			String amenity;
+			for ( int i = 1; i < themesPanel.getComponentCount ( ); i++ ) {
+				upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
+				
+				if ( themesPanel.getComponent ( i ) instanceof JCheckBox ) {
+					upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
+					if ( upgrade.isSelected ( ) ) { // add all items checked
+						amenity = upgrade.getText ( );
+						
+						if ( upgrade.getText ( ).contains ( "Decoration" ) ) { // if its the theme set up
+							amenity += ( ": " + ( String ) themeCombo.getSelectedItem ( ) ); // add the theme
+						}
+						
+						specialAmenities.add ( amenity );
+					}
+				}
+			}
+			
 			
 			// create a meal plan according to what they chose
 			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
@@ -604,7 +752,6 @@ public class EditReservationFrame extends JFrame {
 			} else if ( meal.contains ( "Platinum" ) ) {
 				mealPlan = new PlatinumMealPlan ( );
 			}
-			
 			
 			// adding all pizzas to the meal plan
 			Pizza pizza;
@@ -705,10 +852,149 @@ public class EditReservationFrame extends JFrame {
 			
 				mealPlan.addFood ( new IceCream ( flavor ) );
 			}
-			System.out.println ( "Meal plan: " + mealPlan );
-			Reservation r = new Reservation ( guest, roomDate, startTime, endTime, new KaraokeLounge ( ), mealPlan );
-			System.out.println ( r );
+			
+			
+			// contact by
+			ArrayList < Boolean > contactBy = new ArrayList < Boolean > ( );
+			for ( int i = 1; i < 3; i++ ) { 
+				if ( ( ( JCheckBox ) contactPanel.getComponent ( i ) ).isSelected ( ) ) {
+					contactBy.add ( true );
+				} else {
+					contactBy.add ( false );
+				}
+			}
+			
+			
+			// make a reservation out of the given info
+			res = new Reservation ( guest, roomDate, startTime, endTime, null, specialAmenities, partySize, mealPlan, contactBy );
+			
+			
+			
+			roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			boolean valid = true;
+			postResText.setText ( "Invalid Reservation: " + "\n" + "\n" );
+			
+			// first check all info is valid: booking time, cc, partysize, age if billiards
+			// start time is later than end time
+			if ( startTime.compareTo ( endTime ) > 0 ) { 
+				postResText.append ( "Start time begins later than end time." + "\n" );
+				valid = false;
+			}
+			
+			// if payment is expired
+			if ( paymentMethod.isExpired ( today ) ) { 
+				postResText.append ( "Payment method has expired." + "\n" );
+				valid = false;
+			}
+			
+			// if party size exceeds maximum capacity
+			int capacity;
+			if ( roomType.contains ( "Aqua" ) ) {
+				capacity = AquaWorld.CAPACITY;
+			} else if ( roomType.contains ( "Medium" ) ) {
+				capacity = MediumPartyRoom.CAPACITY;
+			} else if ( roomType.contains ( "Small" ) ) {
+				capacity = SmallPartyRoom.CAPACITY;
+			} else if ( roomType.contains ( "Billiards" ) ) {
+				capacity = BilliardsLounge.CAPACITY;
+			} else {
+				capacity = KaraokeLounge.CAPACITY;
+			}
+			if ( partySize > capacity ) {
+				postResText.append ( "Party size exceeds maximum capacity." + "\n" );
+				valid = false;
+			}
+			
+			// if billiards booker is below 21
+			if ( roomType.contains ( "Billiards" ) && ! guest.is21 ( today ) ) {
+				postResText.append ( "Not old enough to book a Billiards Lounge." + "\n" );
+				valid = false;
+			}
+			
+			// if passes all requirements, book it book it
+			if ( valid ) {
+				postResText.setText ( "" );
+				// check if the roomtype is available at the given date, staart/endtime
+				room = partyWorld.getAvailableRoom ( roomType, res ); // gets an available room
+				roomNumber = partyWorld.getIndex( roomType, room ); // index of available room
+				
+				// if no rooms are currently available
+				if ( room == null ) {
+					postResText.append ( "There are no rooms available at the given time."); 
+					postResText.append ( "\n" + "Would you like to waitlist instead?" );
+					waitlistButton.setVisible ( true );
+					cancelWaitlistButton.setVisible ( true );
+					
+				} else { // if a room is available to reserve immediately
+					titlePanel.setVisible ( false );
+					guestPanel.setVisible ( false );
+					cardPanel.setVisible ( false );
+					contactPanel.setVisible ( false );
+					roomPanel.setVisible ( false );
+					mealPlanPanel.setVisible ( false );
+					reservationPanel.setVisible ( false );
+					waitlistButton.setVisible ( false );
+					cancelWaitlistButton.setVisible ( false );
+					
+					
+					res.setRoom ( room ); // attach the room to the reservation
+					res.finalizeReservation ( ); // initial payment and confirmation number
+					
+					postResText.append ( "Your room is available in the given time frame. Reserved." );
+					postResText.append ( "\n" + "\n" + res );
+					
+					room.reserve ( res ); // reserve the room
+					partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+					
+					exitButton.setVisible ( true );
+				}
+			}
+			postResPanel.setVisible ( true );
 		}
+	}
+	
+	class WaitlistButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
+			roomNumber = partyWorld.getIndex ( roomType, room ); // update the index
+			
+			res.setRoom ( room ); // attach the room to the reservation
+			
+			room.addToWaitlist ( res ); // walist the room
+			partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+			
+			postResText.setText ( "Waitlisted." );
+			postResText.append ( "\n" + res );
+			
+			
+			titlePanel.setVisible ( false );
+			guestPanel.setVisible ( false );
+			cardPanel.setVisible ( false );
+			contactPanel.setVisible ( false );
+			roomPanel.setVisible ( false );
+			mealPlanPanel.setVisible ( false );
+			reservationPanel.setVisible ( false );
+			waitlistButton.setVisible ( false );
+			cancelWaitlistButton.setVisible ( false );
+			
+			exitButton.setVisible ( true );
+		}
+	}
+	
+	class CancelWaitlistButtonListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			waitlistButton.setVisible ( false );
+			cancelWaitlistButton.setVisible ( false );
+			postResPanel.setVisible ( false );
+			
+			exitButton.setVisible ( false );
+		}
+		
 	}
 	
 	/**
@@ -721,14 +1007,10 @@ public class EditReservationFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			// get the frame you clciekd in and clsoe it
-			Component comp = ( Component ) click.getSource ( );
-			JFrame frame = ( JFrame ) SwingUtilities.getRoot ( comp );
-			
-			frame.dispose ( );
+			thisFrame.dispose ( );
 			
 			// open the new frame
-			new MainFrame ( );
+			new MainFrame ( partyWorld );
 		}
 	}
 	
@@ -801,12 +1083,9 @@ public class EditReservationFrame extends JFrame {
 		public void actionPerformed ( ActionEvent click ) {
 			JCheckBox box = ( JCheckBox ) click.getSource ( );
 			if ( box.isSelected ( ) ) {
-				String [ ] themes = { "Hawaiian", "Sea Life", "Jungle", "Space", "Modern" };
-				JComboBox < String > themeCombo = new JComboBox < String > ( themes );
-				
-				themesPanel.add ( themeCombo );
+				themeCombo.setVisible ( true );
 			} else {
-				themesPanel.remove ( themesPanel.getComponentCount ( ) - 1 );
+				themeCombo.setVisible ( false );
 			}
 			themesPanel.revalidate ( );
 			themesPanel.repaint ( );
@@ -1013,32 +1292,6 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
-	/** big oof
-	class DecorationListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed ( ActionEvent click ) {
-			int count = 0; // count of decorations chosen
-			JCheckBox decoration = new JCheckBox ( );
-			
-			for ( int i = 0; i < 5; i++ ) { // go through each decoration and count how manya re checked
-				decoration = ( JCheckBox ) decorationPanel.getComponent ( i ) ;
-				if ( decoration.isSelected ( ) ) {
-					count++;
-				}
-			}
-			
-			// get the checkbox clicked
-			JCheckBox comp = ( JCheckBox ) click.getSource ( );
-			
-			// more than one box is check, uncheck one of them
-			if ( count > 1 ) { 
-				comp.setSelected ( false ); // dont allow them to check any more
-			}
-		}
-	}
-	*/
-	
 	class ToppingListener implements ActionListener
 	{
 		@Override
@@ -1088,8 +1341,311 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	public class ConfirmedButtonListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			// hide buttons
+			confirmedButton.setVisible ( false );
+			waitlistedButton.setVisible ( false );
+			cancelEditButton.setVisible ( false );
+			
+			// show the label and the field
+			resInfoLabel.setText ( "Confirmation Number: " );
+			resInfoLabel.setVisible ( true );
+			resInfoField.setVisible ( true );
+			
+			// show new buttons
+			editButton.setVisible ( true );
+			backButton.setVisible ( true );
+		}
+	}
+	
+	public class WaitlistedButtonListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			// hide buttons
+			confirmedButton.setVisible ( false );
+			waitlistedButton.setVisible ( false );
+			cancelEditButton.setVisible ( false );
+			
+			// show the label and the field
+			resInfoLabel.setText ( "Guest Name: " );
+			resInfoLabel.setVisible ( true );
+			resInfoField.setVisible ( true );
+			
+			// show new buttons
+			editButton.setVisible ( true );
+			backButton.setVisible ( true );
+		}
+	}
+	
+	public class BackButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			// set items invis
+			resInfoLabel.setVisible ( false );
+			resInfoField.setVisible ( false );
+			editButton.setVisible ( false );
+			backButton.setVisible ( false );
+			
+			// show new things
+			confirmedButton.setVisible ( true );
+			waitlistedButton.setVisible ( true );
+			cancelEditButton.setVisible ( true );
+		}
+	}
+	
+	public class EditButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			// preset all the panels here
+			// get the reservation
+			// if this is a confirmed reservation 
+			if ( resInfoLabel.getText ( ).contains ( "Confirmation" ) ) {
+				res = partyWorld.getResConfNum ( resInfoField.getText ( ) ); // get the reservation connected to the conf num
+			} else { // if this is a waitlisted guest
+				res = partyWorld.getResGuestName ( resInfoField.getText ( ) ); // get the reservation connected to the name
+			}
+			
+			if ( res == null ) {
+				// tell user that it was an invalid name/confnum
+			} else {
+			
+				resInfoPanel.setVisible ( false );
+				
+				// set guest panel
+				Guest guest = res.getGuest ( );
+				guestNameField.setText ( guest.getName ( ) );
+				guestAddressField.setText( guest.getAddress ( ) );
+				guestPhoneField.setText( guest.getPhone ( ) );
+				guestEmailField.setText ( guest.getEmail ( ) );
+				
+				
+				// set dob
+				Date date = guest.getDateOfBirth ( );
+				dobMonthCombo.setSelectedItem ( date.getMonth ( ) );
+				dobDayCombo.setSelectedItem ( date.getDay ( ) );
+				dobYearCombo.setSelectedItem ( date.getYear ( ) );
+				
+				
+				// set card
+				Card card = guest.getPaymentMethod ( );
+				date = card.getExpDate ( );
+				cardCompanyCombo.setSelectedItem ( card.getCardCompany ( ) );
+				ccNumberField.setText ( card.getCCNumber ( ) );
+				cardSecurityField.setText ( card.getSecurityCode ( ) );
+				expMonthCombo.setSelectedItem (  date.getMonth ( ) );
+				expYearCombo.setSelectedItem ( date.getYear ( ) );
+				
+				
+				// set room panel
+				date = res.getDate ( );
+				roomTypeCombo.setSelectedItem ( res.getRoom ( ).getName ( ) );
+				roomMonthCombo.setSelectedItem ( date.getMonth ( ) );
+				roomDayCombo.setSelectedItem ( date.getDay ( ) );
+				
+				Time time = res.getStartTime ( );
+				startHourCombo.setSelectedItem ( time.getHour ( ) + "" );
+				startMinCombo.setSelectedIndex ( time.getMinute ( ) );
+				
+				time = res.getEndTime ( );
+				endHourCombo.setSelectedItem ( time.getHour ( ) + "" );
+				endMinCombo.setSelectedIndex ( time.getMinute ( ) );
+				
+				int partySize = res.getPartySize ( );
+				sizeField.setText ( partySize + "" );
+				
+				// upgrades
+				ArrayList < String > upgrades = res.getRoom ( ).getSpecialAmenities ( );
+				JCheckBox checkBox = new JCheckBox ( );
+				for ( int i = 0; i < upgrades.size ( ); i++ ) { // itearte through all added upgrades
+					
+					// go through each checkbox on the panel to check them
+					for ( int j = 1; j < themesPanel.getComponentCount ( ); j++ ) {
+						
+						// make sure its of type checkbox
+						if ( themesPanel.getComponent ( j ) instanceof JCheckBox ) {
+							checkBox = ( JCheckBox ) themesPanel.getComponent ( j ); // get the checkbox
+							
+							// if the upgrade is the same as the checkbox
+							if ( checkBox.getText ( ).contains ( upgrades.get ( i ).substring ( 0, 5 ) ) ) { 
+								( ( JCheckBox ) themesPanel.getComponent ( j ) ).setSelected ( true ); // select it
+							}
+						} else { // if its not a checkbox, it should be the combobox
+							if ( upgrades.get ( i ).contains ( "Decoration" ) ) {
+								// set the combobox to the theme
+								themeCombo.setSelectedItem ( upgrades.get ( i ).substring ( 25 ) );
+								themeCombo.setVisible ( true );
+							}
+						}
+					}
+				}
+				
+				
+				// needa do something here to check for the upgrades thing
+				roomType = res.getRoom ( ).getName ( );
+				
+				// set meal plan
+				MealPlan mealPlan = res.getMealPlan ( );
+				
+				// checks the upgrade checkbox if needed
+				if ( roomType.contains ( "Lounge" ) ) {
+					if ( mealPlan == null ) {
+						mealPlanCombo.setSelectedIndex ( 0 );
+					} else {
+						mealUpgradeBox.setSelected ( true );
+						
+						String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+						mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+						mealPlanCombo.setSelectedIndex ( 1 );
+						
+						if ( mealPlan instanceof BasicMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 1 );
+						} else if ( mealPlan instanceof BronzeMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 2 );
+						} else if ( mealPlan instanceof SilverMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 3 );
+						} else if ( mealPlan instanceof GoldMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 4 );
+						} else if ( mealPlan instanceof PlatinumMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 5 );
+						}
+					}
+				} else {
+					if ( mealPlan == null ) {
+						mealPlanCombo.setSelectedIndex ( 0 );
+					} else if ( mealPlan instanceof BasicMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 1 );
+					} else {
+						mealUpgradeBox.setSelected ( true );
+						
+						String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+						mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+						mealPlanCombo.setSelectedIndex ( 1 );
+						
+						if ( mealPlan instanceof BronzeMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 2 );
+						} else if ( mealPlan instanceof SilverMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 3 );
+						} else if ( mealPlan instanceof GoldMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 4 );
+						} else if ( mealPlan instanceof PlatinumMealPlan ) {
+							mealPlanCombo.setSelectedIndex ( 5 );
+						}
+					}
+				}
+				
+				
+				ArrayList < Food > foods = mealPlan.getFoods ( );
+				int index = 0; // first x amount will be pizzas. next x amount will be soda, etc
+				
+				ArrayList < String > toppings;
+				JPanel panel = new JPanel ( ); // pizza1, pizza2, pizza3
+				Component [ ] components; // checkboxes of the pizza
+				checkBox = new JCheckBox ( ); // specific topping
+				
+				// go through each pizza panel
+				for ( int i = 0; i < pizzaPanel.getComponentCount ( ); i++ ) {
+					toppings = ( ( Pizza ) foods.get ( index ) ).getToppings ( );
+					panel = ( JPanel ) pizzaPanel.getComponent ( i );
+					components = ( Component [ ] ) panel.getComponents ( );
+					
+					// go through all toppings on the pizza
+					for ( int j = 0; j < toppings.size ( ); j++ ) {
+						
+						// go through all the checkboxes to see which one to check
+						for ( int k = 1; k < components.length; k++ ) { // 1 -11, cause first component is a jlabel
+							checkBox = ( JCheckBox ) components [ k ];
+							
+							// if the checkbox is the same one as a topping on the pizza
+							if ( checkBox.getText ( ).equals ( toppings.get ( j ) ) ) { 
+								// check it
+								( ( JCheckBox ) ( ( JPanel ) pizzaPanel.getComponent ( i ) ).getComponent ( k ) ).
+									setSelected ( true );
+							}
+						}
+					}
+					index++;
+				}
+				
+				
+				// go through all the soda panels
+				for ( int i = 0; i < sodaPanel.getComponentCount ( ); i++ ) {
+					// the second component of each soda panel is the combo box
+					// set the combobox to whatever soda was in the meal plan
+					( ( JComboBox < String > ) ( ( JPanel ) sodaPanel.getComponent ( i ) ).getComponent ( 1 ) ).
+						setSelectedItem ( ( ( Soda ) foods.get ( index ) ).getFlavor ( ) );
+					index++;
+				}
+				
+				
+				// sides
+				// 2 components if only 1 side is available, 1 label and 1 combo box
+				if ( sidesPanel.getComponentCount ( ) == 2 ) {
+					( ( JComboBox < String > ) sidesPanel.getComponent ( 1 ) ).setSelectedItem ( foods.get ( index ) );
+					index++;
+				} else {
+					index += 2; // skip through the next two sides
+				}
+				
+				
+				// wings
+				for ( int i = 0; i < wingsPanel.getComponentCount ( ); i++ ) {
+					// the second component of each wings panel is the combo box
+					( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 1 ) ).
+						setSelectedItem ( ( ( Wings ) foods.get ( index ) ).getFlavor ( ) );
+					
+					// the third component is whether bone in or not
+					if ( ( ( Wings ) foods.get ( index ) ).getBone ( ) ) {
+						( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 2 ) ).
+							setSelectedIndex ( 0 );
+					} else {
+						( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 2 ) ).
+							setSelectedIndex ( 1 );
+					}
+					
+					index++;
+				}
+				
+				
+				// ice cream
+				for ( int i = 0; i < iceCreamPanel.getComponentCount ( ); i++ ) {
+					( ( JComboBox < String > ) ( ( JPanel ) iceCreamPanel.getComponent ( i ) ).getComponent ( 1 ) ).
+						setSelectedItem ( ( ( IceCream ) foods.get ( index ) ).getFlavor ( ) );
+				
+					index++;
+				}
+				
+				
+				
+				// set contact
+				ArrayList < Boolean > contactBy = res.getContactBy ( );
+				for ( int i = 0; i < contactBy.size ( ); i++ ) {
+					( ( JCheckBox ) contactPanel.getComponent ( i + 1 ) ).setSelected ( contactBy.get ( i ) );
+				}
+				
+				
+				guestPanel.setVisible ( true );
+				cardPanel.setVisible ( true );
+				roomPanel.setVisible ( true );
+				mealPlanPanel.setVisible ( true );
+				contactPanel.setVisible ( true );
+				reservationPanel.setVisible ( true );
+				postResPanel.setVisible ( true );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+			}
+		}
+	}
+	
 	public static void main ( String [ ] args ) {
-		EditReservationFrame f = new EditReservationFrame ( );
+		PartyWorld rooms = new PartyWorld ( );
+		EditReservationFrame f = new EditReservationFrame ( rooms );
 		f.setVisible ( true );
 	}
 }

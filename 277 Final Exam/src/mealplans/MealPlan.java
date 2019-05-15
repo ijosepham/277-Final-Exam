@@ -17,7 +17,7 @@ public abstract class MealPlan {
 	 * default constructor
 	 */
 	public MealPlan ( ) {
-		tier = "";
+		tier = "No";
 		foods = new ArrayList < Food > ( );
 	}
 	

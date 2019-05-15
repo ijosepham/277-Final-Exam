@@ -142,7 +142,7 @@ public class MainFrame extends JFrame {
 						
 						//Edit reservation item
 						menuItem = new JMenuItem ( "Edit Existing Reservation..." );
-						// menuItem.addActionListener ( new NewReservationListener ( ) );
+						menuItem.addActionListener ( new EditReservationListener ( ) );
 						menu.add ( menuItem );
 						menu.addSeparator ( );
 						
@@ -292,6 +292,16 @@ public class MainFrame extends JFrame {
 			thisFrame.dispose ( );
 			
 			new NewReservationFrame ( partyWorld );
+		}
+	}
+	
+	class EditReservationListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed ( ActionEvent select ) {
+			thisFrame.dispose ( );
+			
+			new EditReservationFrame ( partyWorld );
 		}
 	}
 	

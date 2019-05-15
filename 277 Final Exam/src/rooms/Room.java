@@ -11,6 +11,11 @@ public abstract class Room {
 	protected String name;
 	
 	/**
+	 * room number
+	 */
+	protected int roomNumber;
+	
+	/**
 	 * basic amenities of the room
 	 */
 	protected ArrayList < String > basicAmenities;
@@ -159,6 +164,22 @@ public abstract class Room {
 	 */
 	public String getStatus ( ) {
 		return status;
+	}
+	
+	/**
+	 * gets the room number
+	 * @return room number
+	 */
+	public int getRoomNumber ( ) {
+		return roomNumber;
+	}
+	
+	/**
+	 * returns the list of confirmed reservations
+	 * @return confiremd reservbations
+	 */
+	public ArrayList < Reservation > getReservations ( ) {
+		return reservations;
 	}
 	
 	/**

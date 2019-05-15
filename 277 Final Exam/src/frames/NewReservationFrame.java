@@ -39,16 +39,22 @@ public class NewReservationFrame extends JFrame {
 	JComboBox < Integer > expMonthCombo;
 	JComboBox < Integer > expYearCombo;
 	
-	JPanel contactPanel;
-	JCheckBox contactPhoneCheck;
-	JCheckBox contactEmailCheck;
-	
 	JPanel roomPanel;
 	JPanel roomTypePanel;
 	JComboBox < String > roomTypeCombo;
+	
 	JPanel roomDatePanel;
+	JComboBox < Integer > roomMonthCombo;
+	JComboBox < Integer > roomDayCombo;
+	
 	JPanel roomStartPanel;
+	JComboBox < String > startHourCombo;
+	JComboBox < String > startMinCombo;
+	
 	JPanel roomEndPanel;
+	JComboBox < String > endHourCombo;
+	JComboBox < String > endMinCombo;
+	
 	JPanel sizePanel;
 	JTextField sizeField;
 	JPanel themesPanel;
@@ -64,13 +70,9 @@ public class NewReservationFrame extends JFrame {
 	JPanel iceCreamPanel;
 	JPanel sidesPanel;
 	
-	JComboBox < Integer > roomMonthCombo;
-	JComboBox < Integer > roomDayCombo;
-	
-	JComboBox < String > startHourCombo;
-	JComboBox < String > startMinCombo;
-	JComboBox < String > endHourCombo;
-	JComboBox < String > endMinCombo;
+	JPanel contactPanel;
+	JCheckBox contactPhoneCheck;
+	JCheckBox contactEmailCheck;
 	
 	JPanel reservationPanel;
 	JButton saveButton;
@@ -660,16 +662,18 @@ public class NewReservationFrame extends JFrame {
 			JCheckBox upgrade = new JCheckBox ( );
 			String amenity;
 			for ( int i = 1; i < themesPanel.getComponentCount ( ); i++ ) {
-				upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
 				
-				if ( upgrade.isSelected ( ) ) { // add all items checked
-					amenity = upgrade.getText ( );
-					
-					if ( upgrade.getText ( ).contains ( "Decoration" ) ) { // if its the theme set up
-						amenity += ( ": " + ( String ) themeCombo.getSelectedItem ( ) ); // add the theme
+				if ( themesPanel.getComponent ( i ) instanceof JCheckBox ) {
+					upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
+					if ( upgrade.isSelected ( ) ) { // add all items checked
+						amenity = upgrade.getText ( );
+						
+						if ( upgrade.getText ( ).contains ( "Decoration" ) ) { // if its the theme set up
+							amenity += ( ": " + ( String ) themeCombo.getSelectedItem ( ) ); // add the theme
+						}
+						
+						specialAmenities.add ( amenity );
 					}
-					
-					specialAmenities.add ( amenity );
 				}
 			}
 			
@@ -677,7 +681,9 @@ public class NewReservationFrame extends JFrame {
 			// create a meal plan according to what they chose
 			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
 			MealPlan mealPlan = new BasicMealPlan ( );
-			if ( meal.contains ( "Basic" ) ) {
+			if ( meal.contains ( "No" ) ) {
+				mealPlan = null;
+			} else if ( meal.contains ( "Basic" ) ) {
 				mealPlan = new BasicMealPlan ( );
 			} else if ( meal.contains ( "Bronze" ) ) {
 				mealPlan = new BronzeMealPlan ( );
@@ -789,8 +795,20 @@ public class NewReservationFrame extends JFrame {
 				mealPlan.addFood ( new IceCream ( flavor ) );
 			}
 			
+			
+			// contact by
+			ArrayList < Boolean > contactBy = new ArrayList < Boolean > ( );
+			for ( int i = 1; i < 3; i++ ) { 
+				if ( ( ( JCheckBox ) contactPanel.getComponent ( i ) ).isSelected ( ) ) {
+					contactBy.add ( true );
+				} else {
+					contactBy.add ( false );
+				}
+			}
+			
+			
 			// make a reservation out of the given info
-			res = new Reservation ( guest, roomDate, startTime, endTime, null, partySize, mealPlan );
+			res = new Reservation ( guest, roomDate, startTime, endTime, null, specialAmenities, partySize, mealPlan, contactBy );
 			
 			
 			
@@ -860,7 +878,7 @@ public class NewReservationFrame extends JFrame {
 					waitlistButton.setVisible ( false );
 					cancelWaitlistButton.setVisible ( false );
 					
-					
+					room.setSpecialAmenities ( specialAmenities );
 					res.setRoom ( room ); // attach the room to the reservation
 					res.finalizeReservation ( ); // initial payment and confirmation number
 					

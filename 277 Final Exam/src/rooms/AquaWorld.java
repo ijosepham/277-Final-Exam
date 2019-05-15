@@ -19,7 +19,8 @@ public class AquaWorld extends Room {
 	 */
 	private AquaWorld ( ) {
 		prepTime = 60;
-		name = "Aqua World, Room #1";
+		name = "Aqua World";
+		roomNumber = 1;
 		capacity = 75;
 		restrictions = "Bathing Suits Must be Worn at All Times in Water Facilities";
 		basicAmenities.add ( "Olympic-Sized Pool with Water Slide" );

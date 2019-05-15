@@ -12,7 +12,8 @@ public class MediumPartyRoom extends Room {
 	public MediumPartyRoom ( ) {
 		prepTime = 60;
 		capacity = 45;
-		name = "Medium Party Room, Room #" + RoomFactory.medium_count;
+		name = "Medium Party Room";
+		roomNumber = RoomFactory.medium_count;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Quick Access to Arcade" );
 		basicAmenities.add ( "DJ" );

@@ -11,7 +11,8 @@ public class SmallPartyRoom extends Room {
 	public SmallPartyRoom ( ) {
 		prepTime = 30;
 		capacity = 30;
-		name = "Small Party Room, Room #" + RoomFactory.small_count;
+		name = "Small Party Room";
+		roomNumber = RoomFactory.small_count;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Adjacent to Arcade" );
 		basicAmenities.add ( "Basic Meal Plan" );
