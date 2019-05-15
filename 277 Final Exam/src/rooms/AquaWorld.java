@@ -6,7 +6,14 @@ public class AquaWorld extends Room {
 	 */
 	private static AquaWorld aquaWorld;
 	
-	public static String DESCRIPTION = "Water park";
+	public static String DESCRIPTION = "Number of Rooms: 1" + "\n" + 
+			"Description:   Olympic-Sized Pool with Water Slide, Kiddie Pool, Large Jacuzzi" + "\n" + 
+			"Capacity:   75 People" + "\n" +
+			"Cost:   $700/hr" + "\n" + 
+			"Included:   Access to Showers and Lockers, Life Guards on Duty, DJ, Table and Chair Set-Up, Basic Meal Plan" + "\n" +
+			"Upgrades   Available: Meal Plan, Party Favor Bags,  Projector, Party Decorations and Set-up w/ Themes" + "\n" +
+			"Restrictions:   Bathing suits must be worn to access water facilities.";
+	
 	public static int CAPACITY = 75;
 	
 	/**

@@ -8,7 +8,14 @@ public class BilliardsLounge extends Room {
 	 */
 	private String restrictions;
 	
-	public static String DESCRIPTION = "billiards lounge";
+	public static String DESCRIPTION = "Number of Rooms: 5" + "\n" + 
+			"Description:   Enclosed Loung with Pool Table" + "\n" + 
+			"Capacity:   10 People" + "\n" +
+			"Cost:   $25/hr" + "\n" + 
+			"Included:   Access to Pool Tables and Cues" + "\n" +
+			"Upgrades   Available: Meal Plan" + "\n" +
+			"Restrictions:   Must be 21 years or older.";
+	
 	public static int CAPACITY = 10;
 	
 	/**

@@ -109,10 +109,10 @@ public class EditReservationFrame extends JFrame {
 	int roomNumber;
 	Reservation res;
 	
-	public EditReservationFrame ( PartyWorld rooms ) {
+	public EditReservationFrame ( PartyWorld partyWorld ) {
 		this.setTitle ( "Edit Reservation" );
 		
-		this.partyWorld = rooms;
+		this.partyWorld = partyWorld;
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -721,7 +721,6 @@ public class EditReservationFrame extends JFrame {
 			JCheckBox upgrade = new JCheckBox ( );
 			String amenity;
 			for ( int i = 1; i < themesPanel.getComponentCount ( ); i++ ) {
-				upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
 				
 				if ( themesPanel.getComponent ( i ) instanceof JCheckBox ) {
 					upgrade = ( JCheckBox ) themesPanel.getComponent ( i );
@@ -741,7 +740,9 @@ public class EditReservationFrame extends JFrame {
 			// create a meal plan according to what they chose
 			String meal = ( String ) mealPlanCombo.getSelectedItem ( );
 			MealPlan mealPlan = new BasicMealPlan ( );
-			if ( meal.contains ( "Basic" ) ) {
+			if ( meal.contains ( "No" ) ) {
+				mealPlan = null;
+			} else if ( meal.contains ( "Basic" ) ) {
 				mealPlan = new BasicMealPlan ( );
 			} else if ( meal.contains ( "Bronze" ) ) {
 				mealPlan = new BronzeMealPlan ( );
@@ -936,7 +937,7 @@ public class EditReservationFrame extends JFrame {
 					waitlistButton.setVisible ( false );
 					cancelWaitlistButton.setVisible ( false );
 					
-					
+					room.setSpecialAmenities ( specialAmenities );
 					res.setRoom ( room ); // attach the room to the reservation
 					res.finalizeReservation ( ); // initial payment and confirmation number
 					
@@ -1417,6 +1418,11 @@ public class EditReservationFrame extends JFrame {
 			
 				resInfoPanel.setVisible ( false );
 				
+				room = res.getRoom ( );
+				roomType = res.getRoom ( ).getName ( );
+				roomNumber = res.getRoom ( ).getRoomNumber ( );
+				
+				
 				// set guest panel
 				Guest guest = res.getGuest ( );
 				guestNameField.setText ( guest.getName ( ) );
@@ -1484,10 +1490,6 @@ public class EditReservationFrame extends JFrame {
 						}
 					}
 				}
-				
-				
-				// needa do something here to check for the upgrades thing
-				roomType = res.getRoom ( ).getName ( );
 				
 				// set meal plan
 				MealPlan mealPlan = res.getMealPlan ( );
@@ -1640,6 +1642,14 @@ public class EditReservationFrame extends JFrame {
 				thisFrame.revalidate ( );
 				thisFrame.repaint ( );
 			}
+		}
+	}
+	
+	class DeleteButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			
 		}
 	}
 	

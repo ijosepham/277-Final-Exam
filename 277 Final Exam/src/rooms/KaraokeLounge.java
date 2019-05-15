@@ -3,7 +3,13 @@ package rooms;
 import roomfactories.RoomFactory;
 
 public class KaraokeLounge extends Room {
-	public static String DESCRIPTION = "karoake lounge";
+	public static String DESCRIPTION = "Number of Rooms: 10" + "\n" + 
+			"Description:   : Enclosed Lounge with Karaoke Machine" + "\n" + 
+			"Capacity:   10 People" + "\n" +
+			"Cost:   $30/hr" + "\n" + 
+			"Included:   Access to Karaoke Machine" + "\n" +
+			"Upgrades   Available: Meal Plan";
+	
 	public static int CAPACITY = 10;
 	
 	/**

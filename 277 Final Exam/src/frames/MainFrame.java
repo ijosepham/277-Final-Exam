@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
+import mealplans.*;
 import rooms.*;
 
 public class MainFrame extends JFrame {
@@ -43,9 +44,9 @@ public class MainFrame extends JFrame {
 		panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 		
 		centerPanel.add ( panelTitle );
-		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\mparty.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );
-		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\sparty.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
 		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\aworld.jpg", "Aqua World" , AquaWorld.DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\sparty.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
+		addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\mparty.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );		
 		
 		scrollPane = new JScrollPane ( centerPanel );
 		this.add ( scrollPane, BorderLayout.CENTER );
@@ -70,28 +71,33 @@ public class MainFrame extends JFrame {
 				menuItem.addActionListener ( new RoomItemListener ( ) );
 				submenu.add ( menuItem );
 
-				menuItem = new JMenuItem ( "Small Party Rooms" );
+				menuItem = new JMenuItem ( "Aqua World" );
 				menuItem.addActionListener ( new RoomItemListener ( ) );
 				submenu.add ( menuItem );
-				
+
 				menuItem = new JMenuItem ( "Medium Party Rooms" );
 				menuItem.addActionListener ( new RoomItemListener ( ) );
 				submenu.add ( menuItem );
 				
-				menuItem = new JMenuItem ( "Aqua World" );
+				menuItem = new JMenuItem ( "Small Party Rooms" );
+				menuItem.addActionListener ( new RoomItemListener ( ) );
 				submenu.add ( menuItem );
+				
 				menu.add ( submenu );
 				
 				//Lounges Sub Menu
 				submenu = new JMenu ( "Lounges" );
 				
 				menuItem = new JMenuItem ( "All" );
+				menuItem.addActionListener ( new LoungeItemListener ( ) );
 				submenu.add ( menuItem );
 				
 				menuItem = new JMenuItem ( "Karaoke Lounges" );
+				menuItem.addActionListener ( new LoungeItemListener ( ) );
 				submenu.add ( menuItem );
 				
 				menuItem = new JMenuItem ( "Billiards Lounges" );
+				menuItem.addActionListener ( new LoungeItemListener ( ) );
 				submenu.add ( menuItem );
 				
 				menu.add ( submenu );
@@ -197,7 +203,7 @@ public class MainFrame extends JFrame {
 	 	JTextArea description = new JTextArea ( 5, 10 );
 	 	description.append ( roomDesc );
 	 	description.setEditable ( false );
-	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
+	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 15 ) );
 	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
 		p.add ( description );
 			
@@ -206,33 +212,31 @@ public class MainFrame extends JFrame {
 	    container.add ( p );
 	  }
 
-//	 private void addMealPlanDescription ( Container container, String imgDir, String mealPlanName, String mealPlanDesc ) {
-//	 	JPanel p = new JPanel ( );
-//		 	
-//	 	ImageIcon icon = new ImageIcon ( imgDir );
-//	 	JLabel picture = new JLabel ( mealPlanName, icon, JLabel.CENTER );
-//	 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
-//	 	
-//	 	//Set the position of the text, relative to the icon:
-//	 	picture.setVerticalTextPosition ( JLabel.TOP );
-//	 	picture.setHorizontalTextPosition ( JLabel.CENTER );
-//	 	
-//	 	//Set border around 
-//	 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
-//	 	
-//	 	p.add ( picture );
-//	 	
-//	 	JTextArea description = new JTextArea ( 5,10 );
-//	 	description.append ( mealPlanDesc );
-//	 	description.setEditable ( false );
-//	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 20 ) );
-//	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
-//		p.add ( description );
-//		
-//	    JButton bookButton = new JButton ( "Book Now" );
-//	    p.add ( bookButton );
-//	    container.add ( p );
-//	  }
+	 private void addMealPlanDescription ( Container container, String imgDir, String mealPlanName, String mealPlanDesc ) {
+	 	JPanel p = new JPanel ( );
+		 	
+	 	ImageIcon icon = new ImageIcon ( imgDir );
+	 	JLabel picture = new JLabel ( mealPlanName, icon, JLabel.CENTER );
+	 	picture.setFont ( new Font ( Font.SERIF, Font.BOLD, 20 ) );
+	 	
+	 	//Set the position of the text, relative to the icon:
+	 	picture.setVerticalTextPosition ( JLabel.TOP );
+	 	picture.setHorizontalTextPosition ( JLabel.CENTER );
+	 	
+	 	//Set border around 
+	 	picture.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+	 	
+	 	p.add ( picture );
+	 	
+	 	JTextArea description = new JTextArea ( 5,10 );
+	 	description.append ( mealPlanDesc );
+	 	description.setEditable ( false );
+	 	description.setFont ( new Font ( Font.SERIF, Font.PLAIN, 15 ) );
+	 	description.setBorder ( BorderFactory.createCompoundBorder ( raisedbevel, loweredbevel ) );
+		p.add ( description );
+		
+	    container.add ( p );
+	  }
 
 	// press on the meal item inside the top menu, then do an action
 	class MealItemListener implements ActionListener {
@@ -241,25 +245,88 @@ public class MainFrame extends JFrame {
 		public void actionPerformed ( ActionEvent click ) {
 			JMenuItem menuItem = ( JMenuItem ) click.getSource ( );
 			String item = menuItem.getText ( );
-			System.out.println ( item );
 			
 			if ( item.equals ( "All" ) ) {
-				System.out.println ( "VIEW ALL" ); //replace 
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "All Meal Plans" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\iron.png", "Basic Meal Plan" , BasicMealPlan.DESCRIPTION );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\bronze.png", "Bronze Meal Plan" , BronzeMealPlan.DESCRIPTION );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\silver.png", "Silver Meal Plan" , SilverMealPlan.DESCRIPTION );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\gold.png", "Gold Meal Plan" , GoldMealPlan.DESCRIPTION );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\plat.png", "Platinum Meal Plan" , PlatinumMealPlan.DESCRIPTION );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
 				
 			} else if ( item.equals ( "Basic" ) ) {
-				System.out.println ( "VIEW BASIC" ); //replace 
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Basic Meal Plan" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\iron.png", "Basic Meal Plan" , BasicMealPlan.DESCRIPTION );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
 				
 			} else if ( item.equals ( "Bronze" ) ) {
-				System.out.println ( "VIEW BRONZE" );
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Bronze Meal Plan" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\bronze.png", "Bronze Meal Plan" , BronzeMealPlan.DESCRIPTION );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
 				
 			} else if ( item.equals ( "Silver" ) ) {
+				centerPanel.removeAll ( );
 				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Silver Meal Plan" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\silver.png", "Silver Meal Plan" , SilverMealPlan.DESCRIPTION );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
 				
 			} else if ( item.equals ( "Gold" ) ) {
+				centerPanel.removeAll ( );
 				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Gold Meal Plan" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\gold.png", "Gold Meal Plan" , GoldMealPlan.DESCRIPTION );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
 				
 			} else if ( item.equals ( "Platinum" ) ) {
+				centerPanel.removeAll ( );
 				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Platinum Meal Plan" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\plat.png", "Platinum Meal Plan" , PlatinumMealPlan.DESCRIPTION );
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
 			}
 		}
 	}
@@ -271,17 +338,118 @@ public class MainFrame extends JFrame {
 		public void actionPerformed ( ActionEvent select ) {
 			JMenuItem item = ( JMenuItem ) select.getSource ( );
 			
-			if ( item.getText ( ).contains ( "Aqua" ) ) {
-				System.out.println ( "Display only Aqua Room" );
+			if ( item.getText ( ).contains ( "All" ) ) {
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "All Party Rooms" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\aworld.jpg", "Aqua World" , AquaWorld.DESCRIPTION );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\sparty.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\mparty.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );		
+				
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
+			} else if ( item.getText ( ).contains ( "Aqua" ) ) {
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Aqua World" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\aworld.jpg", "Aqua World" , AquaWorld.DESCRIPTION );
+				
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
 			} else if ( item.getText ( ).contains ( "Medium" ) ) {
-				System.out.println ( "Display only Medium Party Room" );
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Medium Party Room" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\sparty.jpg","Medium Party Room", MediumPartyRoom.DESCRIPTION );
+				
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
 			} else if ( item.getText ( ).contains ( "Small" ) ) {
-				System.out.println ( "Display only Small Party Room" );
-			} else if ( item.getText ( ).contains ( "Billiards" ) ) {
-				System.out.println ( "Display only Billiards Room" );
-			} else if ( item.getText ( ).contains ( "Karaoke" ) ) {
-				System.out.println ( "Display only Karaoke Room" );
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Small Party Room" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\mparty.jpg", "Small Party Room" , SmallPartyRoom.DESCRIPTION );		
+
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
 			}
+		}
+	}
+	
+	// same but its for rooms
+	class LoungeItemListener implements ActionListener {
+
+		@Override
+		public void actionPerformed ( ActionEvent select ) {
+			JMenuItem item = ( JMenuItem ) select.getSource ( );
+			
+			if ( item.getText ( ).contains ( "All" ) ) {
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "All Lounges" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\karaoke.png", "Karaoke Lounge" , KaraokeLounge.DESCRIPTION );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\billiards.png","Billiards Lounge", BilliardsLounge.DESCRIPTION );
+				
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
+			} else if ( item.getText ( ).contains ( "Karaoke" ) ) {
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Karaoke Lounge" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\karaoke.png", "Karaoke Lounge" , KaraokeLounge.DESCRIPTION );
+				
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
+			} else if ( item.getText ( ).contains ( "Billiards" ) ) {
+				centerPanel.removeAll ( );
+				
+				//Title of default view
+				JLabel panelTitle = new JLabel ( "Billiards Lounge" );
+				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
+				
+				centerPanel.add ( panelTitle );
+				
+				addRoomDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\billiards.png","Billiards Lounge", BilliardsLounge.DESCRIPTION );				
+				
+				thisFrame.revalidate ( );
+				thisFrame.repaint ( );
+				
+			} 
 		}
 	}
 	

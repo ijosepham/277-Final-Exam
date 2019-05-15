@@ -101,10 +101,10 @@ public class NewReservationFrame extends JFrame {
 	int roomNumber;
 	Reservation res;
 	
-	public NewReservationFrame ( PartyWorld rooms ) {
+	public NewReservationFrame ( PartyWorld partyWorld ) {
 		this.setTitle ( "New Reservation" );
 		
-		this.partyWorld = rooms;
+		this.partyWorld = partyWorld;
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );

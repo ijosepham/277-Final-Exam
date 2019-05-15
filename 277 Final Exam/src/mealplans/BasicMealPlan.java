@@ -1,6 +1,10 @@
 package mealplans;
 
 public class BasicMealPlan extends MealPlan {
+	public static String DESCRIPTION = "Included: " + "\n" +
+			"      3 XL 1 Topping Gourmet Pizzas" + "\n" + 
+			"      3 2L Soda Bottles" + "\n" +
+			"Cost: $65";
 	
 	/**
 	 * default constructor

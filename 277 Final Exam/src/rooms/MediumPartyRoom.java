@@ -3,7 +3,13 @@ package rooms;
 import roomfactories.RoomFactory;
 
 public class MediumPartyRoom extends Room {
-	public static String DESCRIPTION = "Medium Party Room";
+	public static String DESCRIPTION = "Number of Rooms: 2" + "\n" + 
+			"Description:   Room with Party Tables and Chairs, Quick Access to Arcade" + "\n" + 
+			"Capacity:   45 People" + "\n" +
+			"Cost:   $250/hr" + "\n" + 
+			"Included:   Table and Chair Set-Up, DJ, Basic Meal Plan" + "\n" +
+			"Upgrades   Available: Meal Plan, Party Favor Bags,  Projector, Party Decorations and Set-up w/ Themes";
+	
 	public static int CAPACITY = 45;
 	
 	/**
