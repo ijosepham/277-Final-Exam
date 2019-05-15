@@ -113,6 +113,37 @@ public class NewReservationFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
+	public NewReservationFrame ( PartyWorld partyWorld, Room room, Reservation res ) {
+		this.setTitle ( "New Reservation" );
+		
+		this.partyWorld = partyWorld;
+		this.room = room;
+		
+		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
+		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
+		
+		this.createDefaultPanel ( );
+		this.setDateTime ( room, res );
+		
+		this.setVisible ( true );
+	}
+	
+	public void setDateTime ( Room room, Reservation res ) {
+		Date date = res.getDate ( );
+		Time startTime = res.getStartTime ( );
+		Time endTime = res.getEndTime ( );
+		
+		roomTypeCombo.setSelectedItem ( room.getName ( ) );
+		roomMonthCombo.setSelectedItem ( date.getMonth ( ) );
+		roomDayCombo.setSelectedItem ( date.getDay ( ) );
+		
+		startHourCombo.setSelectedItem ( startTime.getHour ( ) + "" );
+		startMinCombo.setSelectedIndex ( startTime.getMinute ( ) );
+		
+		endHourCombo.setSelectedItem ( endTime.getHour ( ) + "" );
+		endMinCombo.setSelectedIndex ( endTime.getMinute ( ) );
+	}
+	
 	/*
 	 * initializes the default center panel and adds it to this frame
 	 * */

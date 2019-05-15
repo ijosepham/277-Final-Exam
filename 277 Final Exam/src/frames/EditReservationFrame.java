@@ -144,6 +144,9 @@ public class EditReservationFrame extends JFrame {
 		waitlistedButton = new JButton ( "Waitlisted Reservation" );
 		waitlistedButton.addActionListener ( new WaitlistedButtonListener ( ) );
 		
+		cancelEditButton = new JButton ( "Cancel" );
+		cancelEditButton.addActionListener ( new CancelButtonListener ( ) );
+		
 		resInfoLabel = new JLabel ( "" );
 		resInfoField = new JTextField ( 20 );
 		
@@ -159,12 +162,10 @@ public class EditReservationFrame extends JFrame {
 		editButton.addActionListener ( new EditButtonListener ( ) );
 		backButton = new JButton ( "Back" );
 		backButton.addActionListener ( new BackButtonListener ( ) );
-		cancelEditButton = new JButton ( "Cancel" );
-		cancelEditButton.addActionListener ( new CancelButtonListener ( ) );
+		
 		
 		editButton.setVisible ( false );
 		backButton.setVisible ( false );
-		cancelEditButton.setVisible ( false );
 		
 		resInfoPanel.add ( editButton );
 		resInfoPanel.add ( backButton );

@@ -75,7 +75,7 @@ public class Reservation {
 		date = new Date ( );
 		startTime = new Time ( );
 		endTime = new Time ( );
-		room = new SmallPartyRoom ( );
+		room = null;
 		specialAmenities = new ArrayList < String > ( );
 		contactBy = new ArrayList < Boolean > ( );
 		mealPlan = null;
@@ -256,6 +256,7 @@ public class Reservation {
 		initialPayment = 0;
 		confNum = ( ( int ) ( Math.random ( ) * 1000000000 ) ) + "";
 		isFinalized = true;
+		room.setIsAvailable ( false );
 	}
 	
 	/**

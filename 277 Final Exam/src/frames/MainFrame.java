@@ -208,6 +208,7 @@ public class MainFrame extends JFrame {
 		p.add ( description );
 			
 	    JButton bookButton = new JButton ( "Book Now" );
+	    bookButton.addActionListener ( new BookButtonListener ( ) );
 	    p.add ( bookButton );
 	    container.add ( p );
 	  }
@@ -470,6 +471,21 @@ public class MainFrame extends JFrame {
 			thisFrame.dispose ( );
 			
 			new EditReservationFrame ( partyWorld );
+		}
+	}
+	
+	class BookButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent select ) {
+			JButton button = ( JButton ) select.getSource ( );
+			JPanel panel = ( JPanel ) button.getParent ( );
+			JLabel label = ( JLabel ) panel.getComponent ( 0 );
+			String roomType = ( String ) label.getText ( );
+			
+			thisFrame.dispose ( );
+			
+			new SelectDateTimeFrame ( partyWorld, roomType );
 		}
 	}
 	
