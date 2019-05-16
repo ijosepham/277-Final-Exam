@@ -1543,7 +1543,10 @@ public class EditReservationFrame extends JFrame {
 				postResText.append ( "\n" + "\n" + nextRes );
 				
 			} else {
-				postResText.append ( "\n" + "There is nobody available on the waitlist." );
+				// onlyt print this out if the deleted res was a conmfiremd one
+				if ( !waitlisted ) {
+					postResText.append ( "\n" + "There is nobody available on the waitlist." );
+				}
 			}
 			
 			titlePanel.setVisible ( false );
