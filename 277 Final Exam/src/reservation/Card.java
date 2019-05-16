@@ -2,6 +2,11 @@ package reservation;
 
 public class Card {
 	/**
+	 * name on card
+	 */
+	private String name;
+	
+	/**
 	 * name of the card company
 	 */
 	private String cardCompany;
@@ -38,11 +43,20 @@ public class Card {
 	 * @param securityCode - security code of the card
 	 * @param expDate - expiration date of the card
 	 */
-	public Card ( String cardCompany, String ccNumber, String securityCode, Date expDate ) {
+	public Card ( String name, String cardCompany, String ccNumber, String securityCode, Date expDate ) {
+		this.name = name;
 		this.cardCompany = cardCompany;
 		this.ccNumber = ccNumber;
 		this.securityCode = securityCode;
 		this.expDate = expDate;
+	}
+	
+	/**
+	 * sets the name on the card
+	 * @param name - name on card
+	 */
+	public void setName ( String name ) {
+		this.name = name;
 	}
 	
 	/**
@@ -75,6 +89,14 @@ public class Card {
 	 */
 	public void setExpDate ( Date expDate ) {
 		this.expDate = expDate;
+	}
+	
+	/**
+	 * gets the name on the card
+	 * @return name on the card
+	 */
+	public String getName ( ) {
+		return name;
 	}
 	
 	/**
@@ -122,7 +144,8 @@ public class Card {
 	}
 	
 	public String toString ( ) {
-		String str = "Card Company: " + cardCompany;
+		String str = "Name: " + name;
+		str += "\n" + "Card Company: " + cardCompany;
 		str += "\n" + "Card Number: " + ccNumber;
 		str += "\n" + "CVC: " + securityCode;
 		str += "\n" + "ExpDate: " + expDate;

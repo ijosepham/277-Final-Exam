@@ -61,7 +61,7 @@ public class SelectDateTimeFrame extends JFrame {
 
 		
 		JPanel titlePanel = new JPanel ( );
-		JLabel title= new JLabel ( "Select a Date and Time" );
+		JLabel title= new JLabel ( "Book Now" );
 		title.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 		
 		titlePanel.add ( title, BorderLayout.NORTH );
@@ -161,6 +161,7 @@ public class SelectDateTimeFrame extends JFrame {
 		field = ( ( JSpinner.DefaultEditor ) spinnerEditor ).getTextField ( );
 		field.setColumns ( 2 );
 		
+		panel.add ( new JLabel ( "Date: " ) );
 		panel.add ( new JLabel ( "Month: " ) );
 		panel.add ( monthSpinner );
 		panel.add ( new JLabel ( "Day: " ) );

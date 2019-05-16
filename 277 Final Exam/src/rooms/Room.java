@@ -231,6 +231,22 @@ public abstract class Room {
 	}
 	
 	/**
+	 * remove a reservation from the confirmed resrevaitons
+	 * @param reservation - reservation tob e remobed
+	 */
+	public void removeFromReservations ( Reservation reservation ) {
+		reservations.remove ( reservation );
+	}
+	
+	/**
+	 * remove a resservationa t the given index of confiremd res's
+	 * @param index - index of a res to remove
+	 */
+	public void removeFromReservations ( int index ) {
+		reservations.remove ( index );
+	}
+	
+	/**
 	 * lets the guest know when the room is available
 	 */
 	public void contactGuest ( ) {

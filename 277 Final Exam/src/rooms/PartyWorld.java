@@ -47,6 +47,66 @@ public class PartyWorld {
 		}
 	}
 	
+	public void deleteReservation ( Reservation r ) {
+		String roomType = r.getRoom ( ).getName ( );
+		int roomNumber = r.getRoom ( ).getRoomNumber ( );
+		
+		if ( roomType.contains ( "Aqua" ) ) {
+			aquaWorlds.get ( 0 ).removeFromReservations ( roomNumber - 1 );
+		} else if ( roomType.contains ( "Medium" ) ) {
+			mediumPartyRooms.get ( 0 ).removeFromReservations ( roomNumber - 1 );
+		} else if ( roomType.contains ( "Small" ) ) {
+			smallPartyRooms.get ( 0 ).removeFromReservations ( roomNumber - 1 );
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			billiardsLounges.get ( 0 ).removeFromReservations ( roomNumber - 1 );
+		} else {
+			karaokeLounges.get ( 0 ).removeFromReservations ( roomNumber - 1 );
+		}
+	}
+	
+	public Reservation getNextWaitlist ( String roomType, int roomNumber ) {
+		Reservation res = null;
+		
+		// get the first person in the waitlist for that specific room and add them to official resrvations
+		if ( roomType.contains ( "Aqua" ) ) {
+			if ( aquaWorlds.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
+				res = aquaWorlds.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
+				res.finalizeReservation ( );
+				aquaWorlds.get ( roomNumber - 1 ).getReservations ( ).add ( res );
+			}
+			
+		} else if ( roomType.contains ( "Medium" ) ) {
+			if ( mediumPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
+				res = mediumPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
+				res.finalizeReservation ( );
+				mediumPartyRooms.get ( roomNumber - 1 ).getReservations ( ).add ( res );
+			}
+
+		} else if ( roomType.contains ( "Small" ) ) {
+			if ( smallPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
+				res = smallPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
+				res.finalizeReservation ( );
+				smallPartyRooms.get ( roomNumber - 1 ).getReservations ( ).add ( res );
+			}
+			
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			if ( billiardsLounges.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
+				res = billiardsLounges.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
+				res.finalizeReservation ( );
+				billiardsLounges.get ( roomNumber - 1 ).getReservations ( ).add ( res );
+			}
+			
+		} else {
+			if ( karaokeLounges.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
+				res = karaokeLounges.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
+				res.finalizeReservation ( );
+				karaokeLounges.get ( roomNumber - 1 ).getReservations ( ).add ( res );
+			}
+		}
+		
+		return res;
+	}
+	
 	// gets the next available room. if none are available, returns -1
 	public Room getAvailableRoom ( String roomType, Reservation r ) {
 		Room room;

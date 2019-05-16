@@ -11,11 +11,6 @@ import pizzas.*;
 import mealplans.*;
 import reservation.*;
 
-// needa finish save button listener
-// needa make a thing for guest/res i think to see if they're checked in ornot
-// main frame just make everything into the boxlayout
-//		probably needa change things that have to do with the description of the place
-
 public class NewReservationFrame extends JFrame {
 	JFrame thisFrame = this;
 	
@@ -33,6 +28,7 @@ public class NewReservationFrame extends JFrame {
 	JComboBox < Integer > dobYearCombo;
 	
 	JPanel cardPanel;
+	JTextField cardNameField;
 	JComboBox < String > cardCompanyCombo;
 	JTextField ccNumberField;
 	JTextField cardSecurityField;
@@ -222,6 +218,9 @@ public class NewReservationFrame extends JFrame {
 		
 		
 		cardPanel = new JPanel ( );
+		
+		cardPanel.add ( new JLabel ( "Name on Card:" ) );
+		cardPanel.add ( cardNameField = new JTextField ( 20 ) );
 		
 		cardPanel.add ( new JLabel ( "Card Company: " ) );
 		String [ ] cardCompanies = { "Visa", "Mastercard", "American Express" };
@@ -660,6 +659,7 @@ public class NewReservationFrame extends JFrame {
 			Date dob = new Date ( dobMonth, dobDay, dobYear );
 			
 			// payment info
+			String cardName = cardNameField.getText ( );
 			String cardCompany = ( String ) cardCompanyCombo.getSelectedItem ( );
 			String ccNumber = ccNumberField.getText ( );
 			String securityCode = cardSecurityField.getText ( );
@@ -670,7 +670,7 @@ public class NewReservationFrame extends JFrame {
 			int expYear = ( int ) expYearCombo.getSelectedItem ( );
 			Date expDate = new Date ( expMonth, expYear );
 			
-			Card paymentMethod = new Card ( cardCompany, ccNumber, securityCode, expDate );
+			Card paymentMethod = new Card ( cardName, cardCompany, ccNumber, securityCode, expDate );
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
 			
@@ -969,6 +969,7 @@ public class NewReservationFrame extends JFrame {
 			partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
 			
 			postResText.setText ( "Waitlisted." );
+			postResText.append ( "\n" + "You are number " + room.getWaitlist ( ).size ( ) + " on the waitlist." );
 			postResText.append ( "\n" + res );
 			
 			

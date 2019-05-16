@@ -11,10 +11,8 @@ import pizzas.*;
 import mealplans.*;
 import reservation.*;
 
-// needa finish save button listener
-// needa make a thing for guest/res i think to see if they're checked in ornot
-// main frame just make everything into the boxlayout
-//		probably needa change things that have to do with the description of the place
+// delete button listener
+// edit save button to make sure it edits a reservation, not make new one
 
 public class EditReservationFrame extends JFrame {
 	JFrame thisFrame = this;
@@ -24,8 +22,11 @@ public class EditReservationFrame extends JFrame {
 	JPanel resInfoPanel;
 	JButton confirmedButton;
 	JButton waitlistedButton;
+	
 	JLabel resInfoLabel;
 	JTextField resInfoField;
+	JLabel errorLabel;
+	
 	JButton editButton;
 	JButton backButton;
 	JButton cancelEditButton;
@@ -42,6 +43,7 @@ public class EditReservationFrame extends JFrame {
 	JComboBox < Integer > dobYearCombo;
 	
 	JPanel cardPanel;
+	JTextField cardNameField;
 	JComboBox < String > cardCompanyCombo;
 	JTextField ccNumberField;
 	JTextField cardSecurityField;
@@ -104,10 +106,15 @@ public class EditReservationFrame extends JFrame {
 	
 	PartyWorld partyWorld;
 	
-	String roomType;
-	Room room;
-	int roomNumber;
-	Reservation res;
+	String oldRoomType;
+	Room oldRoom;
+	int oldRoomNumber;
+	Reservation oldRes;
+	
+	String newRoomType;
+	Room newRoom;
+	int newRoomNumber;
+	Reservation newRes;
 	
 	public EditReservationFrame ( PartyWorld partyWorld ) {
 		this.setTitle ( "Edit Reservation" );
@@ -163,12 +170,15 @@ public class EditReservationFrame extends JFrame {
 		backButton = new JButton ( "Back" );
 		backButton.addActionListener ( new BackButtonListener ( ) );
 		
+		errorLabel = new JLabel ( );
+		errorLabel.setVisible ( false );
 		
 		editButton.setVisible ( false );
 		backButton.setVisible ( false );
 		
 		resInfoPanel.add ( editButton );
 		resInfoPanel.add ( backButton );
+		resInfoPanel.add ( errorLabel );
 		resInfoPanel.add ( cancelEditButton );
 		
 		
@@ -228,6 +238,9 @@ public class EditReservationFrame extends JFrame {
 		
 		
 		cardPanel = new JPanel ( );
+		
+		cardPanel.add ( new JLabel ( "Name on Card: " ) );
+		cardPanel.add ( cardNameField = new JTextField ( 20 ) );
 		
 		cardPanel.add ( new JLabel ( "Card Company: " ) );
 		String [ ] cardCompanies = { "Visa", "Mastercard", "American Express" };
@@ -369,6 +382,9 @@ public class EditReservationFrame extends JFrame {
 		cancelButton.addActionListener ( new CancelButtonListener ( ) );
 		reservationPanel.add ( cancelButton );
 		
+		deleteButton = new JButton ( "Delete Reservation" );
+		deleteButton.addActionListener ( new DeleteButtonListener ( ) );
+		reservationPanel.add ( deleteButton );
 		
 		// this is here because it formatted weird if put in resrvation panel
 		postResPanel = new JPanel ( );
@@ -680,6 +696,7 @@ public class EditReservationFrame extends JFrame {
 			Date dob = new Date ( dobMonth, dobDay, dobYear );
 			
 			// payment info
+			String cardName = cardNameField.getText ( );
 			String cardCompany = ( String ) cardCompanyCombo.getSelectedItem ( );
 			String ccNumber = ccNumberField.getText ( );
 			String securityCode = cardSecurityField.getText ( );
@@ -690,7 +707,7 @@ public class EditReservationFrame extends JFrame {
 			int expYear = ( int ) expYearCombo.getSelectedItem ( );
 			Date expDate = new Date ( expMonth, expYear );
 			
-			Card paymentMethod = new Card ( cardCompany, ccNumber, securityCode, expDate );
+			Card paymentMethod = new Card ( cardName, cardCompany, ccNumber, securityCode, expDate );
 			
 			Guest guest = new Guest ( name, address, phone, email, dob, paymentMethod );
 			
@@ -872,11 +889,11 @@ public class EditReservationFrame extends JFrame {
 			
 			
 			// make a reservation out of the given info
-			res = new Reservation ( guest, roomDate, startTime, endTime, null, specialAmenities, partySize, mealPlan, contactBy );
+			newRes = new Reservation ( guest, roomDate, startTime, endTime, null, specialAmenities, partySize, mealPlan, contactBy );
 			
 			
 			
-			roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			newRoomType = ( String ) roomTypeCombo.getSelectedItem ( );
 			boolean valid = true;
 			postResText.setText ( "Invalid Reservation: " + "\n" + "\n" );
 			
@@ -895,13 +912,13 @@ public class EditReservationFrame extends JFrame {
 			
 			// if party size exceeds maximum capacity
 			int capacity;
-			if ( roomType.contains ( "Aqua" ) ) {
+			if ( newRoomType.contains ( "Aqua" ) ) {
 				capacity = AquaWorld.CAPACITY;
-			} else if ( roomType.contains ( "Medium" ) ) {
+			} else if ( newRoomType.contains ( "Medium" ) ) {
 				capacity = MediumPartyRoom.CAPACITY;
-			} else if ( roomType.contains ( "Small" ) ) {
+			} else if ( newRoomType.contains ( "Small" ) ) {
 				capacity = SmallPartyRoom.CAPACITY;
-			} else if ( roomType.contains ( "Billiards" ) ) {
+			} else if ( newRoomType.contains ( "Billiards" ) ) {
 				capacity = BilliardsLounge.CAPACITY;
 			} else {
 				capacity = KaraokeLounge.CAPACITY;
@@ -912,7 +929,7 @@ public class EditReservationFrame extends JFrame {
 			}
 			
 			// if billiards booker is below 21
-			if ( roomType.contains ( "Billiards" ) && ! guest.is21 ( today ) ) {
+			if ( newRoomType.contains ( "Billiards" ) && ! guest.is21 ( today ) ) {
 				postResText.append ( "Not old enough to book a Billiards Lounge." + "\n" );
 				valid = false;
 			}
@@ -921,11 +938,11 @@ public class EditReservationFrame extends JFrame {
 			if ( valid ) {
 				postResText.setText ( "" );
 				// check if the roomtype is available at the given date, staart/endtime
-				room = partyWorld.getAvailableRoom ( roomType, res ); // gets an available room
-				roomNumber = partyWorld.getIndex( roomType, room ); // index of available room
+				newRoom = partyWorld.getAvailableRoom ( newRoomType, newRes ); // gets an available room
+				newRoomNumber = partyWorld.getIndex( newRoomType, newRoom ); // index of available room
 				
 				// if no rooms are currently available
-				if ( room == null ) {
+				if ( newRoom == null ) {
 					postResText.append ( "There are no rooms available at the given time."); 
 					postResText.append ( "\n" + "Would you like to waitlist instead?" );
 					waitlistButton.setVisible ( true );
@@ -943,14 +960,14 @@ public class EditReservationFrame extends JFrame {
 					cancelWaitlistButton.setVisible ( false );
 					
 					//room.setSpecialAmenities ( specialAmenities );
-					res.setRoom ( room ); // attach the room to the reservation
-					res.finalizeReservation ( ); // initial payment and confirmation number
+					newRes.setRoom ( newRoom ); // attach the room to the reservation
+					newRes.finalizeReservation ( ); // initial payment and confirmation number
 					
 					postResText.append ( "Your room is available in the given time frame. Reserved." );
-					postResText.append ( "\n" + "\n" + res );
+					postResText.append ( "\n" + "\n" + newRes );
 					
-					room.reserve ( res ); // reserve the room
-					partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+					newRoom.reserve ( newRes ); // reserve the room
+					partyWorld.setRoom ( newRoomType, newRoomNumber, newRoom ); // update the room inside the list in partyworld
 					
 					exitButton.setVisible ( true );
 				}
@@ -963,16 +980,16 @@ public class EditReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			room = partyWorld.getNextAvailableRoom ( roomType ); // get the next available room
-			roomNumber = partyWorld.getIndex ( roomType, room ); // update the index
+			newRoom = partyWorld.getNextAvailableRoom ( newRoomType ); // get the next available room
+			newRoomNumber = partyWorld.getIndex ( newRoomType, newRoom ); // update the index
 			
-			res.setRoom ( room ); // attach the room to the reservation
+			newRes.setRoom ( newRoom ); // attach the room to the reservation
 			
-			room.addToWaitlist ( res ); // walist the room
-			partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+			newRoom.addToWaitlist ( newRes ); // walist the room
+			partyWorld.setRoom ( newRoomType, newRoomNumber, newRoom ); // update the room inside the list in partyworld
 			
 			postResText.setText ( "Waitlisted." );
-			postResText.append ( "\n" + res );
+			postResText.append ( "\n" + newRes );
 			
 			
 			titlePanel.setVisible ( false );
@@ -1394,6 +1411,7 @@ public class EditReservationFrame extends JFrame {
 			// set items invis
 			resInfoLabel.setVisible ( false );
 			resInfoField.setVisible ( false );
+			errorLabel.setVisible ( false );
 			editButton.setVisible ( false );
 			backButton.setVisible ( false );
 			
@@ -1412,24 +1430,25 @@ public class EditReservationFrame extends JFrame {
 			// get the reservation
 			// if this is a confirmed reservation 
 			if ( resInfoLabel.getText ( ).contains ( "Confirmation" ) ) {
-				res = partyWorld.getResConfNum ( resInfoField.getText ( ) ); // get the reservation connected to the conf num
+				oldRes = partyWorld.getResConfNum ( resInfoField.getText ( ) ); // get the reservation connected to the conf num
 			} else { // if this is a waitlisted guest
-				res = partyWorld.getResGuestName ( resInfoField.getText ( ) ); // get the reservation connected to the name
+				oldRes = partyWorld.getResGuestName ( resInfoField.getText ( ) ); // get the reservation connected to the name
 			}
 			
-			if ( res == null ) {
-				// tell user that it was an invalid name/confnum
+			if ( oldRes == null ) {
+				errorLabel.setText ( "Error: Reservaiton does not exist." );
+				errorLabel.setVisible ( true );
 			} else {
 			
 				resInfoPanel.setVisible ( false );
 				
-				room = res.getRoom ( );
-				roomType = res.getRoom ( ).getName ( );
-				roomNumber = res.getRoom ( ).getRoomNumber ( );
+				oldRoom = oldRes.getRoom ( );
+				oldRoomType = oldRes.getRoom ( ).getName ( );
+				oldRoomNumber = oldRes.getRoom ( ).getRoomNumber ( );
 				
 				
 				// set guest panel
-				Guest guest = res.getGuest ( );
+				Guest guest = oldRes.getGuest ( );
 				guestNameField.setText ( guest.getName ( ) );
 				guestAddressField.setText( guest.getAddress ( ) );
 				guestPhoneField.setText( guest.getPhone ( ) );
@@ -1446,6 +1465,7 @@ public class EditReservationFrame extends JFrame {
 				// set card
 				Card card = guest.getPaymentMethod ( );
 				date = card.getExpDate ( );
+				cardNameField.setText ( card.getName ( ) );
 				cardCompanyCombo.setSelectedItem ( card.getCardCompany ( ) );
 				ccNumberField.setText ( card.getCCNumber ( ) );
 				cardSecurityField.setText ( card.getSecurityCode ( ) );
@@ -1454,24 +1474,24 @@ public class EditReservationFrame extends JFrame {
 				
 				
 				// set room panel
-				date = res.getDate ( );
-				roomTypeCombo.setSelectedItem ( res.getRoom ( ).getName ( ) );
+				date = oldRes.getDate ( );
+				roomTypeCombo.setSelectedItem ( oldRes.getRoom ( ).getName ( ) );
 				roomMonthCombo.setSelectedItem ( date.getMonth ( ) );
 				roomDayCombo.setSelectedItem ( date.getDay ( ) );
 				
-				Time time = res.getStartTime ( );
+				Time time = oldRes.getStartTime ( );
 				startHourCombo.setSelectedItem ( time.getHour ( ) + "" );
 				startMinCombo.setSelectedIndex ( time.getMinute ( ) );
 				
-				time = res.getEndTime ( );
+				time = oldRes.getEndTime ( );
 				endHourCombo.setSelectedItem ( time.getHour ( ) + "" );
 				endMinCombo.setSelectedIndex ( time.getMinute ( ) );
 				
-				int partySize = res.getPartySize ( );
+				int partySize = oldRes.getPartySize ( );
 				sizeField.setText ( partySize + "" );
 				
 				// upgrades
-				ArrayList < String > upgrades = res.getRoom ( ).getSpecialAmenities ( );
+				ArrayList < String > upgrades = oldRes.getSpecialAmenities ( );
 				JCheckBox checkBox = new JCheckBox ( );
 				for ( int i = 0; i < upgrades.size ( ); i++ ) { // itearte through all added upgrades
 					
@@ -1497,10 +1517,10 @@ public class EditReservationFrame extends JFrame {
 				}
 				
 				// set meal plan
-				MealPlan mealPlan = res.getMealPlan ( );
+				MealPlan mealPlan = oldRes.getMealPlan ( );
 				
 				// checks the upgrade checkbox if needed
-				if ( roomType.contains ( "Lounge" ) ) {
+				if ( oldRoomType.contains ( "Lounge" ) ) {
 					if ( mealPlan == null ) {
 						mealPlanCombo.setSelectedIndex ( 0 );
 					} else {
@@ -1630,7 +1650,7 @@ public class EditReservationFrame extends JFrame {
 				
 				
 				// set contact
-				ArrayList < Boolean > contactBy = res.getContactBy ( );
+				ArrayList < Boolean > contactBy = oldRes.getContactBy ( );
 				for ( int i = 0; i < contactBy.size ( ); i++ ) {
 					( ( JCheckBox ) contactPanel.getComponent ( i + 1 ) ).setSelected ( contactBy.get ( i ) );
 				}
@@ -1654,7 +1674,46 @@ public class EditReservationFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
+			partyWorld.deleteReservation ( oldRes );
+			Reservation nextRes = partyWorld.getNextWaitlist ( oldRoomType, oldRoomNumber );
 			
+			
+			postResText.setText ( "Reservation has been deleted." );
+			
+			// if there is someone next in line for the waitlist
+			if ( nextRes != null ) {
+				postResText.append ( "\n" + "Now notifying waitlisted guest, " + nextRes.getGuest ( ).getName ( ) );
+				postResText.append ( ", of confirmed reservation by " );
+				
+				if ( nextRes.getContactBy ( ).get ( 0 ) ) {
+					postResText.append ( "phone" );
+					if ( nextRes.getContactBy ( ).get ( 1 ) ) {
+						postResText.append ( " and email." );
+					} else {
+						postResText.append ( "." );
+					}
+				} else if ( nextRes.getContactBy ( ).get ( 1 ) ) {
+					postResText.append ( "email." );
+				}
+				
+				postResText.append ( "\n" + "\n" + nextRes );
+				
+			} else {
+				postResText.append ( "\n" + "There is nobody on the waitlist." );
+			}
+			
+			titlePanel.setVisible ( false );
+			guestPanel.setVisible ( false );
+			cardPanel.setVisible ( false );
+			contactPanel.setVisible ( false );
+			roomPanel.setVisible ( false );
+			mealPlanPanel.setVisible ( false );
+			reservationPanel.setVisible ( false );
+			waitlistButton.setVisible ( false );
+			cancelWaitlistButton.setVisible ( false );
+			
+			postResPanel.setVisible ( true );
+			exitButton.setVisible ( true );
 		}
 	}
 	

@@ -222,6 +222,14 @@ public class Reservation {
 	}
 	
 	/**
+	 * gets the speciala menities
+	 * @return special amenities
+	 */
+	public ArrayList < String > getSpecialAmenities ( ) {
+		return specialAmenities;
+	}
+	
+	/**
 	 * returns the means of contact
 	 * @return means of contact
 	 */

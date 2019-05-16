@@ -357,7 +357,7 @@ public class MainFrame extends JFrame {
 				centerPanel.removeAll ( );
 				
 				//Title of default view
-				JLabel panelTitle = new JLabel ( "All Party Rooms" );
+				JLabel panelTitle = new JLabel ( "Party World Rooms" );
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
@@ -425,7 +425,7 @@ public class MainFrame extends JFrame {
 				centerPanel.removeAll ( );
 				
 				//Title of default view
-				JLabel panelTitle = new JLabel ( "All Lounges" );
+				JLabel panelTitle = new JLabel ( "Party World Lounges" );
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
