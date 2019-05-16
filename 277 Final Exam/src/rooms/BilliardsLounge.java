@@ -45,8 +45,6 @@ public class BilliardsLounge extends Room {
 	 */
 	@Override
 	public double getCost ( ) {
-		double cost = 0;
-		
-		return cost;
+		return 25.0;
 	}
 }

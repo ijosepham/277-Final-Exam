@@ -247,6 +247,13 @@ public class MainFrame extends JFrame {
 			JMenuItem menuItem = ( JMenuItem ) click.getSource ( );
 			String item = menuItem.getText ( );
 			
+			JPanel descriptionPanel = new JPanel ( );
+			JLabel description = new JLabel ( "Each meal plan serves 12-15 people. Meal plan costs "
+					+ "include serving utensils (plates, cups, etc), and condiments" + 
+					"(Parmesan cheese, pepper flakes, salt, pepper)." );
+			descriptionPanel.add ( description );
+			
+			
 			if ( item.equals ( "All" ) ) {
 				centerPanel.removeAll ( );
 				
@@ -255,6 +262,8 @@ public class MainFrame extends JFrame {
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
+				centerPanel.add ( descriptionPanel );
+				
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\iron.png", "Basic Meal Plan" , BasicMealPlan.DESCRIPTION );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\bronze.png", "Bronze Meal Plan" , BronzeMealPlan.DESCRIPTION );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\silver.png", "Silver Meal Plan" , SilverMealPlan.DESCRIPTION );
@@ -272,6 +281,7 @@ public class MainFrame extends JFrame {
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
+				centerPanel.add ( descriptionPanel );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\iron.png", "Basic Meal Plan" , BasicMealPlan.DESCRIPTION );
 				
 				thisFrame.revalidate ( );
@@ -285,6 +295,7 @@ public class MainFrame extends JFrame {
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
+				centerPanel.add ( descriptionPanel );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\bronze.png", "Bronze Meal Plan" , BronzeMealPlan.DESCRIPTION );
 				
 				thisFrame.revalidate ( );
@@ -298,6 +309,7 @@ public class MainFrame extends JFrame {
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
+				centerPanel.add ( descriptionPanel );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\silver.png", "Silver Meal Plan" , SilverMealPlan.DESCRIPTION );
 				
 				thisFrame.revalidate ( );
@@ -311,6 +323,7 @@ public class MainFrame extends JFrame {
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
+				centerPanel.add ( descriptionPanel );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\gold.png", "Gold Meal Plan" , GoldMealPlan.DESCRIPTION );
 				
 				thisFrame.revalidate ( );
@@ -324,6 +337,7 @@ public class MainFrame extends JFrame {
 				panelTitle.setFont ( new Font ( Font.SERIF, Font.BOLD, 30 ) );
 				
 				centerPanel.add ( panelTitle );
+				centerPanel.add ( descriptionPanel );
 				addMealPlanDescription ( centerPanel, "C:\\Users\\appsm\\Documents\\GitHub\\277-Final-Exam\\277 Final Exam\\plat.png", "Platinum Meal Plan" , PlatinumMealPlan.DESCRIPTION );
 				
 				thisFrame.revalidate ( );

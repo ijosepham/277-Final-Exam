@@ -32,8 +32,6 @@ public class MediumPartyRoom extends Room {
 	 */
 	@Override
 	public double getCost ( ) {
-		double cost = 0;
-		
-		return cost;
+		return 250.0;
 	}
 }

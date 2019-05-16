@@ -65,8 +65,6 @@ public class AquaWorld extends Room {
 	 * @return cost of the room
 	 */
 	public double getCost ( ) {
-		double cost = 0;
-		
-		return cost;
+		return 700.0;
 	}
 }

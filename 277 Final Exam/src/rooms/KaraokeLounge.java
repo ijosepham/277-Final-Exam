@@ -30,7 +30,7 @@ public class KaraokeLounge extends Room {
 	 */
 	@Override
 	public double getCost ( ) {
-		double cost = 0;
+		double cost = 30.0;
 		
 		return cost;
 	}

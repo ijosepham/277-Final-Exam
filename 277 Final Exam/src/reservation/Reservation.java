@@ -230,6 +230,24 @@ public class Reservation {
 	}
 	
 	/**
+	 * gets the initial payment amount needed
+	 * @return initial payment
+	 */
+	public double getInitialPayment ( ) {
+		calculateCost ( );
+		return initialPayment;
+	}
+	
+	/**
+	 * gets the cost of the res
+	 * @return cost
+	 */
+	public double getCost ( ) {
+		calculateCost ( );
+		return cost;
+	}
+	
+	/**
 	 * returns whether or not the reservationw as finalized
 	 * @return if the reservation was finalized
 	 */
@@ -277,6 +295,8 @@ public class Reservation {
 	 * @return the reservation
 	 */
 	public String toString ( ) {
+		calculateCost ( );
+		
 		String str = "Name: " + guest.getName ( );
 		str += "\n" + "Room: " + room.getName ( ) + ", Room #" + room.getRoomNumber ( );
 		str += "\n" + "Party Size: " + partySize;
@@ -288,32 +308,65 @@ public class Reservation {
 		str += "\n" + "Total Cost: $" + cost;
 		
 		if ( isFinalized ) {
-			str += "\n" + "Confirmation Number: " + confNum;
+			str += "\n" + "\n" + "Confirmation Number: " + confNum;
 		}
 		
 		return str;
 	}
 	
+	/**
+	 * calculates the cost of the rservation
+	 * @return cost
+	 */
 	public double calculateCost ( ) {
 		cost = 0;
 		
-		double time = endTime.compareTo ( startTime ) / 60; // 12pm - 9am = 180 min. 180 / 60 = 3 hours
+		// time stayed
+		double time = endTime.compareTo ( startTime ) / 60.0; // 12pm - 9am = 180 min. 180 / 60 = 3 hours
 		cost += room.getCost ( ) * time; // room cost per hour * time
-		
+		// go through all the amenities
 		for ( int i = 0; i < specialAmenities.size ( ); i++ ) {
 			if ( specialAmenities.get ( i ).contains ( "Meal" ) ) {
+				double quantity = Math.ceil ( partySize / 15 );
 				
-			} else if ( specialAmenities.get ( i ).contains ( "" ) ) {
+				String roomType = room.getName ( );
+				if ( roomType.contains ( "Lounge" ) ) { // lounges take the full price of the meal plan
+					cost += mealPlan.getCost ( ) * quantity;
+				} else {
+					if ( roomType.contains ( "Aqua" ) ) { // party worlds dont
+						cost += quantity * 5 * ( mealPlan.getCost ( ) - 65.0 );
+						
+					} else if ( roomType.contains ( "Medium" ) ) {
+						cost += quantity * 3 * ( mealPlan.getCost ( ) - 65.0 );
+						
+					} else if ( roomType.contains ( "Small" ) ) {
+						cost += quantity * 1 * ( mealPlan.getCost ( ) - 65.0 );
+					} 
+				}
 				
-			} else if ( specialAmenities.get ( i ).contains ( "" ) ) {
 				
-			} else if ( specialAmenities.get ( i ).contains ( "" ) ) {
+			} else if ( specialAmenities.get ( i ).contains ( "Towel" ) ) {
+				cost += partySize * 2.0;
 				
+			} else if ( specialAmenities.get ( i ).contains ( "Bag" ) ) {
+				cost += partySize * 5.0;
+				
+			} else if ( specialAmenities.get ( i ).contains ( "Projector" ) ) {
+				cost += 10.0 * time;
+				
+			} else if ( specialAmenities.get ( i ).contains ( "Decoration" ) ) {
+				cost += 100.0;
 			}
 		}
 		
+		initialPayment = cost * .25;
 		
 		
+		// round costs to nearest hundred
+		cost = Math.round ( cost * 100.0 ) / 100.0;
+		
+		initialPayment = Math.round ( initialPayment * 100.0 ) / 100.0;
+				
 		return cost;
 	}
 }
