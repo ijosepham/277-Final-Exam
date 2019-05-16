@@ -780,7 +780,12 @@ public class EditReservationFrame extends JFrame {
 			
 			
 			// party size
-			int partySize = Integer.parseInt ( ( String ) sizeField.getText ( ) );
+			String size = ( String ) sizeField.getText ( );
+			int partySize = 0;
+			if ( size.length ( ) != 0 ) {
+				partySize = Integer.parseInt ( ( String ) sizeField.getText ( ) );
+			}
+			
 			
 			
 			// upgrades
@@ -1784,6 +1789,7 @@ public class EditReservationFrame extends JFrame {
 			roomPanel.setVisible ( true );
 			mealPlanPanel.setVisible ( true );
 			contactPanel.setVisible ( true );
+			reservationPanel.setVisible ( true );
 			
 			guestPanel.revalidate ( );
 			guestPanel.repaint ( );

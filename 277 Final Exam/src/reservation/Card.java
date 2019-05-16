@@ -120,7 +120,12 @@ public class Card {
 	 * @return last 4 digits of cc number
 	 */
 	public String getLastCCNumbers ( ) {
-		return ccNumber.substring ( ccNumber.length ( ) - 4 );
+		if ( ccNumber.length ( ) > 4 ) {
+			return ccNumber.substring ( ccNumber.length ( ) - 4 );
+		} else {
+			return "";
+		}
+		
 	}
 	
 	/**
