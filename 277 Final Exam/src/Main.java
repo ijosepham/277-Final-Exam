@@ -6,7 +6,8 @@ import frames.*;
  * to-do: 
  * check in and out
  * resrevation is cancelled if the whole entire tiem lot is not open
- * prices.
+ * 
+ * prices
  */
 
 public class Main {

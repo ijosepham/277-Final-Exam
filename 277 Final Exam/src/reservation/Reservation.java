@@ -63,6 +63,11 @@ public class Reservation {
 	private double initialPayment;
 	
 	/**
+	 * cost of the reservation
+	 */
+	private double cost;
+	
+	/**
 	 * confirmation number of the reservation
 	 */
 	private String confNum;
@@ -82,6 +87,7 @@ public class Reservation {
 		initialPayment = 0;
 		isFinalized = false;
 		partySize = 0;
+		cost = 0;
 	}
 	
 	/**
@@ -101,7 +107,6 @@ public class Reservation {
 		this.mealPlan = mealPlan;
 		this.contactBy = contactBy;
 		isFinalized = false;
-		//initialPayment += room.getCost ( ) + mealPlan.getCost ( );
 	}
 	
 	/**
@@ -280,11 +285,35 @@ public class Reservation {
 		str += "\n" + "End Time: " + endTime;
 		str += "\n" + "Meal Plan: " + mealPlan.getTier ( ) + " Tier";
 		str += "\n" + "Initial Payment: $" + initialPayment;
+		str += "\n" + "Total Cost: $" + cost;
 		
 		if ( isFinalized ) {
 			str += "\n" + "Confirmation Number: " + confNum;
 		}
 		
 		return str;
+	}
+	
+	public double calculateCost ( ) {
+		cost = 0;
+		
+		double time = endTime.compareTo ( startTime ) / 60; // 12pm - 9am = 180 min. 180 / 60 = 3 hours
+		cost += room.getCost ( ) * time; // room cost per hour * time
+		
+		for ( int i = 0; i < specialAmenities.size ( ); i++ ) {
+			if ( specialAmenities.get ( i ).contains ( "Meal" ) ) {
+				
+			} else if ( specialAmenities.get ( i ).contains ( "" ) ) {
+				
+			} else if ( specialAmenities.get ( i ).contains ( "" ) ) {
+				
+			} else if ( specialAmenities.get ( i ).contains ( "" ) ) {
+				
+			}
+		}
+		
+		
+		
+		return cost;
 	}
 }

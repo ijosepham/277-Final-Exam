@@ -216,7 +216,7 @@ public class SelectDateTimeFrame extends JFrame {
 			if ( room == null ) {
 				new WaitlistMessageFrame ( partyWorld, roomType, res );
 			} else {
-				new NewReservationFrame ( partyWorld, room, res );
+				new NewReservationFrame ( partyWorld, room, res, false );
 			}
 		}
 	}

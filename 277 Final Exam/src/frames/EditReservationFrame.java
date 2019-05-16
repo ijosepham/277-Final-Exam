@@ -797,6 +797,10 @@ public class EditReservationFrame extends JFrame {
 				}
 				mealPlan.addFood ( pizza );
 			}
+			// add the meal combo if it was an upgrade
+			if ( mealUpgradeBox.isSelected ( ) ) {
+				specialAmenities.add ( ( String ) mealPlanCombo.getSelectedItem ( ) );
+			}
 			
 			
 			// adding sodas
@@ -938,7 +942,7 @@ public class EditReservationFrame extends JFrame {
 					waitlistButton.setVisible ( false );
 					cancelWaitlistButton.setVisible ( false );
 					
-					room.setSpecialAmenities ( specialAmenities );
+					//room.setSpecialAmenities ( specialAmenities );
 					res.setRoom ( room ); // attach the room to the reservation
 					res.finalizeReservation ( ); // initial payment and confirmation number
 					

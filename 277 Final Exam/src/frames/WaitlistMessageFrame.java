@@ -62,7 +62,7 @@ public class WaitlistMessageFrame extends JFrame {
 			thisFrame.dispose ( );
 			
 			Room room = partyWorld.getNextAvailableRoom ( roomType );
-			new NewReservationFrame ( partyWorld, room, res );
+			new NewReservationFrame ( partyWorld, room, res, true );
 		}
 	}
 	

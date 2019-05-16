@@ -101,10 +101,15 @@ public class NewReservationFrame extends JFrame {
 	int roomNumber;
 	Reservation res;
 	
+	boolean waitlisted;
+	Room waitlistedRoom;
+	
 	public NewReservationFrame ( PartyWorld partyWorld ) {
 		this.setTitle ( "New Reservation" );
 		
 		this.partyWorld = partyWorld;
+		
+		waitlisted = false;
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -113,11 +118,15 @@ public class NewReservationFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
-	public NewReservationFrame ( PartyWorld partyWorld, Room room, Reservation res ) {
+	public NewReservationFrame ( PartyWorld partyWorld, Room room, Reservation res, boolean waitlisted ) {
 		this.setTitle ( "New Reservation" );
 		
 		this.partyWorld = partyWorld;
 		this.room = room;
+		this.waitlisted = waitlisted;
+		if ( waitlisted == true ) {
+			waitlistedRoom = room;
+		}
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
@@ -707,6 +716,10 @@ public class NewReservationFrame extends JFrame {
 					}
 				}
 			}
+			// add the meal combo if it was an upgrade
+			if ( mealUpgradeBox.isSelected ( ) ) {
+				specialAmenities.add ( ( String ) mealPlanCombo.getSelectedItem ( ) );
+			}
 			
 			
 			// create a meal plan according to what they chose
@@ -892,7 +905,7 @@ public class NewReservationFrame extends JFrame {
 				roomNumber = partyWorld.getIndex( roomType, room ); // index of available room
 				
 				// if no rooms are currently available
-				if ( room == null ) {
+				if ( room == null && waitlisted == false ) {
 					postResText.append ( "There are no rooms available at the given time."); 
 					postResText.append ( "\n" + "Would you like to waitlist instead?" );
 					waitlistButton.setVisible ( true );
@@ -909,17 +922,34 @@ public class NewReservationFrame extends JFrame {
 					waitlistButton.setVisible ( false );
 					cancelWaitlistButton.setVisible ( false );
 					
-					room.setSpecialAmenities ( specialAmenities );
-					res.setRoom ( room ); // attach the room to the reservation
-					res.finalizeReservation ( ); // initial payment and confirmation number
-					
-					postResText.append ( "Your room is available in the given time frame. Reserved." );
-					postResText.append ( "\n" + "\n" + res );
-					
-					room.reserve ( res ); // reserve the room
-					partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
-					
-					exitButton.setVisible ( true );
+					// if the user came from the waitlist frame, check to make sure they chose the same room
+					if ( waitlisted && waitlistedRoom.getName ( ).equals ( roomType ) ) {
+						// if the same room, add everything to the waitlist
+						room = waitlistedRoom;
+						roomNumber = room.getRoomNumber ( ) - 1;
+						
+						res.setRoom ( room );
+						room.addToWaitlist ( res ); // walist the room
+						partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+						
+						postResText.append ( "You have been waitlisted." );
+						postResText.append ( "\n" + "\n" + res );
+						
+						exitButton.setVisible ( true );
+						
+					} else {
+						//room.setSpecialAmenities ( specialAmenities );
+						res.setRoom ( room ); // attach the room to the reservation
+						res.finalizeReservation ( ); // initial payment and confirmation number
+						
+						postResText.append ( "Your room is available in the given time frame. Reserved." );
+						postResText.append ( "\n" + "\n" + res );
+						
+						room.reserve ( res ); // reserve the room
+						partyWorld.setRoom ( roomType, roomNumber, room ); // update the room inside the list in partyworld
+						
+						exitButton.setVisible ( true );
+					}
 				}
 			}
 			postResPanel.setVisible ( true );
