@@ -20,6 +20,7 @@ public class EditReservationFrame extends JFrame {
 	JPanel titlePanel;
 	
 	JPanel resInfoPanel;
+	JTextArea reservationsText;
 	JButton confirmedButton;
 	JButton waitlistedButton;
 	
@@ -154,14 +155,20 @@ public class EditReservationFrame extends JFrame {
 		cancelEditButton = new JButton ( "Cancel" );
 		cancelEditButton.addActionListener ( new CancelButtonListener ( ) );
 		
+
+		reservationsText = new JTextArea ( );
+		reservationsText.setEditable ( false );
+		
 		resInfoLabel = new JLabel ( "" );
 		resInfoField = new JTextField ( 20 );
 		
 		resInfoPanel.add ( confirmedButton );
 		resInfoPanel.add ( waitlistedButton );
+		resInfoPanel.add ( reservationsText );
 		resInfoPanel.add ( resInfoLabel );
 		resInfoPanel.add ( resInfoField );
 		
+		reservationsText.setVisible ( false );
 		resInfoLabel.setVisible ( false );
 		resInfoField.setVisible ( false );
 		
@@ -431,6 +438,50 @@ public class EditReservationFrame extends JFrame {
 		postResPanel.setVisible ( false );
 		
 		this.add ( panel );
+	}
+	
+	public void setResText ( boolean confirmed ) {
+		reservationsText.setText ( "" );
+		ArrayList < ArrayList < Room > > allRooms = partyWorld.getRooms ( );
+		
+		ArrayList < Room > rooms;
+		ArrayList < Reservation > reservations;
+		Reservation res;
+		Room room;
+		
+		// if they're confirmed reservations
+		if ( confirmed ) {
+			// go through aquaworlds, mediums, smalls, etc
+			for ( int i = 0; i < allRooms.size ( ); i++ ) {
+				rooms = allRooms.get ( i );
+				for ( int j = 0; j < rooms.size ( ); j++ ) { // go through all rooms in aquaworld/mediums/etc
+					reservations = rooms.get ( j ).getReservations ( );
+					for ( int k = 0; k < reservations.size ( ); k++ ) { // go through all reservations
+						res = reservations.get ( k );
+						room = res.getRoom ( );
+						reservationsText.append ( res.getConfNum ( ) + "   " 
+							+ room.getName ( ) + ", Room #" + room.getRoomNumber ( ) );
+						reservationsText.append ( ", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
+							" - " + res.getEndTime ( ) + "\n" );
+					}
+				}
+			}
+		} else { // if they're waitlsited peeps
+			for ( int i = 0; i < allRooms.size ( ); i++ ) {
+				rooms = allRooms.get ( i );
+				for ( int j = 0; j < rooms.size ( ); j++ ) { // go through all rooms in aquaworld/mediums/etc
+					reservations = rooms.get ( j ).getWaitlist ( );
+					for ( int k = 0; k < reservations.size ( ); k++ ) { // go through all reservations
+						res = reservations.get ( k );
+						room = res.getRoom ( );
+						reservationsText.append ( res.getGuest ( ).getName ( ) + "   " + 
+							room.getName ( ) + ", Room #" + room.getRoomNumber ( ) );
+						reservationsText.append ( ", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
+							" - " + res.getEndTime ( ) + "\n" );
+					}
+				}
+			}
+		}
 	}
 	
 	public void setThemesPanel ( String roomType ) {
@@ -1373,6 +1424,9 @@ public class EditReservationFrame extends JFrame {
 			waitlistedButton.setVisible ( false );
 			cancelEditButton.setVisible ( false );
 			
+			setResText ( true );
+			reservationsText.setVisible ( true );
+			
 			// show the label and the field
 			resInfoLabel.setText ( "Confirmation Number: " );
 			resInfoLabel.setVisible ( true );
@@ -1392,6 +1446,9 @@ public class EditReservationFrame extends JFrame {
 			confirmedButton.setVisible ( false );
 			waitlistedButton.setVisible ( false );
 			cancelEditButton.setVisible ( false );
+			
+			setResText ( false );
+			reservationsText.setVisible ( true );
 			
 			// show the label and the field
 			resInfoLabel.setText ( "Guest Name: " );
@@ -1414,6 +1471,7 @@ public class EditReservationFrame extends JFrame {
 			errorLabel.setVisible ( false );
 			editButton.setVisible ( false );
 			backButton.setVisible ( false );
+			reservationsText.setVisible ( false );
 			
 			// show new things
 			confirmedButton.setVisible ( true );
@@ -1675,15 +1733,18 @@ public class EditReservationFrame extends JFrame {
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
 			partyWorld.deleteReservation ( oldRes );
-			Reservation nextRes = partyWorld.getNextWaitlist ( oldRoomType, oldRoomNumber );
+			
+			Reservation nextRes = partyWorld.getNextAvailableWaitlist ( oldRes );
 			
 			
 			postResText.setText ( "Reservation has been deleted." );
 			
 			// if there is someone next in line for the waitlist
 			if ( nextRes != null ) {
+				
 				postResText.append ( "\n" + "Now notifying waitlisted guest, " + nextRes.getGuest ( ).getName ( ) );
 				postResText.append ( ", of confirmed reservation by " );
+				
 				
 				if ( nextRes.getContactBy ( ).get ( 0 ) ) {
 					postResText.append ( "phone" );
@@ -1696,10 +1757,11 @@ public class EditReservationFrame extends JFrame {
 					postResText.append ( "email." );
 				}
 				
+				
 				postResText.append ( "\n" + "\n" + nextRes );
 				
 			} else {
-				postResText.append ( "\n" + "There is nobody on the waitlist." );
+				postResText.append ( "\n" + "There is nobody available on the waitlist." );
 			}
 			
 			titlePanel.setVisible ( false );

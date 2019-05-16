@@ -47,21 +47,135 @@ public class PartyWorld {
 		}
 	}
 	
+	/**
+	 * returns an arraylist of all the rooms
+	 * @return arraylist of all the rooms
+	 */
+	public ArrayList < ArrayList < Room > > getRooms ( ) {
+		ArrayList < ArrayList < Room > > rooms = new ArrayList < ArrayList < Room > > ( );
+		rooms.add ( aquaWorlds );
+		rooms.add ( mediumPartyRooms );
+		rooms.add ( smallPartyRooms );
+		rooms.add ( karaokeLounges );
+		rooms.add ( billiardsLounges );
+		return rooms;
+	}
+	
 	public void deleteReservation ( Reservation r ) {
 		String roomType = r.getRoom ( ).getName ( );
 		int roomNumber = r.getRoom ( ).getRoomNumber ( );
 		
-		if ( roomType.contains ( "Aqua" ) ) {
-			aquaWorlds.get ( 0 ).removeFromReservations ( roomNumber - 1 );
-		} else if ( roomType.contains ( "Medium" ) ) {
-			mediumPartyRooms.get ( 0 ).removeFromReservations ( roomNumber - 1 );
-		} else if ( roomType.contains ( "Small" ) ) {
-			smallPartyRooms.get ( 0 ).removeFromReservations ( roomNumber - 1 );
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			billiardsLounges.get ( 0 ).removeFromReservations ( roomNumber - 1 );
-		} else {
-			karaokeLounges.get ( 0 ).removeFromReservations ( roomNumber - 1 );
+		// if its finalized, delete from reservations
+		if ( r.isFinalied ( ) ) {
+			if ( roomType.contains ( "Aqua" ) ) {
+				aquaWorlds.get ( roomNumber - 1 ).removeFromReservations ( r );
+			} else if ( roomType.contains ( "Medium" ) ) {
+				mediumPartyRooms.get ( roomNumber - 1 ).removeFromReservations ( r );
+			} else if ( roomType.contains ( "Small" ) ) {
+				smallPartyRooms.get ( roomNumber - 1 ).removeFromReservations ( r );
+			} else if ( roomType.contains ( "Billiards" ) ) {
+				billiardsLounges.get ( roomNumber - 1 ).removeFromReservations ( r );
+			} else {
+				karaokeLounges.get ( roomNumber - 1 ).removeFromReservations ( r );
+			}
+			
+		} else { // else delete from waitlist
+			if ( roomType.contains ( "Aqua" ) ) {
+				// get the room ( determined by roomnumber )
+				//then delete the reservaiton
+				aquaWorlds.get ( roomNumber - 1 ).removeFromWaitlist ( r );
+			} else if ( roomType.contains ( "Medium" ) ) {
+				mediumPartyRooms.get ( roomNumber - 1 ).removeFromWaitlist( r );
+			} else if ( roomType.contains ( "Small" ) ) {
+				smallPartyRooms.get ( roomNumber - 1 ).removeFromWaitlist ( r );
+			} else if ( roomType.contains ( "Billiards" ) ) {
+				billiardsLounges.get ( roomNumber - 1 ).removeFromWaitlist ( r );
+			} else {
+				karaokeLounges.get ( roomNumber - 1 ).removeFromWaitlist ( r );
+			}
 		}
+		
+
+	}
+	
+	public Reservation getNextAvailableWaitlist ( Reservation res ) {
+		Reservation nextRes = null;
+		
+		Room room = res.getRoom ( );
+		String roomType = room.getName ( );
+		int roomNumber = room.getRoomNumber ( );
+		
+		ArrayList < Reservation > waitlist;
+		
+		if ( roomType.contains ( "Aqua" ) ) {
+			waitlist = room.getWaitlist ( );
+			
+			for ( int i = 0; i < waitlist.size ( ); i++ ) {
+				nextRes = waitlist.get ( i );
+				if ( room.isAvailable ( nextRes ) ) {
+					System.out.println ( "available" );
+					aquaWorlds.get ( roomNumber - 1 ).getWaitlist ( ).remove ( i );
+					nextRes.finalizeReservation ( );
+					aquaWorlds.get ( roomNumber - 1 ).getReservations ( ).add ( nextRes );
+					return nextRes;
+				}
+			}
+			
+		} else if ( roomType.contains ( "Medium" ) ) {
+			waitlist = room.getWaitlist ( );
+			
+			for ( int i = 0; i < waitlist.size ( ); i++ ) {
+				nextRes = waitlist.get ( i );
+				if ( room.isAvailable ( nextRes ) ) {
+					mediumPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).remove ( i );
+					nextRes.finalizeReservation ( );
+					mediumPartyRooms.get ( roomNumber - 1 ).getReservations ( ).add ( nextRes );
+					return nextRes;
+				}
+			}
+
+		} else if ( roomType.contains ( "Small" ) ) {			
+			waitlist = room.getWaitlist ( );
+		
+			for ( int i = 0; i < waitlist.size ( ); i++ ) {
+				nextRes = waitlist.get ( i );
+				if ( room.isAvailable ( nextRes ) ) {
+					smallPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).remove ( i );
+					nextRes.finalizeReservation ( );
+					smallPartyRooms.get ( roomNumber - 1 ).getReservations ( ).add ( nextRes );
+					return nextRes;
+				}
+			}
+			
+		} else if ( roomType.contains ( "Billiards" ) ) {
+			waitlist = room.getWaitlist ( );
+			
+			for ( int i = 0; i < waitlist.size ( ); i++ ) {
+				nextRes = waitlist.get ( i );
+				if ( room.isAvailable ( nextRes ) ) {
+					billiardsLounges.get ( roomNumber - 1 ).getWaitlist ( ).remove ( i );
+					nextRes.finalizeReservation ( );
+					billiardsLounges.get ( roomNumber - 1 ).getReservations ( ).add ( nextRes );
+					return nextRes;
+				}
+			}
+			
+		} else {
+			waitlist = room.getWaitlist ( );
+			
+			for ( int i = 0; i < waitlist.size ( ); i++ ) {
+				nextRes = waitlist.get ( i );
+				if ( room.isAvailable ( nextRes ) ) {
+					karaokeLounges.get ( roomNumber - 1 ).getWaitlist ( ).remove ( i );
+					nextRes.finalizeReservation ( );
+					karaokeLounges.get ( roomNumber - 1 ).getReservations ( ).add ( nextRes );
+					return nextRes;
+				}
+			}
+		}
+		
+		
+		return null;
 	}
 	
 	public Reservation getNextWaitlist ( String roomType, int roomNumber ) {
