@@ -257,6 +257,38 @@ public abstract class Room {
 	}
 	
 	/**
+	 * removes all waitlists that have passed
+	 * @param r - reservation that just finished
+	 */
+	public void removeUnavailableWaitlists ( Reservation r ) {
+		Reservation w;
+		
+		// need this because if you used the actual one, it would mess up the positons of the items
+		ArrayList < Reservation > waitlist = this.waitlist; 
+		
+		// go through waitlist
+		for ( int i = 0; i < waitlist.size ( ); i++ ) {
+			w = waitlist.get ( i );
+			
+			// if the dates are the same, then check the times
+			if ( w.getDate ( ).equals ( r.getDate ( ) ) ) {
+				
+				// if the given start time is in between any reservation, then its not available
+				boolean a = ( w.getStartTime ( ).compareTo ( r.getStartTime ( ) ) - prepTime ) < 0;
+				boolean b = ( w.getEndTime ( ).compareTo ( r.getStartTime ( ) ) + ( prepTime * 2 ) ) > 0;
+				boolean c = ( w.getStartTime ( ).compareTo ( r.getEndTime ( ) ) - ( prepTime * 2 ) ) < 0;
+				boolean d = ( w.getEndTime ( ).compareTo ( r.getEndTime ( ) ) + prepTime ) > 0;
+				
+				
+				// remove any waitlisted res's that dont fit anymore
+				if ( ( a && b ) || ( c && d ) ) {
+					this.waitlist.remove ( w );
+				}
+			}
+		}
+	}
+	
+	/**
 	 * returns whether or not the given date and time is available for registration
 	 * @param date - date of wanted reservation
 	 * @param startTime - start time of wanted reservation
@@ -277,8 +309,6 @@ public abstract class Room {
 				
 				// if the dates are the same, then check the times
 				if ( r1.getDate ( ).equals ( r.getDate ( ) ) ) {
-					
-					// 1/2 hour cleanup, 1/2 hour setip. 1hour gap total
 					
 					// if the given start time is in between any reservation, then its not available
 					boolean a = ( r1.getStartTime ( ).compareTo ( r.getStartTime ( ) ) - prepTime ) < 0;

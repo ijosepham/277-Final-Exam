@@ -408,6 +408,10 @@ public class Reservation {
 		return cost;
 	}
 	
+	/**
+	 * returns an invoice of all the costs of the reservation
+	 * @return invoice of the res
+	 */
 	public String getInvoice ( ) {
 		String str = "";
 		

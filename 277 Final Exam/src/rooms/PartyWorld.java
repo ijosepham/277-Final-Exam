@@ -576,13 +576,17 @@ public class PartyWorld {
 	}
 	
 	public Reservation checkOutReservation ( String confNum ) {
+		Reservation res = null;
+		
 		// get resrvations of a room
 		ArrayList < Reservation > reservations = aquaWorlds.get ( 0 ).getReservations ( );
 		
 		// iterate through all the reservations to check if it amtches the confirmation number
 		for ( int i = 0; i < reservations.size ( ); i++ ) {
 			if ( reservations.get ( i ).getConfNum ( ).equals ( confNum ) ) { // if a match
-				return aquaWorlds.get ( 0 ).getReservations ( ).remove ( i );
+				res = aquaWorlds.get ( 0 ).getReservations ( ).get ( i );
+				aquaWorlds.get ( 0 ).removeUnavailableWaitlists ( res );
+				aquaWorlds.get ( 0 ).getReservations ( ).remove ( i );
 			}
 		}
 		
@@ -594,7 +598,9 @@ public class PartyWorld {
 			// iterate through all the reservations to check if it amtches the confirmation number
 			for ( int j = 0; j < reservations.size ( ); j++ ) {
 				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
-					return mediumPartyRooms.get ( i ).getReservations ( ).remove ( j );
+					res = mediumPartyRooms.get ( 0 ).getReservations ( ).get ( i );
+					mediumPartyRooms.get ( 0 ).removeUnavailableWaitlists ( res );
+					mediumPartyRooms.get ( 0 ).getReservations ( ).remove ( i );
 				}
 			}
 		}
@@ -607,7 +613,9 @@ public class PartyWorld {
 			// iterate through all the reservations to check if it amtches the confirmation number
 			for ( int j = 0; j < reservations.size ( ); j++ ) {
 				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
-					return smallPartyRooms.get ( i ).getReservations ( ).remove ( j );
+					res = smallPartyRooms.get ( 0 ).getReservations ( ).get ( i );
+					smallPartyRooms.get ( 0 ).removeUnavailableWaitlists ( res );
+					smallPartyRooms.get ( 0 ).getReservations ( ).remove ( i );
 				}
 			}
 		}
@@ -620,7 +628,9 @@ public class PartyWorld {
 			// iterate through all the reservations to check if it amtches the confirmation number
 			for ( int j = 0; j < reservations.size ( ); j++ ) {
 				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
-					return billiardsLounges.get ( i ).getReservations ( ).remove ( j );
+					res = billiardsLounges.get ( 0 ).getReservations ( ).get ( i );
+					billiardsLounges.get ( 0 ).removeUnavailableWaitlists ( res );
+					billiardsLounges.get ( 0 ).getReservations ( ).remove ( i );
 				}
 			}
 		}
@@ -633,12 +643,14 @@ public class PartyWorld {
 			// iterate through all the reservations to check if it amtches the confirmation number
 			for ( int j = 0; j < reservations.size ( ); j++ ) {
 				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
-					return karaokeLounges.get ( i ).getReservations ( ).remove ( j );
+					res = karaokeLounges.get ( 0 ).getReservations ( ).get ( i );
+					karaokeLounges.get ( 0 ).removeUnavailableWaitlists ( res );
+					karaokeLounges.get ( 0 ).getReservations ( ).remove ( i );
 				}
 			}
 		}
 		
-		return null;
+		return res;
 	}
 	
 	public Reservation getResConfNum ( String confNum ) {
