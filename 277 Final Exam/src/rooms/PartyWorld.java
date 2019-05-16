@@ -113,7 +113,6 @@ public class PartyWorld {
 			for ( int i = 0; i < waitlist.size ( ); i++ ) {
 				nextRes = waitlist.get ( i );
 				if ( room.isAvailable ( nextRes ) ) {
-					System.out.println ( "available" );
 					aquaWorlds.get ( roomNumber - 1 ).getWaitlist ( ).remove ( i );
 					nextRes.finalizeReservation ( );
 					aquaWorlds.get ( roomNumber - 1 ).getReservations ( ).add ( nextRes );

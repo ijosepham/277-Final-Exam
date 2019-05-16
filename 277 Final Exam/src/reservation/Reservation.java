@@ -311,7 +311,12 @@ public class Reservation {
 		str += "\n" + "Date: " + date;
 		str += "\n" + "Start Time: " + startTime;
 		str += "\n" + "End Time: " + endTime;
-		str += "\n" + "Meal Plan: " + mealPlan.getTier ( ) + " Tier";
+		if ( mealPlan != null ) {
+			str += "\n" + "Meal Plan: " + mealPlan.getTier ( ) + " Tier";
+		} else {
+			str += "\n" + "Meal Plan: None";
+		}
+		
 		str += "\n" + "Initial Payment: $" + initialPayment;
 		str += "\n" + "Total Cost: $" + cost;
 		

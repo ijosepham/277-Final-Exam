@@ -1,5 +1,7 @@
 package frames;
 
-public class CheckOutFrame {
+import javax.swing.*;
+
+public class CheckOutFrame extends JFrame {
 
 }

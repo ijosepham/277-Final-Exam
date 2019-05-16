@@ -11,7 +11,6 @@ import pizzas.*;
 import mealplans.*;
 import reservation.*;
 
-// delete button listener
 // edit save button to make sure it edits a reservation, not make new one
 
 public class EditReservationFrame extends JFrame {
@@ -254,10 +253,10 @@ public class EditReservationFrame extends JFrame {
 		cardPanel.add ( cardCompanyCombo = new JComboBox < String > ( cardCompanies ) );
 		
 		cardPanel.add ( new JLabel ( "Card Number: " ) );
-		cardPanel.add ( ccNumberField = new JTextField ( 11 ) );
+		cardPanel.add ( ccNumberField = new JTextField ( 12 ) );
 		
 		cardPanel.add ( new JLabel ( "CVC: " ) );
-		cardPanel.add ( cardSecurityField = new JTextField ( 2 ) );
+		cardPanel.add ( cardSecurityField = new JTextField ( 3 ) );
 		
 		cardPanel.add ( new JLabel ( "Expiration Date: " ) );
 		cardPanel.add ( expMonthCombo = new JComboBox < Integer > ( months ) );
@@ -891,7 +890,7 @@ public class EditReservationFrame extends JFrame {
 				flavor =  ( String ) flavors.getSelectedItem ( ); // get the selected item
 				
 				mealPlan.addFood ( new Side ( flavor ) );
-			} else if ( ! ( mealPlan instanceof BasicMealPlan ) ) { // every other beisde basic and bronze get both
+			} else if ( ! ( mealPlan instanceof BasicMealPlan ) && mealPlan != null ) { // every other beisde basic and bronze get both
 				mealPlan.addFood ( new Side ( "Breadsticks" ) );
 				mealPlan.addFood ( new Side ( "Salad" ) );
 			}
@@ -950,6 +949,20 @@ public class EditReservationFrame extends JFrame {
 			
 			// first check all info is valid: booking time, cc, partysize, age if billiards
 			// start time is later than end time
+			
+			// so if the start hour is like 00 ( for midnight ), add 24 so it works properly
+			Time tempStart = new Time ( startTime.getHour ( ), startTime.getMinute ( ) );
+			if ( tempStart.getHour ( ) < 9 ) {
+				tempStart.setHour ( tempStart.getHour ( ) + 24 );
+			}
+			
+			// same
+			Time tempEnd = new Time ( endTime.getHour ( ), endTime.getMinute ( ) );
+			if ( tempEnd.getHour ( ) < 9 ) {
+				tempEnd.setHour ( tempEnd.getHour ( ) + 24 );
+			}
+			
+			
 			if ( startTime.compareTo ( endTime ) > 0 ) { 
 				postResText.append ( "Start time begins later than end time." + "\n" );
 				valid = false;
@@ -1719,11 +1732,27 @@ public class EditReservationFrame extends JFrame {
 				roomPanel.setVisible ( true );
 				mealPlanPanel.setVisible ( true );
 				contactPanel.setVisible ( true );
-				reservationPanel.setVisible ( true );
-				postResPanel.setVisible ( true );
 				
-				thisFrame.revalidate ( );
-				thisFrame.repaint ( );
+				guestPanel.revalidate ( );
+				guestPanel.repaint ( );
+				
+				cardPanel.revalidate ( );
+				cardPanel.repaint ( );
+				
+				roomPanel.revalidate ( );
+				roomPanel.repaint ( );
+				
+				mealPlanPanel.revalidate ( );
+				mealPlanPanel.repaint ( );
+				
+				contactPanel.revalidate ( );
+				contactPanel.repaint ( );
+				
+				reservationPanel.revalidate ( );
+				reservationPanel.repaint ( );
+				
+				postResPanel.revalidate ( );
+				postResPanel.repaint ( );
 			}
 		}
 	}

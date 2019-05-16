@@ -1,5 +1,7 @@
 package frames;
 
-public class CheckInFrame {
+import javax.swing.*;
+
+public class CheckInFrame extends JFrame {
 
 }
