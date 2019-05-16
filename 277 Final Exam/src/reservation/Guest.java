@@ -157,6 +157,11 @@ public class Guest {
 		return paymentMethod;
 	}
 	
+	/**
+	 * determnies whether or not the guest is 21yo
+	 * @param today - date of today
+	 * @return whether or not the guest is 21
+	 */
 	public boolean is21 ( Date today ) {
 		if ( today.getYear ( ) - dateOfBirth.getYear ( ) > 21) {
 			return true;

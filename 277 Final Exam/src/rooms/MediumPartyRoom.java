@@ -3,6 +3,9 @@ package rooms;
 import roomfactories.RoomFactory;
 
 public class MediumPartyRoom extends Room {
+	/**
+	 * dscripton of med room for panel
+	 */
 	public static String DESCRIPTION = "Number of Rooms: 2" + "\n" + 
 			"Description:   Room with Party Tables and Chairs, Quick Access to Arcade" + "\n" + 
 			"Capacity:   45 People" + "\n" +
@@ -10,6 +13,9 @@ public class MediumPartyRoom extends Room {
 			"Included:   Table and Chair Set-Up, DJ, Basic Meal Plan" + "\n" +
 			"Upgrades   Available: Meal Plan, Party Favor Bags,  Projector, Party Decorations and Set-up w/ Themes";
 	
+	/**
+	 * max capacity of the room
+	 */
 	public static int CAPACITY = 45;
 	
 	/**
@@ -17,7 +23,6 @@ public class MediumPartyRoom extends Room {
 	 */
 	public MediumPartyRoom ( ) {
 		prepTime = 60;
-		capacity = 45;
 		name = "Medium Party Room";
 		roomNumber = RoomFactory.medium_count;
 		basicAmenities.add ( "Room with Tables & Chairs" );

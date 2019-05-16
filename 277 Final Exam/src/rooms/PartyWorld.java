@@ -6,28 +6,50 @@ import reservation.Reservation;
 import roomfactories.*;
 
 public class PartyWorld {
-	
+	/**
+	 * list of all the aqua worlds
+	 */
 	private ArrayList < Room > aquaWorlds;
+	
+	/**
+	 * list of all the medium party rooms
+	 */
 	private ArrayList < Room > mediumPartyRooms;
+	
+	/**
+	 * list of all the small party rooms
+	 */
 	private ArrayList < Room > smallPartyRooms;
+	
+	/**
+	 * list of all the billiards lounges
+	 */
 	private ArrayList < Room > billiardsLounges;
+	
+	/**
+	 * list of all the karaoke lounges
+	 */
 	private ArrayList < Room > karaokeLounges;
 	
+	/**
+	 * default constructor
+	 */
 	public PartyWorld ( ) {
+		// create instances of all factories
 		AquaWorldFactory aquaWorldFactory = new AquaWorldFactory ( );
 		MediumPartyRoomFactory mPartyFactory = new MediumPartyRoomFactory ( );
 		SmallPartyRoomFactory sPartyFactory = new SmallPartyRoomFactory ( );
 		BilliardsLoungeFactory bLoungeFactory = new BilliardsLoungeFactory ( );
 		KaraokeLoungeFactory kLoungeFactory = new KaraokeLoungeFactory ( );
 		
+		// initialize
 		aquaWorlds = new ArrayList < Room > ( );
 		mediumPartyRooms = new ArrayList < Room > ( );
 		smallPartyRooms = new ArrayList < Room > ( );
 		billiardsLounges = new ArrayList < Room > ( );
 		karaokeLounges = new ArrayList < Room > ( );
 		
-		
-		
+		// create rooms
 		aquaWorlds.add ( aquaWorldFactory.createRoom ( ) );
 		
 		for ( int i = 0; i < RoomFactory.MAX_MEDIUM; i++ ) {
@@ -61,6 +83,10 @@ public class PartyWorld {
 		return rooms;
 	}
 	
+	/**
+	 * adds the reservation to its room 
+	 * @param r - reservatopn to add
+	 */
 	public void addReservation ( Reservation r ) {
 		String roomType = r.getRoom ( ).getName ( );
 		int roomNumber = r.getRoom ( ).getRoomNumber ( );
@@ -96,6 +122,10 @@ public class PartyWorld {
 		}
 	}
 	
+	/**
+	 * delete the reservation of the room to which it belongs
+	 * @param reservation
+	 */
 	public void deleteReservation ( Reservation r ) {
 		String roomType = r.getRoom ( ).getName ( );
 		int roomNumber = r.getRoom ( ).getRoomNumber ( );
@@ -131,15 +161,22 @@ public class PartyWorld {
 		}
 	}
 	
+	/**
+	 * gets the next available reservation on the waitlist
+	 * @param res - reservation to be added to confirmed from the waitlist
+	 * @return next available reservation on the weaitlist
+	 */
 	public Reservation getNextAvailableWaitlist ( Reservation res ) {
 		Reservation nextRes = null;
 		
+		// get room attributes
 		Room room = res.getRoom ( );
 		String roomType = room.getName ( );
 		int roomNumber = room.getRoomNumber ( );
 		
 		ArrayList < Reservation > waitlist;
 		
+		// find the room, remove the old res from waitlist, finalize, then add it to confirmed
 		if ( roomType.contains ( "Aqua" ) ) {
 			waitlist = room.getWaitlist ( );
 			
@@ -210,50 +247,12 @@ public class PartyWorld {
 		return null;
 	}
 	
-	public Reservation getNextWaitlist ( String roomType, int roomNumber ) {
-		Reservation res = null;
-		
-		// get the first person in the waitlist for that specific room and add them to official resrvations
-		if ( roomType.contains ( "Aqua" ) ) {
-			if ( aquaWorlds.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
-				res = aquaWorlds.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
-				res.finalizeReservation ( );
-				aquaWorlds.get ( roomNumber - 1 ).getReservations ( ).add ( res );
-			}
-			
-		} else if ( roomType.contains ( "Medium" ) ) {
-			if ( mediumPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
-				res = mediumPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
-				res.finalizeReservation ( );
-				mediumPartyRooms.get ( roomNumber - 1 ).getReservations ( ).add ( res );
-			}
-
-		} else if ( roomType.contains ( "Small" ) ) {
-			if ( smallPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
-				res = smallPartyRooms.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
-				res.finalizeReservation ( );
-				smallPartyRooms.get ( roomNumber - 1 ).getReservations ( ).add ( res );
-			}
-			
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			if ( billiardsLounges.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
-				res = billiardsLounges.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
-				res.finalizeReservation ( );
-				billiardsLounges.get ( roomNumber - 1 ).getReservations ( ).add ( res );
-			}
-			
-		} else {
-			if ( karaokeLounges.get ( roomNumber - 1 ).getWaitlist ( ).size ( ) > 0 ) {
-				res = karaokeLounges.get ( roomNumber - 1 ).getWaitlist ( ).remove ( 0 );
-				res.finalizeReservation ( );
-				karaokeLounges.get ( roomNumber - 1 ).getReservations ( ).add ( res );
-			}
-		}
-		
-		return res;
-	}
-	
-	// gets the next available room. if none are available, returns -1
+	/**
+	 * gets the next available room. if none are available, returns -1
+	 * @param roomType - type of room
+	 * @param r - reservation
+	 * @return next available room
+	 */
 	public Room getAvailableRoom ( String roomType, Reservation r ) {
 		Room room;
 		if ( roomType.contains ( "Aqua" ) ) {
@@ -292,7 +291,11 @@ public class PartyWorld {
 		return null;
 	}
 	
-	// get the next room with the smallest waitlist
+	/**
+	 * get the next room with the smallest waitlist
+	 * @param roomType - type of room
+	 * @return room wit the smallest waitlist
+	 */
 	public Room getNextAvailableRoom ( String roomType ) {
 		Room room;
 		int waitlistSize = 0;
@@ -370,20 +373,32 @@ public class PartyWorld {
 		}
 	}
 	
-	public Room getRoom ( String roomType, int index ) {
+	/**
+	 * gets the room of the given type and roomNumber
+	 * @param roomType
+	 * @param roomNumber
+	 * @return
+	 */
+	public Room getRoom ( String roomType, int roomNumber ) {
 		if ( roomType.contains ( "Aqua" ) ) {
-			return aquaWorlds.get ( index );
+			return aquaWorlds.get ( roomNumber );
 		} else if ( roomType.contains ( "Medium" ) ) {
-			return mediumPartyRooms.get ( index );
+			return mediumPartyRooms.get ( roomNumber );
 		} else if ( roomType.contains ( "Small" ) ) {
-			return smallPartyRooms.get ( index );
+			return smallPartyRooms.get ( roomNumber );
 		} else if ( roomType.contains ( "Billiards" ) ) {
-			return billiardsLounges.get ( index );
+			return billiardsLounges.get ( roomNumber );
 		} else {
-			return karaokeLounges.get ( index );
+			return karaokeLounges.get ( roomNumber );
 		}
 	}
 	
+	/**
+	 * gets the index of the room
+	 * @param roomType - tpye of room
+	 * @param room - room
+	 * @return index
+	 */
 	public int getIndex ( String roomType, Room room ) {
 		if ( roomType.contains ( "Aqua" ) ) {
 			return aquaWorlds.indexOf ( room );
@@ -398,152 +413,30 @@ public class PartyWorld {
 		}
 	}
 	
-	public int getWaitlistIndex ( Reservation r ) {
-		String roomType = r.getRoom ( ).getName ( );
-		
-		// get resrvations of a room
-		ArrayList < Reservation > waitlist = aquaWorlds.get ( 0 ).getWaitlist ( );
-		
+	/**
+	 * sets the room of the given type and roomNumber
+	 * @param roomType - room type
+	 * @param roomNumber - room number
+	 * @param room - room to be set
+	 */
+	public void setRoom ( String roomType, int roomNumber, Room room ) {
 		if ( roomType.contains ( "Aqua" ) ) {
-			// iterate through all the waitlists to check if it matches the name
-			for ( int i = 0; i < waitlist.size ( ); i++ ) {
-				if ( waitlist.get ( i ) == r ) {
-					return i;
-				}
-			}
+			aquaWorlds.set ( roomNumber, room );
 		} else if ( roomType.contains ( "Medium" ) ) {
-			// iterate through all the medioum party rooms 
-			for ( int i = 0; i < mediumPartyRooms.size ( ); i++ ) {
-				waitlist = mediumPartyRooms.get ( i ).getWaitlist ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < waitlist.size ( ); j++ ) {
-					if ( waitlist.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
+			mediumPartyRooms.set ( roomNumber, room );
 		} else if ( roomType.contains ( "Small" ) ) {
-			// iterate through all the small party rooms 
-			for ( int i = 0; i < smallPartyRooms.size ( ); i++ ) {
-				waitlist = smallPartyRooms.get ( i ).getWaitlist ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < waitlist.size ( ); j++ ) {
-					if ( waitlist.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
+			smallPartyRooms.set ( roomNumber, room );
 		} else if ( roomType.contains ( "Billiards" ) ) {
-			// iterate through all the billiards lounges
-			for ( int i = 0; i < billiardsLounges.size ( ); i++ ) {
-				waitlist = billiardsLounges.get ( i ).getWaitlist ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < waitlist.size ( ); j++ ) {
-					if ( waitlist.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
+			billiardsLounges.set ( roomNumber, room );
 		} else {
-			// iterate through all the karaoke lopunges
-			for ( int i = 0; i < karaokeLounges.size ( ); i++ ) {
-				waitlist = karaokeLounges.get ( i ).getWaitlist ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < waitlist.size ( ); j++ ) {
-					if ( waitlist.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
-		}
-		
-		return -1; // return null if no reservation matches
-	}
-	
-	public int getConfirmedIndex ( Reservation r ) {
-		String roomType = r.getRoom ( ).getName ( );
-		
-		// get resrvations of a room
-		ArrayList < Reservation > reservations = aquaWorlds.get ( 0 ).getReservations ( );
-		
-		if ( roomType.contains ( "Aqua" ) ) {
-			// iterate through all the waitlists to check if it matches the name
-			for ( int i = 0; i < reservations.size ( ); i++ ) {
-				if ( reservations.get ( i ) == r ) {
-					return i;
-				}
-			}
-		} else if ( roomType.contains ( "Medium" ) ) {
-			// iterate through all the medioum party rooms 
-			for ( int i = 0; i < mediumPartyRooms.size ( ); i++ ) {
-				reservations = mediumPartyRooms.get ( i ).getReservations ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < reservations.size ( ); j++ ) {
-					if ( reservations.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
-		} else if ( roomType.contains ( "Small" ) ) {
-			// iterate through all the small party rooms 
-			for ( int i = 0; i < smallPartyRooms.size ( ); i++ ) {
-				reservations = smallPartyRooms.get ( i ).getReservations ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < reservations.size ( ); j++ ) {
-					if ( reservations.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			// iterate through all the billiards lounges
-			for ( int i = 0; i < billiardsLounges.size ( ); i++ ) {
-				reservations = billiardsLounges.get ( i ).getReservations ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < reservations.size ( ); j++ ) {
-					if ( reservations.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
-		} else {
-			// iterate through all the karaoke lopunges
-			for ( int i = 0; i < karaokeLounges.size ( ); i++ ) {
-				reservations = karaokeLounges.get ( i ).getReservations ( ); // get the reservations of the room
-				
-				// iterate through all the waitlists to check if it matches the name
-				for ( int j = 0; j < reservations.size ( ); j++ ) {
-					if ( reservations.get ( j ) == r ) {
-						return j;
-					}
-				}
-			}
-		}
-		
-		return -1; // return null if no reservation matches
-	}
-	
-	public void setRoom ( String roomType, int index, Room room ) {
-		if ( roomType.contains ( "Aqua" ) ) {
-			aquaWorlds.set ( index, room );
-		} else if ( roomType.contains ( "Medium" ) ) {
-			mediumPartyRooms.set ( index, room );
-		} else if ( roomType.contains ( "Small" ) ) {
-			smallPartyRooms.set ( index, room );
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			billiardsLounges.set ( index, room );
-		} else {
-			karaokeLounges.set ( index, room );
+			karaokeLounges.set ( roomNumber, room );
 		}
 	}
 	
+	/**
+	 * checks in a guest by just flipping a boolean
+	 * @param confNum - conf num of res
+	 */
 	public void checkInReservation ( String confNum ) {
 		// get resrvations of a room
 		ArrayList < Reservation > reservations = aquaWorlds.get ( 0 ).getReservations ( );
@@ -608,6 +501,11 @@ public class PartyWorld {
 		}
 	}
 	
+	/**
+	 * cehcks out the given reservation. removes it from the reservations, and any invalid waitlists
+	 * @param confNum - conf num of the rservaion
+	 * @return the rservation that was remobed
+	 */
 	public Reservation checkOutReservation ( String confNum ) {
 		Reservation res = null;
 		
@@ -686,6 +584,11 @@ public class PartyWorld {
 		return res;
 	}
 	
+	/**
+	 * this gets a reservation from a confirmation number
+	 * @param confNum - number to get the res from
+	 * @return - reservation
+	 */
 	public Reservation getResConfNum ( String confNum ) {
 		// get resrvations of a room
 		ArrayList < Reservation > reservations = aquaWorlds.get ( 0 ).getReservations ( );
@@ -752,6 +655,11 @@ public class PartyWorld {
 		return null; // return null if no reservation matches
 	}
 	
+	/**
+	 * this gets a reservation from a guest name
+	 * @param confNum - name to get the res from
+	 * @return - reservation
+	 */
 	public Reservation getResGuestName ( String name ) {
 		// get resrvations of a room
 		ArrayList < Reservation > waitlist = aquaWorlds.get ( 0 ).getWaitlist ( );

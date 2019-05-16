@@ -144,18 +144,27 @@ public class Card {
 		return expDate;
 	}
 	
-	public boolean isExpired ( Date date ) {
-		if ( expDate.getYear ( ) == date.getYear ( ) ) {
-			if ( expDate.getMonth ( ) < date.getMonth ( ) ) {
+	/**
+	 * checks if the cc is expired
+	 * @param today - date of today
+	 * @return whether or not the card is expired
+	 */
+	public boolean isExpired ( Date today ) {
+		if ( expDate.getYear ( ) == today.getYear ( ) ) {
+			if ( expDate.getMonth ( ) < today.getMonth ( ) ) {
 				return true;
 			}
 		}
-		else if ( expDate.getYear ( ) < date.getYear ( ) ) {
+		else if ( expDate.getYear ( ) < today.getYear ( ) ) {
 			return true;
 		}
 		return false;
 	}
 	
+	/**
+	 * string representation of the card
+	 * @return string representation of the card
+	 */
 	public String toString ( ) {
 		String str = "Name: " + name;
 		str += "\n" + "Card Company: " + cardCompany;

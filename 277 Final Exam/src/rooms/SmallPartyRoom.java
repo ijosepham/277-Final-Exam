@@ -3,6 +3,9 @@ package rooms;
 import roomfactories.RoomFactory;
 
 public class SmallPartyRoom extends Room {
+	/**
+	 * description of the room for the panel
+	 */
 	public static String DESCRIPTION = "Number of Rooms: 10" + "\n" + 
 			"Description:   Room wuth Party Tables and Chairs, Adjacent to Arcade" + "\n" + 
 			"Capacity:   30 People" + "\n" +
@@ -10,6 +13,9 @@ public class SmallPartyRoom extends Room {
 			"Included:   Table and Chair Set-Up, Basic Meal Plan" + "\n" +
 			"Upgrades   Available: Meal Plan, Party Favor Bags,  Projector, Party Decorations and Set-up w/ Themes";
 	
+	/**
+	 * max capacity for the small party room
+	 */
 	public static int CAPACITY = 30;
 	
 	/**
@@ -17,15 +23,12 @@ public class SmallPartyRoom extends Room {
 	 */
 	public SmallPartyRoom ( ) {
 		prepTime = 30;
-		capacity = 30;
 		name = "Small Party Room";
 		roomNumber = RoomFactory.small_count;
 		basicAmenities.add ( "Room with Tables & Chairs" );
 		basicAmenities.add ( "Adjacent to Arcade" );
 		basicAmenities.add ( "Basic Meal Plan" );
 	}
-	
-	
 
 	/**
 	 * returns the cost of the small party room

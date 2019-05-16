@@ -18,6 +18,12 @@ public class WaitlistMessageFrame extends JFrame {
 	PartyWorld partyWorld;
 	String roomType;
 	
+	/**
+	 * constructor
+	 * @param partyWorld - rooms
+	 * @param roomType - roomtype of the waitlisted room
+	 * @param res - reservation of the waitlsited room
+	 */
 	public WaitlistMessageFrame ( PartyWorld partyWorld, String roomType, Reservation res ) {
 		this.setTitle ( "Waitlist Message" );
 		
@@ -32,8 +38,8 @@ public class WaitlistMessageFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
-	/*
-	 * initializes the default center panel and adds it to this frame
+	/**
+	 * initializes the items
 	 * */
 	private void createDefaultPanel ( ) {
 		JPanel messagePanel = new JPanel ( );
@@ -55,6 +61,9 @@ public class WaitlistMessageFrame extends JFrame {
 		this.add ( buttonPanel, BorderLayout.CENTER );
 	}
 	
+	/**
+	 * inner class listener for accept button
+	 */
 	class AcceptButtonListener implements ActionListener 
 	{
 		@Override
@@ -66,6 +75,9 @@ public class WaitlistMessageFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for decline button
+	 */
 	class DeclineButtonListener implements ActionListener 
 	{
 		@Override

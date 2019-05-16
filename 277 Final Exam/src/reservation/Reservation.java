@@ -1,10 +1,9 @@
 package reservation;
 
 import rooms.*;
+import mealplans.*;
 
 import java.util.ArrayList;
-
-import mealplans.*;
 
 public class Reservation {
 	/**
@@ -294,14 +293,6 @@ public class Reservation {
 	 */
 	public void upgradeMealPlan ( MealPlan mealPlan ) {
 		this.mealPlan = mealPlan;
-	}
-	
-	/**
-	 * upgrades the amenities with the given amenity
-	 * @param amenity - desired amenity
-	 */
-	public void upgradeAmenities ( String amenity ) {
-		room.upgradeAmenities ( amenity );
 	}
 	
 	/** 

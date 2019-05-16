@@ -30,7 +30,10 @@ public class CheckOutFrame extends JFrame {
 	JTextArea finalInvoiceText;
 	JButton backButton;
 	
-	
+	/**
+	 * default constructor
+	 * @param partyWorld - roooms
+	 */
 	public CheckOutFrame ( PartyWorld partyWorld ) {
 		this.partyWorld = partyWorld;
 		
@@ -44,8 +47,9 @@ public class CheckOutFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
-
-	
+	/**
+	 * create default items
+	 */
 	public void createDefaultPanel ( ) {
 		panel = new JPanel ( );
 		
@@ -87,6 +91,9 @@ public class CheckOutFrame extends JFrame {
 		this.add ( panel );
 	}
 	
+	/**
+	 * updates the guest model
+	 */
 	public void setGuestModel ( ) {
 		guestModel.clear ( );
 		ArrayList < ArrayList < Room > > allRooms = partyWorld.getRooms ( );
@@ -127,6 +134,9 @@ public class CheckOutFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * in class listener for check out button
+	 */
 	class CheckOutButtonListener implements ActionListener
 	{
 		@Override
@@ -161,6 +171,9 @@ public class CheckOutFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * in class listener for back button
+	 */
 	class BackButtonListener implements ActionListener
 	{
 		@Override
@@ -182,6 +195,9 @@ public class CheckOutFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * in class listener for cancel button
+	 */
 	class CancelButtonListener implements ActionListener
 	{
 		@Override

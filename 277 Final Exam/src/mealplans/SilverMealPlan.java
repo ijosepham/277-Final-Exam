@@ -1,6 +1,9 @@
 package mealplans;
 
 public class SilverMealPlan extends MealPlan {
+	/**
+	 * dscription of the meal plan for th epanel
+	 */
 	public static String DESCRIPTION = "Included: " + "\n" +
 			"      3 XL 3 Topping Gourmet Pizzas" + "\n" + 
 			"      5 2L Soda Bottles" + "\n" +

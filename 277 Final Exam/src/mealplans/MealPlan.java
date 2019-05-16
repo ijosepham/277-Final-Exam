@@ -61,6 +61,10 @@ public abstract class MealPlan {
 		foods.add ( food );
 	}
 	
+	/**
+	 * string representaion of the meal plan
+	 * @return string rep of the meal paln
+	 */
 	public String toString ( ) {
 		String str = "  ";
 		Food food;

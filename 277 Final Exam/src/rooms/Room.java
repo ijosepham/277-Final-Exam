@@ -21,35 +21,20 @@ public abstract class Room {
 	protected ArrayList < String > basicAmenities;
 	
 	/**
-	 * special upgraded amenities of the room
-	 */
-	protected ArrayList < String > specialAmenities;
-	
-	/**
-	 * capacity of the room
-	 */
-	protected int capacity;
-	
-	/**
 	 * if the room is available or not
 	 */
 	protected boolean isAvailable;
-	
-	/**
-	 * status of the room
-	 */
-	protected String status;
-	
-	/**
-	 * waitlist of reservations to the room
-	 */
-	protected ArrayList < Reservation > waitlist;
 	
 	/**
 	 * current reservations
 	 */
 	protected ArrayList < Reservation > reservations;
 	
+	/**
+	 * waitlist of reservations to the room
+	 */
+	protected ArrayList < Reservation > waitlist;
+
 	/**
 	 * represents the prep time the room needs to setup/cleanup
 	 */
@@ -60,45 +45,10 @@ public abstract class Room {
 	 */
 	public Room ( ) {
 		basicAmenities = new ArrayList < String > ( );
-		specialAmenities = new ArrayList < String > ( );
-		capacity = 0;
 		isAvailable = true;
-		status = "Reserved";
 		reservations = new ArrayList < Reservation > ( );
 		waitlist = new ArrayList < Reservation > ( );
 		prepTime = 0;
-	}
-	
-	/**
-	 * overloaded constructor
-	 * @param specialAmenities - any upgraded amenities
-	 * @param capacity - capacity of the room
-	 * @param status - status of the room
-	 */
-	public Room ( ArrayList < String > specialAmenities, boolean isAvailable, String status ) {
-		basicAmenities = new ArrayList < String > ( );
-		capacity = 0;
-		this.specialAmenities = specialAmenities;
-		this.isAvailable = isAvailable;
-		this.status = status;
-		waitlist = new ArrayList < Reservation > ( );
-	}
-	
-	// setters
-	/**
-	 * sets the special amenities of the room
-	 * @param specialAmenities - special amenities
-	 */
-	public void setSpecialAmenities ( ArrayList < String > specialAmenities ) {
-		this.specialAmenities = specialAmenities;
-	}
-	
-	/**
-	 * sets the capacity of the room
-	 * @param capacity - capacity of the room
-	 */
-	public void setCapacity ( int capacity ) {
-		this.capacity = capacity;
 	}
 	
 	/**
@@ -110,60 +60,11 @@ public abstract class Room {
 	}
 	
 	/**
-	 * sets the status of the room
-	 * @param status - status of the room
-	 */
-	public void setStatus ( String status ) {
-		this.status = status;
-	}
-	
-	// getters
-	/**
 	 * returns the room type
 	 * @return room type
 	 */
 	public String getName ( ) {
 		return name;
-	}
-	
-	/**
-	 * gets the basic amenities of the room
-	 * @return basic amenities
-	 */
-	public ArrayList < String > getBasicAmenities ( ) {
-		return basicAmenities;
-	}
-	
-	/**
-	 * gets the special amenities of the room
-	 * @return special amenities
-	 */
-	public ArrayList < String > getSpecialAmenities ( ) {
-		return specialAmenities;
-	}
-	
-	/**
-	 * gets the capacity of the room
-	 * @return capacity
-	 */
-	public int getCapacity ( ) {
-		return capacity;
-	}
-	
-	/**
-	 * gets the current availability of the room
-	 * @return current room availability
-	 */
-	public boolean getIsAvailable ( ) {
-		return isAvailable;
-	}
-	
-	/**
-	 * gets the status of the room
-	 * @return status of the room
-	 */
-	public String getStatus ( ) {
-		return status;
 	}
 	
 	/**
@@ -191,29 +92,12 @@ public abstract class Room {
 	}
 	
 	/**
-	 * upgrades the special amenities to the room
-	 * @param upgrade - new special amenity
-	 */
-	public void upgradeAmenities ( String upgrade ) {
-		specialAmenities.add ( upgrade );
-	}
-	
-	/**
 	 * reserves a room
 	 */
 	public void reserve ( Reservation reservation ) {
-		status = "Reserved for party.";
 		reservations.add ( reservation );
 	}
 	
-	/**
-	 * makes the room available
-	 */
-	public void makeAvailable ( ) {
-		isAvailable = true;
-	}
-	
-	// observer pattern methods
 	/**
 	 * adds a person to the waitlist
 	 * @param reservation - person to be added 
@@ -244,24 +128,6 @@ public abstract class Room {
 	 */
 	public void addToReservations ( Reservation r ) {
 		reservations.add ( r );
-	}
-	
-	/**
-	 * remove a resservationa t the given index of confiremd res's
-	 * @param index - index of a res to remove
-	 */
-	public void removeFromReservations ( int index ) {
-		reservations.remove ( index );
-	}
-	
-	/**
-	 * lets the guest know when the room is available
-	 */
-	public void contactGuest ( ) {
-		Reservation nextReservation = waitlist.get ( 0 );
-		System.out.println ( "Hello, " + nextReservation.getGuest ( ) + ". The room is now available." );
-		nextReservation.finalizeReservation ( );
-		removeFromWaitlist ( nextReservation );
 	}
 	
 	/**
@@ -306,7 +172,6 @@ public abstract class Room {
 	public boolean isAvailable ( Reservation r ) {
 		if ( isAvailable ) {
 			isAvailable = false;
-			status = "Reserved for Party.";
 			return true;
 		} else {
 			Reservation r1;

@@ -8,6 +8,9 @@ public class BilliardsLounge extends Room {
 	 */
 	private String restrictions;
 	
+	/**
+	 * description for room for the panel
+	 */
 	public static String DESCRIPTION = "Number of Rooms: 5" + "\n" + 
 			"Description:   Enclosed Loung with Pool Table" + "\n" + 
 			"Capacity:   10 People" + "\n" +
@@ -16,6 +19,9 @@ public class BilliardsLounge extends Room {
 			"Upgrades   Available: Meal Plan" + "\n" +
 			"Restrictions:   Must be 21 years or older.";
 	
+	/**
+	 * max capacity of billiards lounge
+	 */
 	public static int CAPACITY = 10;
 	
 	/**
@@ -23,7 +29,6 @@ public class BilliardsLounge extends Room {
 	 */
 	public BilliardsLounge ( ) {
 		prepTime = 15;
-		capacity = 10;
 		name = "Billiards Lounge";
 		roomNumber = RoomFactory.billiards_count;
 		restrictions = "21 and Older Only";

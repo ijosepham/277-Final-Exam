@@ -60,47 +60,7 @@ public class Time {
 	public int getMinute ( ) {
 		return minute;
 	}
-	
-//	/** im stupid
-//	 * compares two times to each other. if implicit is earlier, returns a negative number
-//	 * if implicit is later/explicit is earlier, returns a positive number
-//	 * @param time - second time to compare to
-//	 * @return which one is earlier, - if imp is earlier
-//	 */
-//	public int compareTo ( Time time ) {
-//		int difference;
-//		
-//		// if theyre the same hour, compare only minutes
-//		if ( this.hour == time.hour ) {
-//			return this.minute - time.minute;
-//		} else if ( this.hour > time.hour ) { // if this > that
-//			// will be 4 digits, first two are hour difference
-//			difference = ( this.hour - time.hour ) * 100; // HHMM
-//			
-//			// if that's minutes are greater than this
-//			if ( time.minute > this.minute ) {
-//				difference -= 100; // carry over to minutes' place
-//				difference += 60; // use the extra carry
-//			} 
-//			
-//			// do the difference
-//			difference += this.minute - time.minute;
-//			
-//			return difference;
-//		} else { // do difference but will be negative
-//			difference = ( time.hour - this.hour ) * 100;
-//			
-//			if ( this.minute > time.minute ) {
-//				difference -= 100;
-//				difference += 60; 
-//			}
-//			
-//			difference += this.minute - time.minute;
-//			
-//			return -difference;
-//		}
-//	}
-	
+		
 	/**
 	 * returns the number of minutes of difference between the two times
 	 * will be negative if the first time is earlier

@@ -118,6 +118,10 @@ public class EditReservationFrame extends JFrame {
 	
 	boolean waitlisted;
 	
+	/**
+	 * constructor
+	 * @param partyWorld - rooms
+	 */
 	public EditReservationFrame ( PartyWorld partyWorld ) {
 		this.setTitle ( "Edit Reservation" );
 		
@@ -130,7 +134,7 @@ public class EditReservationFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
-	/*
+	/**
 	 * initializes the default center panel and adds it to this frame
 	 * */
 	private void createDefaultPanel ( ) {
@@ -437,6 +441,10 @@ public class EditReservationFrame extends JFrame {
 		this.add ( panel );
 	}
 	
+	/**
+	 * sets the reservations model
+	 * @param confirmed - whether or not the res is confirmed
+	 */
 	public void setResModel ( boolean confirmed ) {
 		ArrayList < ArrayList < Room > > allRooms = partyWorld.getRooms ( );
 		
@@ -483,6 +491,10 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * updates the themes panels
+	 * @param roomType - type of room
+	 */
 	public void setThemesPanel ( String roomType ) {
 		if ( roomType.contains ( "Party" ) ) {
 			if ( themesPanel.getComponentCount ( ) == 0 ) { // if its currently empty, add the ones we need
@@ -525,6 +537,10 @@ public class EditReservationFrame extends JFrame {
 		roomPanel.add ( themesPanel, 5 );
 	}
 	
+	/**
+	 * updates the restrictions labels
+	 * @param roomType - type of room
+	 */
 	public void setRestrictionsPanel ( String roomType ) {
 		if ( roomType.contains ( "Aqua" ) ) {
 			restrictionsLabel.setText ( "Restrictions: Bathing suits must be worn to access water facilities." );
@@ -535,6 +551,10 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * show how many pizzas on the panel
+	 * @param amount - amount of pizzaws
+	 */
 	public void setPizzaPanel ( int amount ) {
 		// reset the pizza panel
 		int count = pizzaPanel.getComponentCount ( );
@@ -596,6 +616,10 @@ public class EditReservationFrame extends JFrame {
 		mealPlanPanel.add ( pizzaPanel );
 	}
 	
+	/**
+	 * makes sure that there werent too many toppings chosen
+	 * @param amount - amount allowed
+	 */
 	public void validateToppings ( int amount ) {
 		int count; // count of toppings per pizza
 		JPanel panel = new JPanel ( ); // pizza1, pizza2, pizza3
@@ -628,6 +652,10 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * sets soda panel
+	 * @param amount - amount of sodas
+	 */
 	public void setSodaPanel ( int amount ) {
 		// reset the wings panel
 		int count = sodaPanel.getComponentCount ( );
@@ -651,6 +679,10 @@ public class EditReservationFrame extends JFrame {
 		mealPlanPanel.add ( sodaPanel );
 	}
 	
+	/**
+	 * sets wings panel
+	 * @param amount - amount of wings
+	 */
 	public void setWingsPanel ( int amount ) {
 		// reset the wings panel
 		int count = wingsPanel.getComponentCount ( );
@@ -678,6 +710,10 @@ public class EditReservationFrame extends JFrame {
 		mealPlanPanel.add ( wingsPanel );
 	}
 	
+	/**
+	 * sets ice cream panel
+	 * @param amount - amount of ice creams
+	 */
 	public void setIceCreamPanel ( int amount ) {
 		// reset the wings panel
 		int count = iceCreamPanel.getComponentCount ( );
@@ -703,6 +739,10 @@ public class EditReservationFrame extends JFrame {
 		mealPlanPanel.add ( iceCreamPanel );
 	}
 	
+	/**
+	 * sets the sides panel
+	 * @param amount - amount of sides
+	 */
 	public void setSidesPanel ( int amount ) {
 		// reset the wings panel
 		sidesPanel.removeAll ( );
@@ -722,9 +762,39 @@ public class EditReservationFrame extends JFrame {
 		mealPlanPanel.add ( sidesPanel );
 	}
 
-	// so the reason why all my listeners have new DefaultboXmodel is beacuse if they used the same model,
-	// then they would all cahnge simultaneously, instead of individually
+	/**
+	 * sets the upgrades for rooms
+	 */
+	public void setUpgradePanel ( ) {
+		if ( ! mealUpgradeBox.isSelected ( ) ) { //
+			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
+			if ( roomType.contains ( "Lounge" ) ) { // lounge room
+				String [ ] mealPlans = { "No Meal Plan" };	
+				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+				
+				setPizzaPanel ( 0 ); // 3 pizzass
+				setSodaPanel ( 0 ); // 3 sodas
+				setWingsPanel ( 0 ); // no wings
+				setIceCreamPanel ( 0 ); // no ice cream
+				setSidesPanel ( 0 ); // no sides
+				
+			} else { // party room
+				String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan" };
+				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+				
+				setPizzaPanel ( 3 ); // 3 pizzass
+				validateToppings ( 1 ); // make sure only one topping is checked
+				setSodaPanel ( 3 ); // 3 sodas
+				setWingsPanel ( 0 ); // no wings
+				setIceCreamPanel ( 0 ); // no ice cream
+				setSidesPanel ( 0 ); // no sides
+			}
+		}
+	}
 	
+	/**
+	 * inner class listener for save button
+	 */
 	class SaveButtonListener implements ActionListener
 	{	
 		/**
@@ -1049,6 +1119,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for waitlist button
+	 */
 	class WaitlistButtonListener implements ActionListener
 	{
 		@Override
@@ -1079,6 +1152,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for cancel waitlist button
+	 */
 	class CancelWaitlistButtonListener implements ActionListener
 	{
 
@@ -1110,33 +1186,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
-	public void setUpgradePanel ( ) {
-		if ( ! mealUpgradeBox.isSelected ( ) ) { //
-			String roomType = ( String ) roomTypeCombo.getSelectedItem ( );
-			if ( roomType.contains ( "Lounge" ) ) { // lounge room
-				String [ ] mealPlans = { "No Meal Plan" };	
-				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
-				
-				setPizzaPanel ( 0 ); // 3 pizzass
-				setSodaPanel ( 0 ); // 3 sodas
-				setWingsPanel ( 0 ); // no wings
-				setIceCreamPanel ( 0 ); // no ice cream
-				setSidesPanel ( 0 ); // no sides
-				
-			} else { // party room
-				String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan" };
-				mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
-				
-				setPizzaPanel ( 3 ); // 3 pizzass
-				validateToppings ( 1 ); // make sure only one topping is checked
-				setSodaPanel ( 3 ); // 3 sodas
-				setWingsPanel ( 0 ); // no wings
-				setIceCreamPanel ( 0 ); // no ice cream
-				setSidesPanel ( 0 ); // no sides
-			}
-		}
-	}
-	
+	/**
+	 * inner class listener for mealplan upgrade
+	 */
 	class UpgradeListener implements ActionListener 
 	{
 		@Override
@@ -1173,6 +1225,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for themes
+	 */
 	class ThemeListener implements ActionListener
 	{
 		@Override
@@ -1188,6 +1243,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for rooms 
+	 */
 	class RoomListener implements ActionListener
 	{
 		@Override
@@ -1220,6 +1278,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for starthours
+	 */
 	class StartHourListener implements ActionListener
 	{
 		@Override
@@ -1238,6 +1299,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for end hours button
+	 */
 	class EndHourListener implements ActionListener
 	{
 		@Override
@@ -1256,6 +1320,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for years
+	 */
 	class YearListener implements ActionListener
 	{
 		@Override
@@ -1274,6 +1341,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for DOB 
+	 */
 	class DOBMonthListener implements ActionListener
 	{
 		@Override
@@ -1304,6 +1374,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for months
+	 */
 	class RoomMonthListener implements ActionListener
 	{
 		@Override
@@ -1329,6 +1402,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for meal plan
+	 */
 	class MealPlanListener implements ActionListener
 	{
 		@Override
@@ -1388,6 +1464,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for topping  checkboxes
+	 */
 	class ToppingListener implements ActionListener
 	{
 		@Override
@@ -1437,7 +1516,10 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
-	public class ConfirmedButtonListener implements ActionListener 
+	/**
+	 * inner class listener for confirmed reservations button
+	 */
+	class ConfirmedButtonListener implements ActionListener 
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
@@ -1462,7 +1544,10 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
-	public class WaitlistedButtonListener implements ActionListener 
+	/**
+	 * inner class listener for waitlists button
+	 */
+	class WaitlistedButtonListener implements ActionListener 
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
@@ -1489,7 +1574,10 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
-	public class BackButtonListener implements ActionListener
+	/**
+	 * inner class listener for back button
+	 */
+	class BackButtonListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
@@ -1506,6 +1594,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for delete button
+	 */
 	class DeleteButtonListener implements ActionListener
 	{
 		@Override
@@ -1564,6 +1655,9 @@ public class EditReservationFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for editing reservations from list
+	 */
 	class ListEditButtonListener implements ActionListener
 	{
 		@Override

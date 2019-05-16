@@ -41,6 +41,11 @@ public class SelectDateTimeFrame extends JFrame {
 	
 	String roomType;
 	
+	/**
+	 * constructor
+	 * @param partyWorld - rooms
+	 * @param roomType - roomtype from booknow
+	 */
 	public SelectDateTimeFrame ( PartyWorld partyWorld, String roomType ) {
 		this.partyWorld = partyWorld;
 		this.roomType = roomType;
@@ -57,6 +62,10 @@ public class SelectDateTimeFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
+	/**
+	 * instantiates all item
+	 * @param roomType - roomtype from the booknow button
+	 */
 	public void createDefaultPanel ( String roomType ) {
 
 		
@@ -190,6 +199,9 @@ public class SelectDateTimeFrame extends JFrame {
 		this.add ( panel, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * inner class listener for reserve button
+	 */
 	class ReserveButtonListener implements ActionListener
 	{
 		@Override
@@ -222,6 +234,9 @@ public class SelectDateTimeFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for cancel button
+	 */
 	class CancelButtonListener implements ActionListener
 	{
 		@Override

@@ -20,6 +20,10 @@ public class CheckInFrame extends JFrame {
 	JButton checkInButton;
 	JButton cancelButton;
 	
+	/**
+	 * default constructor
+	 * @param partyWorld - rooms of all the stuff
+	 */
 	public CheckInFrame ( PartyWorld partyWorld ) {
 		this.partyWorld = partyWorld;
 		
@@ -35,8 +39,9 @@ public class CheckInFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
-
-	
+	/**
+	 * creates all hte default items
+	 */
 	public void createDefaultPanel ( ) {
 		panel = new JPanel ( );
 		
@@ -61,6 +66,9 @@ public class CheckInFrame extends JFrame {
 		this.add ( panel );
 	}
 	
+	/**
+	 * updates the guest model for whenever changes happen
+	 */
 	public void setGuestModel ( ) {
 		guestModel.clear ( );
 		ArrayList < ArrayList < Room > > allRooms = partyWorld.getRooms ( );
@@ -95,6 +103,9 @@ public class CheckInFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * in class listener for check in button
+	 */
 	class CheckInButtonListener implements ActionListener
 	{
 		@Override
@@ -106,6 +117,9 @@ public class CheckInFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * in class listener for cancel button
+	 */
 	class CancelButtonListener implements ActionListener
 	{
 		@Override

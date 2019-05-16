@@ -6,6 +6,9 @@ public class AquaWorld extends Room {
 	 */
 	private static AquaWorld aquaWorld;
 	
+	/**
+	 * description of the room for the panel
+	 */
 	public static String DESCRIPTION = "Number of Rooms: 1" + "\n" + 
 			"Description:   Olympic-Sized Pool with Water Slide, Kiddie Pool, Large Jacuzzi" + "\n" + 
 			"Capacity:   75 People" + "\n" +
@@ -14,6 +17,9 @@ public class AquaWorld extends Room {
 			"Upgrades   Available: Meal Plan, Party Favor Bags,  Projector, Party Decorations and Set-up w/ Themes" + "\n" +
 			"Restrictions:   Bathing suits must be worn to access water facilities.";
 	
+	/**
+	 * max capacity of aquaworld
+	 */
 	public static int CAPACITY = 75;
 	
 	/**
@@ -28,7 +34,6 @@ public class AquaWorld extends Room {
 		prepTime = 60;
 		name = "Aqua World";
 		roomNumber = 1;
-		capacity = 75;
 		restrictions = "Bathing Suits Must be Worn at All Times in Water Facilities";
 		basicAmenities.add ( "Olympic-Sized Pool with Water Slide" );
 		basicAmenities.add ( "Kiddie Pool" );

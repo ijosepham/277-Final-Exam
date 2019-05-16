@@ -54,10 +54,18 @@ public abstract class RoomFactory {
 	 */
 	public static int billiards_count = 0;
 	
-	
+	/**
+	 * creates a room of the given factory
+	 * @param roomFactory - factory to create the room from
+	 * @return room tha twas created
+	 */
 	public static Room createRoom ( RoomFactory roomFactory ) {
 		return roomFactory.createRoom ( );
 	}
 	
+	/**
+	 * abstract create calss
+	 * @return rooom htat was created
+	 */
 	public abstract Room createRoom ( );
 }

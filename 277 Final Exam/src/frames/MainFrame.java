@@ -19,6 +19,10 @@ public class MainFrame extends JFrame {
  	Border raisedbevel = BorderFactory.createRaisedBevelBorder ( ); 
  	Border loweredbevel = BorderFactory.createLoweredBevelBorder ( );
 	
+ 	/**
+ 	 * default constructor
+ 	 * @param partyWorld - rooms
+ 	 */
 	public MainFrame ( PartyWorld partyWorld ) {
 		this.partyWorld = partyWorld;
 		this.setTitle ( "Reservation System" );
@@ -30,11 +34,9 @@ public class MainFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
-
-
-	/*
-	 * initializes the default center panel and adds it to this frame
-	 * */
+	/**
+	 * instantiates all items
+	 */
 	private void createDefaultPanel ( ) {
 		centerPanel = new JPanel ( );
 		centerPanel.setLayout ( new BoxLayout ( centerPanel, BoxLayout.Y_AXIS ) );
@@ -52,7 +54,9 @@ public class MainFrame extends JFrame {
 		this.add ( scrollPane, BorderLayout.CENTER );
 	}
 	
-	/* initializes menu bar items and adds them to this window*/
+	/**
+	 * initializes menu bar items and adds them to this window
+	 */
 	private void createMenuBar ( ) {
 		menuBar = new JMenuBar ( );
 		//-------
@@ -175,7 +179,7 @@ public class MainFrame extends JFrame {
 	
 	
 	
-	/* 
+	/** 
 	 * adds room image and description to a given container
 	 * @param container - the container onto which to add the new description
 	 * @param imgDir - the directory of the image
@@ -212,6 +216,14 @@ public class MainFrame extends JFrame {
 	    container.add ( p );
 	  }
 
+		/** 
+		 * adds meal image and description to a given container
+		 * @param container - the container onto which to add the new description
+		 * @param imgDir - the directory of the image
+		 * @param mealPlanName - the name of the mealplan
+		 * @param mealPlanDesc - the description of the meal paln
+		 * 
+		 * */
 	 private void addMealPlanDescription ( Container container, String imgDir, String mealPlanName, String mealPlanDesc ) {
 	 	JPanel p = new JPanel ( );
 		 	
@@ -238,7 +250,9 @@ public class MainFrame extends JFrame {
 	    container.add ( p );
 	  }
 
-	// press on the meal item inside the top menu, then do an action
+	/**
+	 * inner class listener for meal item
+	 */
 	class MealItemListener implements ActionListener {
 
 		@Override
@@ -345,7 +359,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
-	// same but its for rooms
+	/**
+	 * inner class listener for room
+	 */
 	class RoomItemListener implements ActionListener {
 
 		@Override
@@ -413,7 +429,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
-	// same but its for rooms
+	/**
+	 * inner class listener for lounge menu item
+	 */
 	class LoungeItemListener implements ActionListener {
 
 		@Override
@@ -467,6 +485,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for newres item
+	 */
 	class NewReservationListener implements ActionListener 
 	{
 		@Override
@@ -477,6 +498,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for editres item
+	 */
 	class EditReservationListener implements ActionListener 
 	{
 		@Override
@@ -487,6 +511,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for book now button
+	 */
 	class BookButtonListener implements ActionListener
 	{
 		@Override
@@ -502,6 +529,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for checkin item
+	 */
 	class CheckInItemListener implements ActionListener
 	{
 		@Override
@@ -511,6 +541,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * inner class listener for checkout item
+	 */
 	class CheckOutItemListener implements ActionListener
 	{
 		@Override
