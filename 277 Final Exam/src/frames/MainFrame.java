@@ -155,15 +155,14 @@ public class MainFrame extends JFrame {
 						
 						//Manage reservation sub menu 
 						submenu = new JMenu ( "Manage Current Reservation" );
-						// menuItem.addActionListener ( new NewReservationListener ( ) );
 						submenu.setMnemonic ( KeyEvent.VK_S );
 
 						menuItem = new JMenuItem ( "Check-in" );
-						// menuItem.addActionListener ( new NewReservationListener ( ) );
+						menuItem.addActionListener ( new CheckInItemListener ( ) );
 						submenu.add ( menuItem );
 						
 						menuItem = new JMenuItem ( "Check-out" );
-						// menuItem.addActionListener ( new NewReservationListener ( ) );
+						menuItem.addActionListener ( new CheckOutItemListener ( ) );
 						submenu.add ( menuItem );
 						
 
@@ -500,6 +499,24 @@ public class MainFrame extends JFrame {
 			thisFrame.dispose ( );
 			
 			new SelectDateTimeFrame ( partyWorld, roomType );
+		}
+	}
+	
+	class CheckInItemListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			thisFrame.dispose ( );
+			new CheckInFrame ( partyWorld );
+		}
+	}
+	
+	class CheckOutItemListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			thisFrame.dispose ( );
+			new CheckOutFrame ( partyWorld );
 		}
 	}
 	

@@ -19,13 +19,14 @@ public class EditReservationFrame extends JFrame {
 	JPanel titlePanel;
 	
 	JPanel resInfoPanel;
-	JTextArea reservationsText;
+	
+	JList < String > reservationsList;
+	DefaultListModel < String > reservationsModel;
+	
 	JButton confirmedButton;
 	JButton waitlistedButton;
 	
 	JLabel resInfoLabel;
-	JTextField resInfoField;
-	JLabel errorLabel;
 	
 	JButton editButton;
 	JButton backButton;
@@ -155,36 +156,32 @@ public class EditReservationFrame extends JFrame {
 		cancelEditButton.addActionListener ( new CancelButtonListener ( ) );
 		
 
-		reservationsText = new JTextArea ( );
-		reservationsText.setEditable ( false );
+		
+		reservationsList = new JList < String > ( );
+		reservationsModel = new DefaultListModel < String > ( );
+		reservationsList.setModel ( reservationsModel );
 		
 		resInfoLabel = new JLabel ( "" );
-		resInfoField = new JTextField ( 20 );
 		
 		resInfoPanel.add ( confirmedButton );
 		resInfoPanel.add ( waitlistedButton );
-		resInfoPanel.add ( reservationsText );
 		resInfoPanel.add ( resInfoLabel );
-		resInfoPanel.add ( resInfoField );
+		resInfoPanel.add ( reservationsList );
 		
-		reservationsText.setVisible ( false );
 		resInfoLabel.setVisible ( false );
-		resInfoField.setVisible ( false );
+		
 		
 		editButton = new JButton ( "Edit" );
-		editButton.addActionListener ( new EditButtonListener ( ) );
+		editButton.addActionListener ( new ListEditButtonListener ( ) );
 		backButton = new JButton ( "Back" );
 		backButton.addActionListener ( new BackButtonListener ( ) );
 		
-		errorLabel = new JLabel ( );
-		errorLabel.setVisible ( false );
 		
 		editButton.setVisible ( false );
 		backButton.setVisible ( false );
 		
 		resInfoPanel.add ( editButton );
 		resInfoPanel.add ( backButton );
-		resInfoPanel.add ( errorLabel );
 		resInfoPanel.add ( cancelEditButton );
 		
 		
@@ -439,16 +436,16 @@ public class EditReservationFrame extends JFrame {
 		this.add ( panel );
 	}
 	
-	public void setResText ( boolean confirmed ) {
-		reservationsText.setText ( "" );
+	public void setResModel ( boolean confirmed ) {
 		ArrayList < ArrayList < Room > > allRooms = partyWorld.getRooms ( );
+		
+		reservationsModel.clear ( );
 		
 		ArrayList < Room > rooms;
 		ArrayList < Reservation > reservations;
 		Reservation res;
 		Room room;
 		
-		// if they're confirmed reservations
 		if ( confirmed ) {
 			// go through aquaworlds, mediums, smalls, etc
 			for ( int i = 0; i < allRooms.size ( ); i++ ) {
@@ -458,14 +455,15 @@ public class EditReservationFrame extends JFrame {
 					for ( int k = 0; k < reservations.size ( ); k++ ) { // go through all reservations
 						res = reservations.get ( k );
 						room = res.getRoom ( );
-						reservationsText.append ( res.getConfNum ( ) + "   " 
-							+ room.getName ( ) + ", Room #" + room.getRoomNumber ( ) );
-						reservationsText.append ( ", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
+						
+						reservationsModel.addElement ( res.getConfNum ( ) + "   " 
+							+ room.getName ( ) + ", Room #" + room.getRoomNumber ( ) + 
+							", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
 							" - " + res.getEndTime ( ) + "\n" );
 					}
 				}
-			}
-		} else { // if they're waitlsited peeps
+			} 
+		} else {
 			for ( int i = 0; i < allRooms.size ( ); i++ ) {
 				rooms = allRooms.get ( i );
 				for ( int j = 0; j < rooms.size ( ); j++ ) { // go through all rooms in aquaworld/mediums/etc
@@ -473,13 +471,14 @@ public class EditReservationFrame extends JFrame {
 					for ( int k = 0; k < reservations.size ( ); k++ ) { // go through all reservations
 						res = reservations.get ( k );
 						room = res.getRoom ( );
-						reservationsText.append ( res.getGuest ( ).getName ( ) + "   " + 
-							room.getName ( ) + ", Room #" + room.getRoomNumber ( ) );
-						reservationsText.append ( ", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
+						
+						reservationsModel.addElement ( res.getGuest ( ).getName ( ) + "   " 
+							+ room.getName ( ) + ", Room #" + room.getRoomNumber ( ) + 
+							", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
 							" - " + res.getEndTime ( ) + "\n" );
 					}
 				}
-			}
+			} 
 		}
 	}
 	
@@ -1437,16 +1436,18 @@ public class EditReservationFrame extends JFrame {
 			waitlistedButton.setVisible ( false );
 			cancelEditButton.setVisible ( false );
 			
-			setResText ( true );
-			reservationsText.setVisible ( true );
+			setResModel ( true );
+			reservationsList.setVisible ( true );
 			
-			// show the label and the field
-			resInfoLabel.setText ( "Confirmation Number: " );
+			
+			if ( reservationsModel.size ( ) == 0 ) {
+				resInfoLabel.setText ( "No Confirmed Guests." );
+			} else {
+				resInfoLabel.setText ( "Confirmed Guests: " );
+				editButton.setVisible ( true );
+			}
+			
 			resInfoLabel.setVisible ( true );
-			resInfoField.setVisible ( true );
-			
-			// show new buttons
-			editButton.setVisible ( true );
 			backButton.setVisible ( true );
 		}
 	}
@@ -1460,16 +1461,20 @@ public class EditReservationFrame extends JFrame {
 			waitlistedButton.setVisible ( false );
 			cancelEditButton.setVisible ( false );
 			
-			setResText ( false );
-			reservationsText.setVisible ( true );
+			setResModel ( false );
+			reservationsList.setVisible ( true );
 			
 			// show the label and the field
-			resInfoLabel.setText ( "Guest Name: " );
+			if ( reservationsModel.size ( ) == 0 ) {
+				resInfoLabel.setText ( "No Waitlisted Guests." );
+			} else {
+				resInfoLabel.setText ( "Waitlisted Guests: " );
+				editButton.setVisible ( true );
+			}
+			
 			resInfoLabel.setVisible ( true );
-			resInfoField.setVisible ( true );
 			
 			// show new buttons
-			editButton.setVisible ( true );
 			backButton.setVisible ( true );
 		}
 	}
@@ -1480,280 +1485,14 @@ public class EditReservationFrame extends JFrame {
 		public void actionPerformed ( ActionEvent click ) {
 			// set items invis
 			resInfoLabel.setVisible ( false );
-			resInfoField.setVisible ( false );
-			errorLabel.setVisible ( false );
 			editButton.setVisible ( false );
 			backButton.setVisible ( false );
-			reservationsText.setVisible ( false );
+			reservationsList.setVisible ( false );
 			
 			// show new things
 			confirmedButton.setVisible ( true );
 			waitlistedButton.setVisible ( true );
 			cancelEditButton.setVisible ( true );
-		}
-	}
-	
-	public class EditButtonListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed ( ActionEvent click ) {
-			// preset all the panels here
-			// get the reservation
-			// if this is a confirmed reservation 
-			if ( resInfoLabel.getText ( ).contains ( "Confirmation" ) ) {
-				oldRes = partyWorld.getResConfNum ( resInfoField.getText ( ) ); // get the reservation connected to the conf num
-			} else { // if this is a waitlisted guest
-				oldRes = partyWorld.getResGuestName ( resInfoField.getText ( ) ); // get the reservation connected to the name
-			}
-			
-			if ( oldRes == null ) {
-				errorLabel.setText ( "Error: Reservaiton does not exist." );
-				errorLabel.setVisible ( true );
-			} else {
-			
-				resInfoPanel.setVisible ( false );
-				
-				oldRoom = oldRes.getRoom ( );
-				oldRoomType = oldRes.getRoom ( ).getName ( );
-				oldRoomNumber = oldRes.getRoom ( ).getRoomNumber ( );
-				
-				
-				// set guest panel
-				Guest guest = oldRes.getGuest ( );
-				guestNameField.setText ( guest.getName ( ) );
-				guestAddressField.setText( guest.getAddress ( ) );
-				guestPhoneField.setText( guest.getPhone ( ) );
-				guestEmailField.setText ( guest.getEmail ( ) );
-				
-				
-				// set dob
-				Date date = guest.getDateOfBirth ( );
-				dobMonthCombo.setSelectedItem ( date.getMonth ( ) );
-				dobDayCombo.setSelectedItem ( date.getDay ( ) );
-				dobYearCombo.setSelectedItem ( date.getYear ( ) );
-				
-				
-				// set card
-				Card card = guest.getPaymentMethod ( );
-				date = card.getExpDate ( );
-				cardNameField.setText ( card.getName ( ) );
-				cardCompanyCombo.setSelectedItem ( card.getCardCompany ( ) );
-				ccNumberField.setText ( card.getCCNumber ( ) );
-				cardSecurityField.setText ( card.getSecurityCode ( ) );
-				expMonthCombo.setSelectedItem (  date.getMonth ( ) );
-				expYearCombo.setSelectedItem ( date.getYear ( ) );
-				
-				
-				// set room panel
-				date = oldRes.getDate ( );
-				roomTypeCombo.setSelectedItem ( oldRes.getRoom ( ).getName ( ) );
-				roomMonthCombo.setSelectedItem ( date.getMonth ( ) );
-				roomDayCombo.setSelectedItem ( date.getDay ( ) );
-				
-				Time time = oldRes.getStartTime ( );
-				startHourCombo.setSelectedItem ( time.getHour ( ) + "" );
-				startMinCombo.setSelectedIndex ( time.getMinute ( ) );
-				
-				time = oldRes.getEndTime ( );
-				endHourCombo.setSelectedItem ( time.getHour ( ) + "" );
-				endMinCombo.setSelectedIndex ( time.getMinute ( ) );
-				
-				int partySize = oldRes.getPartySize ( );
-				sizeField.setText ( partySize + "" );
-				
-				// upgrades
-				ArrayList < String > upgrades = oldRes.getSpecialAmenities ( );
-				JCheckBox checkBox = new JCheckBox ( );
-				for ( int i = 0; i < upgrades.size ( ); i++ ) { // itearte through all added upgrades
-					
-					// go through each checkbox on the panel to check them
-					for ( int j = 1; j < themesPanel.getComponentCount ( ); j++ ) {
-						
-						// make sure its of type checkbox
-						if ( themesPanel.getComponent ( j ) instanceof JCheckBox ) {
-							checkBox = ( JCheckBox ) themesPanel.getComponent ( j ); // get the checkbox
-							
-							// if the upgrade is the same as the checkbox
-							if ( checkBox.getText ( ).contains ( upgrades.get ( i ).substring ( 0, 5 ) ) ) { 
-								( ( JCheckBox ) themesPanel.getComponent ( j ) ).setSelected ( true ); // select it
-							}
-						} else { // if its not a checkbox, it should be the combobox
-							if ( upgrades.get ( i ).contains ( "Decoration" ) ) {
-								// set the combobox to the theme
-								themeCombo.setSelectedItem ( upgrades.get ( i ).substring ( 25 ) );
-								themeCombo.setVisible ( true );
-							}
-						}
-					}
-				}
-				
-				// set meal plan
-				MealPlan mealPlan = oldRes.getMealPlan ( );
-				
-				// checks the upgrade checkbox if needed
-				if ( oldRoomType.contains ( "Lounge" ) ) {
-					if ( mealPlan == null ) {
-						mealPlanCombo.setSelectedIndex ( 0 );
-					} else {
-						mealUpgradeBox.setSelected ( true );
-						
-						String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
-						mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
-						mealPlanCombo.setSelectedIndex ( 1 );
-						
-						if ( mealPlan instanceof BasicMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 1 );
-						} else if ( mealPlan instanceof BronzeMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 2 );
-						} else if ( mealPlan instanceof SilverMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 3 );
-						} else if ( mealPlan instanceof GoldMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 4 );
-						} else if ( mealPlan instanceof PlatinumMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 5 );
-						}
-					}
-				} else {
-					if ( mealPlan == null ) {
-						mealPlanCombo.setSelectedIndex ( 0 );
-					} else if ( mealPlan instanceof BasicMealPlan ) {
-						mealPlanCombo.setSelectedIndex ( 1 );
-					} else {
-						mealUpgradeBox.setSelected ( true );
-						
-						String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
-						mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
-						mealPlanCombo.setSelectedIndex ( 1 );
-						
-						if ( mealPlan instanceof BronzeMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 2 );
-						} else if ( mealPlan instanceof SilverMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 3 );
-						} else if ( mealPlan instanceof GoldMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 4 );
-						} else if ( mealPlan instanceof PlatinumMealPlan ) {
-							mealPlanCombo.setSelectedIndex ( 5 );
-						}
-					}
-				}
-				
-				
-				ArrayList < Food > foods = mealPlan.getFoods ( );
-				int index = 0; // first x amount will be pizzas. next x amount will be soda, etc
-				
-				ArrayList < String > toppings;
-				JPanel panel = new JPanel ( ); // pizza1, pizza2, pizza3
-				Component [ ] components; // checkboxes of the pizza
-				checkBox = new JCheckBox ( ); // specific topping
-				
-				// go through each pizza panel
-				for ( int i = 0; i < pizzaPanel.getComponentCount ( ); i++ ) {
-					toppings = ( ( Pizza ) foods.get ( index ) ).getToppings ( );
-					panel = ( JPanel ) pizzaPanel.getComponent ( i );
-					components = ( Component [ ] ) panel.getComponents ( );
-					
-					// go through all toppings on the pizza
-					for ( int j = 0; j < toppings.size ( ); j++ ) {
-						
-						// go through all the checkboxes to see which one to check
-						for ( int k = 1; k < components.length; k++ ) { // 1 -11, cause first component is a jlabel
-							checkBox = ( JCheckBox ) components [ k ];
-							
-							// if the checkbox is the same one as a topping on the pizza
-							if ( checkBox.getText ( ).equals ( toppings.get ( j ) ) ) { 
-								// check it
-								( ( JCheckBox ) ( ( JPanel ) pizzaPanel.getComponent ( i ) ).getComponent ( k ) ).
-									setSelected ( true );
-							}
-						}
-					}
-					index++;
-				}
-				
-				
-				// go through all the soda panels
-				for ( int i = 0; i < sodaPanel.getComponentCount ( ); i++ ) {
-					// the second component of each soda panel is the combo box
-					// set the combobox to whatever soda was in the meal plan
-					( ( JComboBox < String > ) ( ( JPanel ) sodaPanel.getComponent ( i ) ).getComponent ( 1 ) ).
-						setSelectedItem ( ( ( Soda ) foods.get ( index ) ).getFlavor ( ) );
-					index++;
-				}
-				
-				
-				// sides
-				// 2 components if only 1 side is available, 1 label and 1 combo box
-				if ( sidesPanel.getComponentCount ( ) == 2 ) {
-					( ( JComboBox < String > ) sidesPanel.getComponent ( 1 ) ).setSelectedItem ( foods.get ( index ) );
-					index++;
-				} else {
-					index += 2; // skip through the next two sides
-				}
-				
-				
-				// wings
-				for ( int i = 0; i < wingsPanel.getComponentCount ( ); i++ ) {
-					// the second component of each wings panel is the combo box
-					( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 1 ) ).
-						setSelectedItem ( ( ( Wings ) foods.get ( index ) ).getFlavor ( ) );
-					
-					// the third component is whether bone in or not
-					if ( ( ( Wings ) foods.get ( index ) ).getBone ( ) ) {
-						( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 2 ) ).
-							setSelectedIndex ( 0 );
-					} else {
-						( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 2 ) ).
-							setSelectedIndex ( 1 );
-					}
-					
-					index++;
-				}
-				
-				
-				// ice cream
-				for ( int i = 0; i < iceCreamPanel.getComponentCount ( ); i++ ) {
-					( ( JComboBox < String > ) ( ( JPanel ) iceCreamPanel.getComponent ( i ) ).getComponent ( 1 ) ).
-						setSelectedItem ( ( ( IceCream ) foods.get ( index ) ).getFlavor ( ) );
-				
-					index++;
-				}
-				
-				
-				
-				// set contact
-				ArrayList < Boolean > contactBy = oldRes.getContactBy ( );
-				for ( int i = 0; i < contactBy.size ( ); i++ ) {
-					( ( JCheckBox ) contactPanel.getComponent ( i + 1 ) ).setSelected ( contactBy.get ( i ) );
-				}
-				
-				
-				guestPanel.setVisible ( true );
-				cardPanel.setVisible ( true );
-				roomPanel.setVisible ( true );
-				mealPlanPanel.setVisible ( true );
-				contactPanel.setVisible ( true );
-				
-				guestPanel.revalidate ( );
-				guestPanel.repaint ( );
-				
-				cardPanel.revalidate ( );
-				cardPanel.repaint ( );
-				
-				roomPanel.revalidate ( );
-				roomPanel.repaint ( );
-				
-				mealPlanPanel.revalidate ( );
-				mealPlanPanel.repaint ( );
-				
-				contactPanel.revalidate ( );
-				contactPanel.repaint ( );
-				
-				reservationPanel.revalidate ( );
-				reservationPanel.repaint ( );
-				
-				postResPanel.revalidate ( );
-				postResPanel.repaint ( );
-			}
 		}
 	}
 	
@@ -1805,6 +1544,267 @@ public class EditReservationFrame extends JFrame {
 			
 			postResPanel.setVisible ( true );
 			exitButton.setVisible ( true );
+		}
+	}
+	
+	class ListEditButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			// preset all the panels here
+
+			// the name/conf num is separated by "   " ( 3 spaces ), the first one should be the anme/number
+			String [ ] strings = reservationsList.getSelectedValue ( ).split( "   " );
+			
+			// if this is a confirmed reservation 
+			if ( resInfoLabel.getText ( ).contains ( "Confirmed" ) ) {
+				oldRes = partyWorld.getResConfNum ( strings [ 0 ] ); // get the reservation connected to the conf num
+			} else { // if this is a waitlisted guest
+				oldRes = partyWorld.getResGuestName ( strings [ 0 ] ); // get the reservation connected to the name
+			}
+
+			resInfoPanel.setVisible ( false );
+			
+			oldRoom = oldRes.getRoom ( );
+			oldRoomType = oldRes.getRoom ( ).getName ( );
+			oldRoomNumber = oldRes.getRoom ( ).getRoomNumber ( );
+			
+			
+			// set guest panel
+			Guest guest = oldRes.getGuest ( );
+			guestNameField.setText ( guest.getName ( ) );
+			guestAddressField.setText( guest.getAddress ( ) );
+			guestPhoneField.setText( guest.getPhone ( ) );
+			guestEmailField.setText ( guest.getEmail ( ) );
+			
+			
+			// set dob
+			Date date = guest.getDateOfBirth ( );
+			dobMonthCombo.setSelectedItem ( date.getMonth ( ) );
+			dobDayCombo.setSelectedItem ( date.getDay ( ) );
+			dobYearCombo.setSelectedItem ( date.getYear ( ) );
+			
+			
+			// set card
+			Card card = guest.getPaymentMethod ( );
+			date = card.getExpDate ( );
+			cardNameField.setText ( card.getName ( ) );
+			cardCompanyCombo.setSelectedItem ( card.getCardCompany ( ) );
+			ccNumberField.setText ( card.getCCNumber ( ) );
+			cardSecurityField.setText ( card.getSecurityCode ( ) );
+			expMonthCombo.setSelectedItem (  date.getMonth ( ) );
+			expYearCombo.setSelectedItem ( date.getYear ( ) );
+			
+			
+			// set room panel
+			date = oldRes.getDate ( );
+			roomTypeCombo.setSelectedItem ( oldRes.getRoom ( ).getName ( ) );
+			roomMonthCombo.setSelectedItem ( date.getMonth ( ) );
+			roomDayCombo.setSelectedItem ( date.getDay ( ) );
+			
+			Time time = oldRes.getStartTime ( );
+			startHourCombo.setSelectedItem ( time.getHour ( ) + "" );
+			startMinCombo.setSelectedIndex ( time.getMinute ( ) );
+			
+			time = oldRes.getEndTime ( );
+			endHourCombo.setSelectedItem ( time.getHour ( ) + "" );
+			endMinCombo.setSelectedIndex ( time.getMinute ( ) );
+			
+			int partySize = oldRes.getPartySize ( );
+			sizeField.setText ( partySize + "" );
+			
+			// upgrades
+			ArrayList < String > upgrades = oldRes.getSpecialAmenities ( );
+			JCheckBox checkBox = new JCheckBox ( );
+			for ( int i = 0; i < upgrades.size ( ); i++ ) { // itearte through all added upgrades
+				
+				// go through each checkbox on the panel to check them
+				for ( int j = 1; j < themesPanel.getComponentCount ( ); j++ ) {
+					
+					// make sure its of type checkbox
+					if ( themesPanel.getComponent ( j ) instanceof JCheckBox ) {
+						checkBox = ( JCheckBox ) themesPanel.getComponent ( j ); // get the checkbox
+						
+						// if the upgrade is the same as the checkbox
+						if ( checkBox.getText ( ).contains ( upgrades.get ( i ).substring ( 0, 5 ) ) ) { 
+							( ( JCheckBox ) themesPanel.getComponent ( j ) ).setSelected ( true ); // select it
+						}
+					} else { // if its not a checkbox, it should be the combobox
+						if ( upgrades.get ( i ).contains ( "Decoration" ) ) {
+							// set the combobox to the theme
+							themeCombo.setSelectedItem ( upgrades.get ( i ).substring ( 25 ) );
+							themeCombo.setVisible ( true );
+						}
+					}
+				}
+			}
+			
+			// set meal plan
+			MealPlan mealPlan = oldRes.getMealPlan ( );
+			
+			// checks the upgrade checkbox if needed
+			if ( oldRoomType.contains ( "Lounge" ) ) {
+				if ( mealPlan == null ) {
+					mealPlanCombo.setSelectedIndex ( 0 );
+				} else {
+					mealUpgradeBox.setSelected ( true );
+					
+					String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+					mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+					mealPlanCombo.setSelectedIndex ( 1 );
+					
+					if ( mealPlan instanceof BasicMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 1 );
+					} else if ( mealPlan instanceof BronzeMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 2 );
+					} else if ( mealPlan instanceof SilverMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 3 );
+					} else if ( mealPlan instanceof GoldMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 4 );
+					} else if ( mealPlan instanceof PlatinumMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 5 );
+					}
+				}
+			} else {
+				if ( mealPlan == null ) {
+					mealPlanCombo.setSelectedIndex ( 0 );
+				} else if ( mealPlan instanceof BasicMealPlan ) {
+					mealPlanCombo.setSelectedIndex ( 1 );
+				} else {
+					mealUpgradeBox.setSelected ( true );
+					
+					String [ ] mealPlans = { "No Meal Plan", "Basic Meal Plan", "Bronze Meal Plan", "Silver Meal Plan", "Gold Meal Plan", "Platinum Meal Plan" };
+					mealPlanCombo.setModel ( new DefaultComboBoxModel < String > ( mealPlans ) );
+					mealPlanCombo.setSelectedIndex ( 1 );
+					
+					if ( mealPlan instanceof BronzeMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 2 );
+					} else if ( mealPlan instanceof SilverMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 3 );
+					} else if ( mealPlan instanceof GoldMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 4 );
+					} else if ( mealPlan instanceof PlatinumMealPlan ) {
+						mealPlanCombo.setSelectedIndex ( 5 );
+					}
+				}
+			}
+			
+			
+			ArrayList < Food > foods = mealPlan.getFoods ( );
+			int index = 0; // first x amount will be pizzas. next x amount will be soda, etc
+			
+			ArrayList < String > toppings;
+			JPanel panel = new JPanel ( ); // pizza1, pizza2, pizza3
+			Component [ ] components; // checkboxes of the pizza
+			checkBox = new JCheckBox ( ); // specific topping
+			
+			// go through each pizza panel
+			for ( int i = 0; i < pizzaPanel.getComponentCount ( ); i++ ) {
+				toppings = ( ( Pizza ) foods.get ( index ) ).getToppings ( );
+				panel = ( JPanel ) pizzaPanel.getComponent ( i );
+				components = ( Component [ ] ) panel.getComponents ( );
+				
+				// go through all toppings on the pizza
+				for ( int j = 0; j < toppings.size ( ); j++ ) {
+					
+					// go through all the checkboxes to see which one to check
+					for ( int k = 1; k < components.length; k++ ) { // 1 -11, cause first component is a jlabel
+						checkBox = ( JCheckBox ) components [ k ];
+						
+						// if the checkbox is the same one as a topping on the pizza
+						if ( checkBox.getText ( ).equals ( toppings.get ( j ) ) ) { 
+							// check it
+							( ( JCheckBox ) ( ( JPanel ) pizzaPanel.getComponent ( i ) ).getComponent ( k ) ).
+								setSelected ( true );
+						}
+					}
+				}
+				index++;
+			}
+			
+			
+			// go through all the soda panels
+			for ( int i = 0; i < sodaPanel.getComponentCount ( ); i++ ) {
+				// the second component of each soda panel is the combo box
+				// set the combobox to whatever soda was in the meal plan
+				( ( JComboBox < String > ) ( ( JPanel ) sodaPanel.getComponent ( i ) ).getComponent ( 1 ) ).
+					setSelectedItem ( ( ( Soda ) foods.get ( index ) ).getFlavor ( ) );
+				index++;
+			}
+			
+			
+			// sides
+			// 2 components if only 1 side is available, 1 label and 1 combo box
+			if ( sidesPanel.getComponentCount ( ) == 2 ) {
+				( ( JComboBox < String > ) sidesPanel.getComponent ( 1 ) ).setSelectedItem ( foods.get ( index ) );
+				index++;
+			} else {
+				index += 2; // skip through the next two sides
+			}
+			
+			
+			// wings
+			for ( int i = 0; i < wingsPanel.getComponentCount ( ); i++ ) {
+				// the second component of each wings panel is the combo box
+				( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 1 ) ).
+					setSelectedItem ( ( ( Wings ) foods.get ( index ) ).getFlavor ( ) );
+				
+				// the third component is whether bone in or not
+				if ( ( ( Wings ) foods.get ( index ) ).getBone ( ) ) {
+					( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 2 ) ).
+						setSelectedIndex ( 0 );
+				} else {
+					( ( JComboBox < String > ) ( ( JPanel ) wingsPanel.getComponent ( i ) ).getComponent ( 2 ) ).
+						setSelectedIndex ( 1 );
+				}
+				
+				index++;
+			}
+			
+			
+			// ice cream
+			for ( int i = 0; i < iceCreamPanel.getComponentCount ( ); i++ ) {
+				( ( JComboBox < String > ) ( ( JPanel ) iceCreamPanel.getComponent ( i ) ).getComponent ( 1 ) ).
+					setSelectedItem ( ( ( IceCream ) foods.get ( index ) ).getFlavor ( ) );
+			
+				index++;
+			}
+			
+			
+			
+			// set contact
+			ArrayList < Boolean > contactBy = oldRes.getContactBy ( );
+			for ( int i = 0; i < contactBy.size ( ); i++ ) {
+				( ( JCheckBox ) contactPanel.getComponent ( i + 1 ) ).setSelected ( contactBy.get ( i ) );
+			}
+			
+			
+			guestPanel.setVisible ( true );
+			cardPanel.setVisible ( true );
+			roomPanel.setVisible ( true );
+			mealPlanPanel.setVisible ( true );
+			contactPanel.setVisible ( true );
+			
+			guestPanel.revalidate ( );
+			guestPanel.repaint ( );
+			
+			cardPanel.revalidate ( );
+			cardPanel.repaint ( );
+			
+			roomPanel.revalidate ( );
+			roomPanel.repaint ( );
+			
+			mealPlanPanel.revalidate ( );
+			mealPlanPanel.repaint ( );
+			
+			contactPanel.revalidate ( );
+			contactPanel.repaint ( );
+			
+			reservationPanel.revalidate ( );
+			reservationPanel.repaint ( );
+			
+			postResPanel.revalidate ( );
+			postResPanel.repaint ( );
 		}
 	}
 	
