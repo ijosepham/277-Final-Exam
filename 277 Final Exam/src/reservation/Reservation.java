@@ -351,12 +351,12 @@ public class Reservation {
 		cost = 0;
 		
 		// time stayed
-		double time = endTime.compareTo ( startTime ) / 60.0; // 12pm - 9am = 180 min. 180 / 60 = 3 hours
+		double time =  ( ( double ) endTime.compareTo ( startTime ) ) / 60.0; // 12pm - 9am = 180 min. 180 / 60 = 3 hours
 		cost += room.getCost ( ) * time; // room cost per hour * time
 		// go through all the amenities
 		for ( int i = 0; i < specialAmenities.size ( ); i++ ) {
 			if ( specialAmenities.get ( i ).contains ( "Meal" ) ) {
-				double quantity = Math.ceil ( partySize / 15 );
+				double quantity = Math.ceil ( partySize / 15.0 );
 				
 				String roomType = room.getName ( );
 				if ( roomType.contains ( "Lounge" ) ) { // lounges take the full price of the meal plan
@@ -375,10 +375,10 @@ public class Reservation {
 				
 				
 			} else if ( specialAmenities.get ( i ).contains ( "Towel" ) ) {
-				cost += partySize * 2.0;
+				cost += ( ( double ) partySize ) * 2.0;
 				
 			} else if ( specialAmenities.get ( i ).contains ( "Bag" ) ) {
-				cost += partySize * 5.0;
+				cost += ( ( double ) partySize ) * 5.0;
 				
 			} else if ( specialAmenities.get ( i ).contains ( "Projector" ) ) {
 				cost += 10.0 * time;
