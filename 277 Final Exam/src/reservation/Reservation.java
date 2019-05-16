@@ -73,6 +73,11 @@ public class Reservation {
 	private String confNum;
 	
 	/**
+	 * whether or not they guest was checked in
+	 */
+	private boolean checkedIn;
+	
+	/**
 	 * default constructor
 	 */
 	public Reservation ( ) {
@@ -88,6 +93,7 @@ public class Reservation {
 		isFinalized = false;
 		partySize = 0;
 		cost = 0;
+		checkedIn = false;
 	}
 	
 	/**
@@ -107,6 +113,9 @@ public class Reservation {
 		this.mealPlan = mealPlan;
 		this.contactBy = contactBy;
 		isFinalized = false;
+		initialPayment = 0;
+		cost = 0;
+		checkedIn = false;
 	}
 	
 	/**
@@ -155,6 +164,15 @@ public class Reservation {
 	 */
 	public void setMealPlan ( MealPlan mealPlan ) {
 		this.mealPlan = mealPlan;
+	}
+	
+	/**
+	 * sets whether or not the guest is checked in
+	 * @param whether or nto they guest is checked in
+	 */
+	public void setCheckedIn ( boolean checkedIn ) {
+		System.out.println ( "Checked in " );
+		this.checkedIn = checkedIn;
 	}
 	
 	/**
@@ -235,6 +253,14 @@ public class Reservation {
 	 */
 	public ArrayList < Boolean > getContactBy ( ) {
 		return contactBy;
+	}
+	
+	/**
+	 * return whether or not the user was checked in
+	 * @reutrn whether or not the user was checked in
+	 */
+	public boolean getCheckedIn ( ) {
+		return checkedIn;
 	}
 	
 	/**

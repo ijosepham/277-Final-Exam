@@ -12,6 +12,8 @@ public class CheckInFrame extends JFrame {
 	JFrame thisFrame = this;
 	PartyWorld partyWorld;
 	
+	JPanel panel;
+	
 	JList < String > guestsList;
 	DefaultListModel < String > guestModel;
 	
@@ -33,14 +35,34 @@ public class CheckInFrame extends JFrame {
 		this.setVisible ( true );
 	}
 	
+
+	
 	public void createDefaultPanel ( ) {
-		JPanel panel = new JPanel ( );
+		panel = new JPanel ( );
 		
 		guestsList = new JList < String > ( );
 		
 		guestModel = new DefaultListModel < String > ( );
 		
+		checkInButton = new JButton ( "Check In" );
+		checkInButton.addActionListener ( new CheckInButtonListener ( ) );
 		
+		setGuestModel ( );
+
+		guestsList.setModel ( guestModel );
+		
+		cancelButton = new JButton ( "Cancel" );
+		cancelButton.addActionListener ( new CancelButtonListener ( ) );
+		
+		panel.add ( guestsList );
+		panel.add ( checkInButton );
+		panel.add ( cancelButton );
+		
+		this.add ( panel );
+	}
+	
+	public void setGuestModel ( ) {
+		guestModel.clear ( );
 		ArrayList < ArrayList < Room > > allRooms = partyWorld.getRooms ( );
 		
 		ArrayList < Room > rooms;
@@ -57,34 +79,29 @@ public class CheckInFrame extends JFrame {
 					res = reservations.get ( k );
 					room = res.getRoom ( );
 					
-					guestModel.addElement ( res.getGuest ( ).getName ( ) + "   " 
-						+ room.getName ( ) + ", Room #" + room.getRoomNumber ( ) + 
-						", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
-						" - " + res.getEndTime ( ) + "\n" );
+					if ( res.getCheckedIn ( ) == false ) {
+						guestModel.addElement ( res.getConfNum ( ) + "   " + res.getGuest ( ).getName ( ) + " "
+							+ room.getName ( ) + ", Room #" + room.getRoomNumber ( ) + 
+							", Date: " + res.getDate ( ) + ", " + res.getStartTime ( ) + 
+							" - " + res.getEndTime ( ) + "\n" );
+					}
 				}
 			}
 		}
 		
-		guestsList.setModel ( guestModel );
-		
-		checkInButton = new JButton ( "Check In" );
-		checkInButton.addActionListener ( new CheckInButtonListener ( ) );
-		
-		cancelButton = new JButton ( "Cancel" );
-		cancelButton.addActionListener ( new CancelButtonListener ( ) );
-		
-		panel.add ( guestsList );
-		panel.add ( checkInButton );
-		panel.add ( cancelButton );
-		
-		this.add ( panel );
+		if ( guestModel.size ( ) == 0 ) {
+			checkInButton.setVisible ( false );
+			panel.add ( new JLabel ( "No guests available to check in." ), 0 );
+		}
 	}
 	
 	class CheckInButtonListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			
+			String confNum = guestsList.getSelectedValue ( ).substring ( 0, 9 ); // the first 9 chars are tyhe conf num
+			partyWorld.checkInReservation ( confNum );
+			setGuestModel ( );
 		}
 	}
 	

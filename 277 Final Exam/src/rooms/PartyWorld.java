@@ -497,36 +497,6 @@ public class PartyWorld {
 		return -1; // return null if no reservation matches
 	}
 	
-	/**
-	public void waitlist ( String roomType, int index, Reservation r ) {
-		if ( roomType.contains ( "Aqua" ) ) {
-			aquaWorlds.get ( index ).addToWaitlist ( r );
-		} else if ( roomType.contains ( "Medium" ) ) {
-			mediumPartyRooms.get ( index ).addToWaitlist ( r );
-		} else if ( roomType.contains ( "Small" ) ) {
-			smallPartyRooms.get ( index ).addToWaitlist ( r );
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			billiardsLounges.get ( index ).addToWaitlist ( r );
-		} else {
-			karaokeLounges.get ( index ).addToWaitlist ( r );
-		}
-	}
-	
-	public void reserve ( String roomType, int index, Reservation r ) {
-		if ( roomType.contains ( "Aqua" ) ) {
-			aquaWorlds.get ( index ).reserve ( r );
-		} else if ( roomType.contains ( "Medium" ) ) {
-			mediumPartyRooms.get ( index ).reserve ( r );
-		} else if ( roomType.contains ( "Small" ) ) {
-			smallPartyRooms.get ( index ).reserve ( r );
-		} else if ( roomType.contains ( "Billiards" ) ) {
-			billiardsLounges.get ( index ).reserve ( r );
-		} else {
-			karaokeLounges.get ( index ).reserve ( r );
-		}
-	}
-	*/
-	
 	public void setRoom ( String roomType, int index, Room room ) {
 		if ( roomType.contains ( "Aqua" ) ) {
 			aquaWorlds.set ( index, room );
@@ -538,6 +508,134 @@ public class PartyWorld {
 			billiardsLounges.set ( index, room );
 		} else {
 			karaokeLounges.set ( index, room );
+		}
+	}
+	
+	public void checkInReservation ( String confNum ) {
+		// get resrvations of a room
+		ArrayList < Reservation > reservations = aquaWorlds.get ( 0 ).getReservations ( );
+		
+		// iterate through all the reservations to check if it amtches the confirmation number
+		for ( int i = 0; i < reservations.size ( ); i++ ) {
+			if ( reservations.get ( i ).getConfNum ( ).equals ( confNum ) ) { // if a match
+				aquaWorlds.get ( 0 ).getReservations ( ).get ( i ).setCheckedIn ( true );
+			}
+		}
+		
+		
+		// iterate through all the medioum party rooms 
+		for ( int i = 0; i < mediumPartyRooms.size ( ); i++ ) {
+			reservations = mediumPartyRooms.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					mediumPartyRooms.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+		
+		
+		// iterate through all the small party rooms 
+		for ( int i = 0; i < smallPartyRooms.size ( ); i++ ) {
+			reservations = smallPartyRooms.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					smallPartyRooms.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+		
+		
+		// iterate through all the billiards lounges
+		for ( int i = 0; i < billiardsLounges.size ( ); i++ ) {
+			reservations = billiardsLounges.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					billiardsLounges.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+		
+		
+		// iterate through all the karaoke lopunges
+		for ( int i = 0; i < karaokeLounges.size ( ); i++ ) {
+			reservations = karaokeLounges.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					karaokeLounges.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+	}
+	
+	public void checkOutReservation ( String confNum ) {
+		// get resrvations of a room
+		ArrayList < Reservation > reservations = aquaWorlds.get ( 0 ).getReservations ( );
+		
+		// iterate through all the reservations to check if it amtches the confirmation number
+		for ( int i = 0; i < reservations.size ( ); i++ ) {
+			if ( reservations.get ( i ).getConfNum ( ).equals ( confNum ) ) { // if a match
+				aquaWorlds.get ( 0 ).getReservations ( ).get ( i ).setCheckedIn ( true );
+			}
+		}
+		
+		
+		// iterate through all the medioum party rooms 
+		for ( int i = 0; i < mediumPartyRooms.size ( ); i++ ) {
+			reservations = mediumPartyRooms.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					mediumPartyRooms.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+		
+		
+		// iterate through all the small party rooms 
+		for ( int i = 0; i < smallPartyRooms.size ( ); i++ ) {
+			reservations = smallPartyRooms.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					smallPartyRooms.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+		
+		
+		// iterate through all the billiards lounges
+		for ( int i = 0; i < billiardsLounges.size ( ); i++ ) {
+			reservations = billiardsLounges.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					billiardsLounges.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
+		}
+		
+		
+		// iterate through all the karaoke lopunges
+		for ( int i = 0; i < karaokeLounges.size ( ); i++ ) {
+			reservations = karaokeLounges.get ( i ).getReservations ( ); // get the reservations of the room
+			
+			// iterate through all the reservations to check if it amtches the confirmation number
+			for ( int j = 0; j < reservations.size ( ); j++ ) {
+				if ( reservations.get ( j ).getConfNum ( ).equals ( confNum ) ) { // if a match
+					karaokeLounges.get ( i ).getReservations ( ).get ( j ).setCheckedIn ( true );
+				}
+			}
 		}
 	}
 	
