@@ -116,6 +116,14 @@ public class Card {
 	}
 	
 	/**
+	 * returns the last 4 digits of the cc number
+	 * @return last 4 digits of cc number
+	 */
+	public String getLastCCNumbers ( ) {
+		return ccNumber.substring ( ccNumber.length ( ) - 4 );
+	}
+	
+	/**
 	 * returns the security code of the credit card
 	 * @return security code of the credit card
 	 */

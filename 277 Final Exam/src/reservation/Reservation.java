@@ -171,7 +171,6 @@ public class Reservation {
 	 * @param whether or nto they guest is checked in
 	 */
 	public void setCheckedIn ( boolean checkedIn ) {
-		System.out.println ( "Checked in " );
 		this.checkedIn = checkedIn;
 	}
 	
@@ -343,8 +342,8 @@ public class Reservation {
 			str += "\n" + "Meal Plan: None";
 		}
 		
-		str += "\n" + "Initial Payment: $" + initialPayment;
-		str += "\n" + "Total Cost: $" + cost;
+		str += "\n" + "Initial Payment: $" + String.format ( "%.2f", initialPayment );
+		str += "\n" + "Total Cost: $" + String.format ( "%.2f", cost );
 		
 		if ( isFinalized ) {
 			str += "\n" + "\n" + "Confirmation Number: " + confNum;
@@ -407,5 +406,65 @@ public class Reservation {
 		initialPayment = Math.round ( initialPayment * 100.0 ) / 100.0;
 				
 		return cost;
+	}
+	
+	public String getInvoice ( ) {
+		String str = "";
+		
+		double roomCost = 0;
+		double mealPlanCost = 0;
+		double specAmCost = 0;
+		
+		double cost = 0;
+		
+		// time stayed
+		double time = endTime.compareTo ( startTime ) / 60.0; // 12pm - 9am = 180 min. 180 / 60 = 3 hours
+		roomCost = room.getCost ( ) * time; // room cost per hour * time
+		
+		// go through all the amenities
+		for ( int i = 0; i < specialAmenities.size ( ); i++ ) {
+			if ( specialAmenities.get ( i ).contains ( "Meal" ) ) {
+				double quantity = Math.ceil ( partySize / 15 );
+				
+				String roomType = room.getName ( );
+				if ( roomType.contains ( "Lounge" ) ) { // lounges take the full price of the meal plan
+					mealPlanCost = mealPlan.getCost ( ) * quantity;
+					
+				} else {
+					if ( roomType.contains ( "Aqua" ) ) { // party worlds dont
+						mealPlanCost = quantity * 5 * ( mealPlan.getCost ( ) - 65.0 );
+						
+					} else if ( roomType.contains ( "Medium" ) ) {
+						mealPlanCost = quantity * 3 * ( mealPlan.getCost ( ) - 65.0 );
+						
+					} else if ( roomType.contains ( "Small" ) ) {
+						mealPlanCost = quantity * 1 * ( mealPlan.getCost ( ) - 65.0 );
+					} 
+				}
+				
+				
+			} else if ( specialAmenities.get ( i ).contains ( "Towel" ) ) {
+				specAmCost += partySize * 2.0;
+				
+			} else if ( specialAmenities.get ( i ).contains ( "Bag" ) ) {
+				specAmCost += partySize * 5.0;
+				
+			} else if ( specialAmenities.get ( i ).contains ( "Projector" ) ) {
+				specAmCost += 10.0 * time;
+				
+			} else if ( specialAmenities.get ( i ).contains ( "Decoration" ) ) {
+				specAmCost += 100.0;
+			}
+		}
+		
+		cost = roomCost + mealPlanCost + specAmCost;
+		cost = Math.round ( cost * 100.0 ) / 100.0;
+		
+		
+		str += "      Room: $" + String.format ( "%.2f", roomCost ) + "\n";
+		str += "      Meal Plan: $" + String.format ( "%.2f", mealPlanCost ) + "\n";
+		str += "      Special Amenities: $" + String.format ( "%.2f", specAmCost ) + "\n";
+		
+		return str;
 	}
 }

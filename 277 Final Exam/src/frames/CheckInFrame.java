@@ -99,7 +99,8 @@ public class CheckInFrame extends JFrame {
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			String confNum = guestsList.getSelectedValue ( ).substring ( 0, 9 ); // the first 9 chars are tyhe conf num
+			String [ ] strings = guestsList.getSelectedValue ( ).split ( "   " );
+			String confNum = strings [ 0 ]; // the first 9 chars are tyhe conf num
 			partyWorld.checkInReservation ( confNum );
 			setGuestModel ( );
 		}

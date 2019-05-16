@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import reservation.Guest;
 import reservation.Reservation;
 import rooms.*;
 
@@ -17,8 +18,18 @@ public class CheckOutFrame extends JFrame {
 	JList < String > guestsList;
 	DefaultListModel < String > guestModel;
 	
-	JButton checkInButton;
+	JButton checkOutButton;
 	JButton cancelButton;
+	
+	JLabel damageChargesLabel;
+	JTextField damageChargesField;
+	
+	JLabel damageDescLabel;
+	JTextField damageDescField;
+	
+	JTextArea finalInvoiceText;
+	JButton backButton;
+	
 	
 	public CheckOutFrame ( PartyWorld partyWorld ) {
 		this.partyWorld = partyWorld;
@@ -27,10 +38,8 @@ public class CheckOutFrame extends JFrame {
 		
 		this.setExtendedState ( JFrame.MAXIMIZED_BOTH ); //makes window screen size
 		this.setDefaultCloseOperation ( EXIT_ON_CLOSE );
-	
 		
 		this.createDefaultPanel ( );
-		
 		
 		this.setVisible ( true );
 	}
@@ -40,23 +49,40 @@ public class CheckOutFrame extends JFrame {
 	public void createDefaultPanel ( ) {
 		panel = new JPanel ( );
 		
-		guestsList = new JList < String > ( );
+		damageChargesLabel = new JLabel ( "Damage Charges: $" );
+		damageChargesField = new JTextField ( 4 );
 		
-		guestModel = new DefaultListModel < String > ( );
+		damageDescLabel = new JLabel ( "Damage Description: " );
+		damageDescField = new JTextField ( 30 );
 		
-		checkInButton = new JButton ( "Check In" );
-		checkInButton.addActionListener ( new CheckInButtonListener ( ) );
-		
-		setGuestModel ( );
+		checkOutButton = new JButton ( "Check Out" );
+		checkOutButton.addActionListener ( new CheckOutButtonListener ( ) );
 
+		guestsList = new JList < String > ( );
+		guestModel = new DefaultListModel < String > ( );
 		guestsList.setModel ( guestModel );
+		setGuestModel ( );
 		
 		cancelButton = new JButton ( "Cancel" );
 		cancelButton.addActionListener ( new CancelButtonListener ( ) );
 		
+		finalInvoiceText = new JTextArea ( );
+		
+		backButton = new JButton ( "Back" );
+		backButton.addActionListener ( new BackButtonListener ( ) );
+		
 		panel.add ( guestsList );
-		panel.add ( checkInButton );
+		panel.add ( damageChargesLabel );
+		panel.add ( damageChargesField );
+		panel.add ( damageDescLabel );
+		panel.add ( damageDescField );
+		panel.add ( checkOutButton );
 		panel.add ( cancelButton );
+		panel.add ( finalInvoiceText );
+		panel.add ( backButton );
+		
+		finalInvoiceText.setVisible ( false );
+		backButton.setVisible ( false );
 		
 		this.add ( panel );
 	}
@@ -90,17 +116,68 @@ public class CheckOutFrame extends JFrame {
 		}
 		
 		if ( guestModel.size ( ) == 0 ) {
-			checkInButton.setVisible ( false );
-			panel.add ( new JLabel ( "No guests available to check in." ), 0 );
+			damageChargesLabel.setVisible ( false );
+			damageChargesField.setVisible ( false);
+			
+			damageDescLabel.setVisible ( false );
+			damageDescField.setVisible ( false );
+			checkOutButton.setVisible ( false );
+			
+			panel.add ( new JLabel ( "No guests available to check out." ), 0 );
 		}
 	}
 	
-	class CheckInButtonListener implements ActionListener
+	class CheckOutButtonListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed ( ActionEvent click ) {
-			String confNum = guestsList.getSelectedValue ( ).substring ( 0, 9 ); // the first 9 chars are tyhe conf num
-			partyWorld.checkOutReservation ( confNum );
+			String [ ] strings = guestsList.getSelectedValue ( ).split ( "   " );
+			String confNum = strings [ 0 ]; // the first 9 chars are tyhe conf num
+			Reservation res = partyWorld.checkOutReservation ( confNum );
+			
+			// i should hide all items here and get only the invoice and back button
+			guestsList.setVisible ( false );
+			damageChargesLabel.setVisible ( false );
+			damageChargesField.setVisible ( false );
+			damageDescLabel.setVisible ( false );
+			damageDescField.setVisible ( false );
+			checkOutButton.setVisible ( false );
+			cancelButton.setVisible ( false );
+			
+			Guest g = res.getGuest ( );
+			double damageCharges = Double.parseDouble ( damageChargesField.getText ( ) );
+			double grandTotal = res.getCost ( ) + damageCharges;
+			
+			finalInvoiceText.setText ( "Final Invoice: " + "\n" + "\n" );
+			finalInvoiceText.append ( "Name: " + g.getName ( ) + "\n" );
+			finalInvoiceText.append ( "Card : **** **** **** " + g.getPaymentMethod ( ).getLastCCNumbers ( ) + "\n" );
+			finalInvoiceText.append ( "Costs: " + "\n" );
+			finalInvoiceText.append ( res.getInvoice ( ) );
+			finalInvoiceText.append ( "      Damages: $" + String.format ( "%.2f", damageCharges ) + "\n" + "\n" );
+			finalInvoiceText.append ( "Grand Total: $" + String.format ( "%.2f", grandTotal ) );
+			
+			finalInvoiceText.setVisible ( true );
+			backButton.setVisible ( true );
+		}
+	}
+	
+	class BackButtonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed ( ActionEvent click ) {
+			guestsList.setVisible ( true );
+			
+			damageChargesLabel.setVisible ( true );
+			damageChargesField.setVisible ( true );
+			
+			damageDescLabel.setVisible ( true );
+			damageDescField.setVisible ( true );
+			
+			checkOutButton.setVisible ( true );
+			cancelButton.setVisible ( true );
+			
+			finalInvoiceText.setVisible ( false );
+			backButton.setVisible ( false );
 			setGuestModel ( );
 		}
 	}
@@ -116,6 +193,6 @@ public class CheckOutFrame extends JFrame {
 	
 	public static void main ( String [ ] args ) {
 		PartyWorld partyWorld = new PartyWorld ( );
-		new CheckInFrame ( partyWorld );
+		new CheckOutFrame ( partyWorld );
 	}
 }
