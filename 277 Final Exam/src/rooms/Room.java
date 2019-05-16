@@ -239,6 +239,14 @@ public abstract class Room {
 	}
 	
 	/**
+	 * adds a reservation to the confiremd list
+	 * @param resrvation -res to add
+	 */
+	public void addToReservations ( Reservation r ) {
+		reservations.add ( r );
+	}
+	
+	/**
 	 * remove a resservationa t the given index of confiremd res's
 	 * @param index - index of a res to remove
 	 */

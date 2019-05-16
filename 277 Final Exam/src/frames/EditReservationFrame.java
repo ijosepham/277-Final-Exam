@@ -11,7 +11,6 @@ import pizzas.*;
 import mealplans.*;
 import reservation.*;
 
-// edit save button to make sure it edits a reservation, not make new one
 
 public class EditReservationFrame extends JFrame {
 	JFrame thisFrame = this;
@@ -116,6 +115,8 @@ public class EditReservationFrame extends JFrame {
 	Room newRoom;
 	int newRoomNumber;
 	Reservation newRes;
+	
+	boolean waitlisted;
 	
 	public EditReservationFrame ( PartyWorld partyWorld ) {
 		this.setTitle ( "Edit Reservation" );
@@ -967,7 +968,7 @@ public class EditReservationFrame extends JFrame {
 			}
 			
 			
-			if ( startTime.compareTo ( endTime ) > 0 ) { 
+			if ( tempStart.compareTo ( tempEnd ) > 0 ) { 
 				postResText.append ( "Start time begins later than end time." + "\n" );
 				valid = false;
 			}
@@ -1004,6 +1005,10 @@ public class EditReservationFrame extends JFrame {
 			
 			// if passes all requirements, book it book it
 			if ( valid ) {
+				// remove the old res;
+				partyWorld.deleteReservation ( oldRes );
+				
+				
 				postResText.setText ( "" );
 				// check if the roomtype is available at the given date, staart/endtime
 				newRoom = partyWorld.getAvailableRoom ( newRoomType, newRes ); // gets an available room
@@ -1515,8 +1520,12 @@ public class EditReservationFrame extends JFrame {
 			// if there is someone next in line for the waitlist
 			if ( nextRes != null ) {
 				
-				postResText.append ( "\n" + "Now notifying waitlisted guest, " + nextRes.getGuest ( ).getName ( ) );
-				postResText.append ( ", of confirmed reservation by " );
+				// only print out the
+				if ( !waitlisted ) {
+					postResText.append ( "\n" + "Now notifying waitlisted guest, " + nextRes.getGuest ( ).getName ( ) );
+					postResText.append ( ", of confirmed reservation by " );
+				}
+				
 				
 				
 				if ( nextRes.getContactBy ( ).get ( 0 ) ) {
@@ -1564,8 +1573,10 @@ public class EditReservationFrame extends JFrame {
 			// if this is a confirmed reservation 
 			if ( resInfoLabel.getText ( ).contains ( "Confirmed" ) ) {
 				oldRes = partyWorld.getResConfNum ( strings [ 0 ] ); // get the reservation connected to the conf num
+				waitlisted = false;
 			} else { // if this is a waitlisted guest
 				oldRes = partyWorld.getResGuestName ( strings [ 0 ] ); // get the reservation connected to the name
+				waitlisted = true;
 			}
 
 			resInfoPanel.setVisible ( false );
